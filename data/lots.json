@@ -1,0 +1,1237 @@
+{
+  "type" : "FeatureCollection",
+  "crs" :
+  {
+    "type" : "name",
+    "properties" :
+    {
+      "name" : "EPSG:4326"
+    }
+  },
+  "features" : [
+    {
+      "type" : "Feature",
+      "id" : 1,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.1323250047318, 42.3526071965147
+        ]
+      },
+      "properties" : {
+        "FID" : 1,
+        "OBJECTID" : 1,
+        "Spaces" : 60,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #003",
+        "Address" : "115 Harvard Ave",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 2,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.1528172843453, 42.3496616376783
+        ]
+      },
+      "properties" : {
+        "FID" : 2,
+        "OBJECTID" : 2,
+        "Spaces" : 42,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #002",
+        "Address" : "398 Market St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 3,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.1225739976796, 42.3642609689305
+        ]
+      },
+      "properties" : {
+        "FID" : 3,
+        "OBJECTID" : 3,
+        "Spaces" : 700,
+        "Fee" : "No Charge",
+        "Comments" : "Monitor on duty will issue dashboard pass to driver upon entering the facility.  All vehicles MUST exit the facility within one hour after the emergency ban has been lifted.",
+        "Phone" : "617-496-6400",
+        "Name" : "Harvard University/Soldiers Field Park Garage at 111 Western Avenue",
+        "Address" : "111 Western Ave",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 4,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.15622067587, 42.2857116281899
+        ]
+      },
+      "properties" : {
+        "FID" : 4,
+        "OBJECTID" : 4,
+        "Spaces" : 18,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #034",
+        "Address" : "1891 Centre Street",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 5,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.1541493661914, 42.2857967010695
+        ]
+      },
+      "properties" : {
+        "FID" : 5,
+        "OBJECTID" : 5,
+        "Spaces" : 118,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #010",
+        "Address" : "39-41 Corey St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 6,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0619985167766, 42.3533740322934
+        ]
+      },
+      "properties" : {
+        "FID" : 6,
+        "OBJECTID" : 6,
+        "Spaces" : 800,
+        "Fee" : "$10/24 hrs",
+        "Comments" : "All vehicles MUST be moved within two hours after the ban has been lifted or they will be subject to the standard rate. standard rate (* $32/24 hr period) which would apply! * NOTE: Standard rates are subject to change!",
+        "Phone" : "617-357-1987",
+        "Name" : "Lafayette Garage",
+        "Address" : "1 Avenue De Lafayette",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 7,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0465076262773, 42.3364300009667
+        ]
+      },
+      "properties" : {
+        "FID" : 7,
+        "OBJECTID" : 7,
+        "Spaces" : 60,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #018",
+        "Address" : "450 West Broadway",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 8,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0384009379892, 42.3358947112336
+        ]
+      },
+      "properties" : {
+        "FID" : 8,
+        "OBJECTID" : 8,
+        "Spaces" : 22,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #021",
+        "Address" : "650-652 East Broadway\r\n",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 9,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0359338692623, 42.3450355369055
+        ]
+      },
+      "properties" : {
+        "FID" : 9,
+        "OBJECTID" : 9,
+        "Spaces" : 1766,
+        "Fee" : "$1/overnight",
+        "Comments" : "Vehicles may begin entering the facility two hours prior to the declared emergency. Standard rate is $15 all day and $27 Overnight.All vehicles MUST be removed within two (2)Hours after the ban has been lifted or they will be subjectTo the standard rate",
+        "Phone" : "617-482-2487",
+        "Name" : "BRA/EDIC Garage",
+        "Address" : "12 Drydock Ave",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 10,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0873101724692, 42.3371072663206
+        ]
+      },
+      "properties" : {
+        "FID" : 10,
+        "OBJECTID" : 10,
+        "Spaces" : 864,
+        "Fee" : "Rate: $15/24 hr period; Standard Rate: $30/24 hr.",
+        "Comments" : "Vehicles may begin entering the facility two hours prior to the declared emergency. All vehicles must display either a Back Bay, Fenway- Kenmore or South End resident sticker to be eligible for the reduced rate.  Standard rate is $25/24 hr period. All ve",
+        "Phone" : "617-267-9677",
+        "Name" : "Northeastern University/Renaissance Garage",
+        "Address" : "835 Columbus Avenue",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 11,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0856751241829, 42.3404086822919
+        ]
+      },
+      "properties" : {
+        "FID" : 11,
+        "OBJECTID" : 11,
+        "Spaces" : 350,
+        "Fee" : "Rate: $15/24 hr period; Standard Rate: $30/24 hr.",
+        "Comments" : "All vehicles must display either a Fenway-Kenmore or Back Bay resident sticker to be eligible for the reduced rate.  Standard rate is $25/24 hr. period.  All Vehicles MUST be removed within two (2) hours after the ban has been lifted or they will be subj",
+        "Phone" : "617-266-7260",
+        "Name" : "Northeastern University/Gainsboro Garage",
+        "Address" : "10 Gainsborough Street",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 12,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0857713591141, 42.3470999684315
+        ]
+      },
+      "properties" : {
+        "FID" : 12,
+        "OBJECTID" : 12,
+        "Spaces" : 400,
+        "Fee" : "$10/24 hrs",
+        "Comments" : "Vehicles may begin entering the facility two hours prior to the declared emergency. All vehicles MUST be removed within two (2) hrs. after the ban has been lifted or they will be subject to the standard rate (* $32/24 hr period) *  Note:  Standard rates",
+        "Phone" : "617-247-8006",
+        "Name" : "Auditorium Garage",
+        "Address" : "50 Dalton St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 13,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0508598582002, 42.3766392667057
+        ]
+      },
+      "properties" : {
+        "FID" : 13,
+        "OBJECTID" : 13,
+        "Spaces" : 800,
+        "Fee" : "No Charge",
+        "Comments" : "Vehicles may begin entering the facility two hours prior to the declared emergency. Parking is free for Charlestown residents. Vehicle registration is required.  All vehicles MUST be removed within two (2) Hours after the ban has been lifted or they wlll",
+        "Phone" : "617-242-9377",
+        "Name" : "Shipyard Garage/Mass General Hospital",
+        "Address" : "Building #199 13th St\r\n",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 14,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0815973475493, 42.3395034548463
+        ]
+      },
+      "properties" : {
+        "FID" : 14,
+        "OBJECTID" : 14,
+        "Spaces" : 125,
+        "Fee" : "$12/12 hrs",
+        "Comments" : "Vehicles may begin entering the facility two hours prior to the declared emergency. Rate quoted is the standard rate which covers the time  periods 6am to 6pm and then 6pm to 6am.",
+        "Phone" : "617-266-0773",
+        "Name" : "Stanhope Garage",
+        "Address" : "277 Northampton St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 15,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0719981181754, 42.2913777185641
+        ]
+      },
+      "properties" : {
+        "FID" : 15,
+        "OBJECTID" : 15,
+        "Spaces" : 42,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #017",
+        "Address" : "575-581 Washington St\r\n",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 16,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0652672813838, 42.3180756837145
+        ]
+      },
+      "properties" : {
+        "FID" : 16,
+        "OBJECTID" : 16,
+        "Spaces" : 100,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #019",
+        "Address" : "16 Hamlet St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 17,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.060577450325, 42.3024034298474
+        ]
+      },
+      "properties" : {
+        "FID" : 17,
+        "OBJECTID" : 17,
+        "Spaces" : 22,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #020 \r\n",
+        "Address" : "191 Adams St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 18,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0670822736572, 42.3181413565612
+        ]
+      },
+      "properties" : {
+        "FID" : 18,
+        "OBJECTID" : 18,
+        "Spaces" : 12,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #022",
+        "Address" : "730-732 Dudley St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 19,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0660877578416, 42.3181680866499
+        ]
+      },
+      "properties" : {
+        "FID" : 19,
+        "OBJECTID" : 19,
+        "Spaces" : 32,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #016",
+        "Address" : "8-20 Belden St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 20,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0836661468996, 42.3092128206709
+        ]
+      },
+      "properties" : {
+        "FID" : 20,
+        "OBJECTID" : 20,
+        "Spaces" : 40,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #023",
+        "Address" : "20 Georgia St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 21,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0669719530357, 42.3067815214094
+        ]
+      },
+      "properties" : {
+        "FID" : 21,
+        "OBJECTID" : 21,
+        "Spaces" : 18,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #015",
+        "Address" : "254-258 Bowdoin St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 22,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0716898218677, 42.2895793290463
+        ]
+      },
+      "properties" : {
+        "FID" : 22,
+        "OBJECTID" : 22,
+        "Spaces" : 24,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #031",
+        "Address" : "629 Washington St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 23,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0756542571737, 42.3245343286468
+        ]
+      },
+      "properties" : {
+        "FID" : 23,
+        "OBJECTID" : 23,
+        "Spaces" : 18,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #027",
+        "Address" : "25 Blue Hill Ave",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 24,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0372475637244, 42.3743987483109
+        ]
+      },
+      "properties" : {
+        "FID" : 24,
+        "OBJECTID" : 24,
+        "Spaces" : 35,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #004",
+        "Address" : "40 Porter St\r\n",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 25,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0375722157331, 42.3748680292064
+        ]
+      },
+      "properties" : {
+        "FID" : 25,
+        "OBJECTID" : 25,
+        "Spaces" : 35,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #005",
+        "Address" : "166-180 London St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 26,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0376602072243, 42.3755843975425
+        ]
+      },
+      "properties" : {
+        "FID" : 26,
+        "OBJECTID" : 26,
+        "Spaces" : 26,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #026",
+        "Address" : "36 Bennington St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 27,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.1250588459947, 42.2551926023539
+        ]
+      },
+      "properties" : {
+        "FID" : 27,
+        "OBJECTID" : 27,
+        "Spaces" : 8,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #011",
+        "Address" : "1269 Rear Hyde Park Ave",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 28,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.1234723666664, 42.2565368016712
+        ]
+      },
+      "properties" : {
+        "FID" : 28,
+        "OBJECTID" : 28,
+        "Spaces" : 135,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #012",
+        "Address" : "37 Winthrop St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 29,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0972667651071, 42.3165511548152
+        ]
+      },
+      "properties" : {
+        "FID" : 29,
+        "OBJECTID" : 29,
+        "Spaces" : 39,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #033",
+        "Address" : "3042 Washington St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 30,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.1151108535826, 42.3110771037733
+        ]
+      },
+      "properties" : {
+        "FID" : 30,
+        "OBJECTID" : 30,
+        "Spaces" : 109,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #006",
+        "Address" : "737 Centre St\r\n",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 31,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.1072526132268, 42.3222479281605
+        ]
+      },
+      "properties" : {
+        "FID" : 31,
+        "OBJECTID" : 31,
+        "Spaces" : 24,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #007",
+        "Address" : "350-352 Centre St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 32,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.098798076037, 42.3156463466191
+        ]
+      },
+      "properties" : {
+        "FID" : 32,
+        "OBJECTID" : 32,
+        "Spaces" : 15,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #024",
+        "Address" : "3087 Washington St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 33,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.1123679387154, 42.318080022064
+        ]
+      },
+      "properties" : {
+        "FID" : 33,
+        "OBJECTID" : 33,
+        "Spaces" : 33,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #032",
+        "Address" : "490-498 Centre St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 34,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.092711318169, 42.2687339826774
+        ]
+      },
+      "properties" : {
+        "FID" : 34,
+        "OBJECTID" : 34,
+        "Spaces" : 90,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #013",
+        "Address" : "451-467 River St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 35,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0953988870831, 42.268758113721
+        ]
+      },
+      "properties" : {
+        "FID" : 35,
+        "OBJECTID" : 35,
+        "Spaces" : 40,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #014",
+        "Address" : "23 Fairway St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 36,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.1286801721274, 42.28749874655
+        ]
+      },
+      "properties" : {
+        "FID" : 36,
+        "OBJECTID" : 36,
+        "Spaces" : 92,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #008",
+        "Address" : "10 Tafthill Terr.",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 37,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0836522116057, 42.3314173306609
+        ]
+      },
+      "properties" : {
+        "FID" : 37,
+        "OBJECTID" : 37,
+        "Spaces" : 72,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #001",
+        "Address" : "30 Ruggles St\r\n",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 38,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0831276611188, 42.3292249582409
+        ]
+      },
+      "properties" : {
+        "FID" : 38,
+        "OBJECTID" : 38,
+        "Spaces" : 23,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #028",
+        "Address" : "Warren St / Ziegler St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 39,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0761945857526, 42.3265368458945
+        ]
+      },
+      "properties" : {
+        "FID" : 39,
+        "OBJECTID" : 40,
+        "Spaces" : 28,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #030",
+        "Address" : "353 Dudley St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 40,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0871555028458, 42.331138708579
+        ]
+      },
+      "properties" : {
+        "FID" : 40,
+        "OBJECTID" : 41,
+        "Spaces" : 12,
+        "Fee" : "No Charge",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Municipal Lot #025",
+        "Address" : "14 Roxbury St\r\n",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 41,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0682458315545, 42.35430367989
+        ]
+      },
+      "properties" : {
+        "FID" : 41,
+        "OBJECTID" : 42,
+        "Spaces" : 0,
+        "Fee" : "Rate: $2/24 hr. period; Standard Rate: $28/24 hr.",
+        "Comments" : "Only open to Back Bay,Beacon Hill,Downtown residents. Vehicles may begin entering the facility two hours prior to the declared emergency. Vehicles must exit within 24 hours of ban being lifted.",
+        "Phone" : "617-954-2098",
+        "Name" : "Boston Common Garage",
+        "Address" : "Charles Street",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 42,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0438389755744, 42.3462927766943
+        ]
+      },
+      "properties" : {
+        "FID" : 42,
+        "OBJECTID" : 43,
+        "Spaces" : 1300,
+        "Fee" : "Vehicles may begin entering the facility two hours prior to the declared emergency. No charge during Snow Emergency",
+        "Comments" : "Access lot via Cypher Street",
+        "Phone" : " ",
+        "Name" : "Boston Convention Center",
+        "Address" : "415 Summer St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 43,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.101354122867, 42.3441960132352
+        ]
+      },
+      "properties" : {
+        "FID" : 43,
+        "OBJECTID" : 45,
+        "Spaces" : 537,
+        "Fee" : "$6.00 overnight, $10.00 up to 24/hours, $20 up to 48 hours, $30 up to 72 hours.",
+        "Comments" : "Residents should stop by the garage office to show their City of Boston issued Fenway/Kenmore Resident Parking Permit or a driver's license with a neighborhood address. Please process ticket at parking office.",
+        "Phone" : " ",
+        "Name" : "Trilogy Garage",
+        "Address" : "180 Brookline Ave",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 44,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0984262954122, 42.3441070340517
+        ]
+      },
+      "properties" : {
+        "FID" : 44,
+        "OBJECTID" : 46,
+        "Spaces" : 272,
+        "Fee" : "$6.00 overnight, $10.00 up to 24/hours, $20 up to 48 hours, $30 up to 72 hours.",
+        "Comments" : "Residents should stop by the garage office to show their City of Boston issued Fenway/Kenmore Resident Parking Permit or a driver's license with a neighborhood address.",
+        "Phone" : " ",
+        "Name" : "1330 Boylston Street Garage",
+        "Address" : "1310 Boylston St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 45,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0817910124222, 42.3449067866136
+        ]
+      },
+      "properties" : {
+        "FID" : 45,
+        "OBJECTID" : 47,
+        "Spaces" : 162,
+        "Fee" : "Rate: $10/24 hr period; Standard Rate: $26/24 hr.",
+        "Comments" : "Limited spaces available. Vehicles may begin entering the facility two hours prior to the declared emergency. Discounted snow emergency parking for vehicles displaying Back Bay or South End resident parking stickers.  All vehicles must exit garage within",
+        "Phone" : "617-247-0588",
+        "Name" : "Greenhouse Parking Garage/Ultimate",
+        "Address" : "150 Huntington Ave",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 46,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0814574582473, 42.3472968048206
+        ]
+      },
+      "properties" : {
+        "FID" : 46,
+        "OBJECTID" : 48,
+        "Spaces" : 3000,
+        "Fee" : "$12/24 hrs; Standard Rate: $39/24 hr.",
+        "Comments" : "Discounted Rate $12 begins 2 hours prior to declared Snow Emergency.  Vehicles must exit by 9:00AM following the life of the parking ban. (For example, if a snow emergency parking ban is lifted at 6pm on Thursday, the vehicle must be removed from the gar",
+        "Phone" : "617-236-3060",
+        "Name" : "The Prudential Center Garage",
+        "Address" : "800 Boylston St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 47,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0755610000724, 42.3460810000501
+        ]
+      },
+      "properties" : {
+        "FID" : 47,
+        "OBJECTID" : 49,
+        "Spaces" : 697,
+        "Fee" : "$10/24 hrs",
+        "Comments" : "All vehicles MUST be moved within two hours after the ban has been lifted or they will be subject to the standard rate of $35.",
+        "Phone" : "617-426-0604 x. 3651",
+        "Name" : "LAZ Parking/Dartmouth Street Garage",
+        "Address" : "126 Dartmouth St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 48,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0739000004456, 42.3505300003394
+        ]
+      },
+      "properties" : {
+        "FID" : 48,
+        "OBJECTID" : 50,
+        "Spaces" : 960,
+        "Fee" : "$10/24 hrs",
+        "Comments" : "All vehicles MUST be moved within two hours after the ban has been lifted or they will be subject to the standard rate of $39.",
+        "Phone" : "617-426-0604 x. 3651",
+        "Name" : "LAZ Parking/500 Boylston Street Garage",
+        "Address" : "500 Boylston St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 49,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0737448817462, 42.3488438869884
+        ]
+      },
+      "properties" : {
+        "FID" : 49,
+        "OBJECTID" : 51,
+        "Spaces" : 270,
+        "Fee" : "$10 for 24 hrs",
+        "Comments" : "Limited number of public spaces available. Vehicles must be removed within two hours afer the ban has been lifted or they will be subject the standard rate of $36.",
+        "Phone" : "617-426-0604 x. 3651",
+        "Name" : "LAZ Parking/The Clarendon Parking Garage",
+        "Address" : "400 Stuart St",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 50,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.1028633944457, 42.3444966882817
+        ]
+      },
+      "properties" : {
+        "FID" : 50,
+        "OBJECTID" : 52,
+        "Spaces" : 0,
+        "Fee" : "Snow Emergency Rate: $5 for 1 hour to 18 hours, and $10 for 36 hours.  \u003cbr/\u003eRegular rate: $7 for 1 hour to $56 for 36 hours.",
+        "Comments" : "Snow Emergency rates apply to local residents only who have their parking ticket validated at the parking office immediately after they enter the facility and show proof of residence.  The parking office is located on Level P4 of the parking garage.  Res",
+        "Phone" : " ",
+        "Name" : "Landmark Center Parking Garage",
+        "Address" : "401 Park Dr",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    },
+    {
+      "type" : "Feature",
+      "id" : 51,
+      "geometry" :
+      {
+        "type" : "Point",
+        "coordinates" : [
+          -71.0832935663544, 42.3447121033937
+        ]
+      },
+      "properties" : {
+        "FID" : 51,
+        "OBJECTID" : 53,
+        "Spaces" : 0,
+        "Fee" : " ",
+        "Comments" : " ",
+        "Phone" : " ",
+        "Name" : "Christian Science Garage",
+        "Address" : "195 Huntington Ave",
+        "Neighborho" : " ",
+        "Maxspaces" : 0,
+        "Hours" : " "
+      }
+    }
+  ]
+}
