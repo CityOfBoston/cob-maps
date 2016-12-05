@@ -1,0 +1,16 @@
+{
+  "name": "cob-snowmap",
+  "version": "1.0.0",
+  "description": "Boston Snowmap",
+  "author": "Matthew Crist <matthew.crist@boston.gov>",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.13.3"
+  },
+  "engines": {
+    "node": ">= 4.0.0",
+    "npm": ">= 3.0.0"
+  }
+}
