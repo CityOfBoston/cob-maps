@@ -58,7 +58,7 @@
   };
 
   var street_closures = L.esri.featureLayer({
-    url: 'http://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/2016_Marathon_Traffic_Advisory/FeatureServer/0',
+    url: 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/2016_Marathon_Traffic_Advisory/FeatureServer/0',
     style: street_closure_style
   }).addTo(map);
 
@@ -72,7 +72,7 @@
   };
 
   var park_rest = L.esri.featureLayer({
-    url: 'http://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/2016_Marathon_Traffic_Advisory/FeatureServer/1',
+    url: 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/2016_Marathon_Traffic_Advisory/FeatureServer/1',
     style: park_rest_style
   }).addTo(map);
 
@@ -87,7 +87,6 @@ legend.onAdd = function (map) {
     var div = L.DomUtil.create('div', 'info legend'),
         categories = ["Parking Restrictions", "Street Closures"],
         colors = ["#4286f4", "#252525"]
-        labels = ["https://po-cdn-app.azureedge.net/Links/BlobImageProxy/profileoverlayblob?url=%2Fimages%2FsHiSKOrwrkOJTpMOcK5Zmw.png","http://www.pd4pic.com/images/flat-line-theme-action-icon.png"];
 
     for (var i = 0; i < categories.length; i++) {
         div.innerHTML +=
