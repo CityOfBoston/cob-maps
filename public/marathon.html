@@ -5,12 +5,12 @@
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
  <!-- Load Leaflet from CDN -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
   <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet-src.js"></script>
 
   <!-- Load Mapbox -->
   <script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
-  <link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet'/>
+  <!--<link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet'/>-->
 
   <!-- Load Esri Leaflet from CDN -->
   <script src="https://unpkg.com/esri-leaflet@2.0.8"></script>
@@ -18,6 +18,29 @@
   <style>
     body { margin:0; padding:0; }
     #map { position: absolute; top:0; bottom:0; right:0; left:0; }
+
+    .legend {
+      line-height: 18px;
+      color: #555;
+      background-color: rgba(255, 250, 250, 1);
+      border: 3px;
+      outline-color: white;
+      border-radius: 5px;
+      padding: 6px 8px;
+      font-size: 14px;
+    }
+    .legend i {
+        width: 18px;
+        height: 18px;
+        float: left;
+        margin-right: 8px;
+        opacity: 0.7;
+    }
+
+    .leaflet-popup-content {
+      font-size: 14px;
+    }
+
   </style>
 </head>
 <body>
@@ -27,21 +50,54 @@
 <script>
   L.mapbox.accessToken = 'pk.eyJ1IjoiY2l0eW9mYm9zdG9uIiwiYSI6ImNqMTd1dDdqZTA1c2UyeHFzNGhrN2g0bHYifQ.SZ8J0aXwDHt4sCmZ9rQO2A';
 
-  var map = L.mapbox.map('map', 'mapbox.streets').setView([42.339387, -71.094074], 13);
+  var map = L.mapbox.map('map', 'mapbox.streets').setView([42.332898, -71.079475], 13);
 
-  var traffic_style = {
-    "color": "#000000",
-    "weight": 2,
+  var street_closure_style = {
+    "color": "#252525",
+    "weight": 4,
   };
 
-  var park_closures = L.esri.featureLayer({
-    url: 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/2016_Marathon_Traffic_Advisory/FeatureServer/0'
+  var street_closures = L.esri.featureLayer({
+    url: 'http://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/2016_Marathon_Traffic_Advisory/FeatureServer/0',
+    style: street_closure_style
   }).addTo(map);
 
-  var traffic_closures = L.esri.featureLayer({
-    url: 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/2016_Marathon_Traffic_Advisory/FeatureServer/1',
-    style: traffic_style
+  street_closures.bindPopup(function (layer) {
+    return L.Util.template('<h3>{FULL_NAME} Closure</h3><p>From: <i>{To_From}</i><br> Starting: <i>{S_Day} am</i></p>', layer.feature.properties);
+  });
+
+  var park_rest_style = {
+    "color": "#4286f4",
+    "weight": 2.5
+  };
+
+  var park_rest = L.esri.featureLayer({
+    url: 'http://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/2016_Marathon_Traffic_Advisory/FeatureServer/1',
+    style: park_rest_style
   }).addTo(map);
+
+  park_rest.bindPopup(function (layer) {
+    return L.Util.template('<h3><b>Parking Restriction</b></h3><p>On: <i>{FULL_NAME}</i><br>Occurring: <i>{RELATEST}</i><br>From: <i>{To_From}<i></p>', layer.feature.properties);
+  });
+
+  var legend = L.control({position: 'bottomright'});
+
+legend.onAdd = function (map) {
+
+    var div = L.DomUtil.create('div', 'info legend'),
+        categories = ["Parking Restrictions", "Street Closures"],
+        colors = ["#4286f4", "#252525"]
+        labels = ["https://po-cdn-app.azureedge.net/Links/BlobImageProxy/profileoverlayblob?url=%2Fimages%2FsHiSKOrwrkOJTpMOcK5Zmw.png","http://www.pd4pic.com/images/flat-line-theme-action-icon.png"];
+
+    for (var i = 0; i < categories.length; i++) {
+        div.innerHTML +=
+        '<i style="background:' + colors[i] + '"></i> ' +
+         (categories[i] ? categories[i] + '<br>' : '+');
+    }
+    return div;
+};
+
+legend.addTo(map);
 
 </script>
 
