@@ -4,12 +4,14 @@
   <title>Mapbox Test - Custom Style</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
+   <link href="https://fonts.googleapis.com/css?family=Lora|Montserrat:700" rel="stylesheet">
+
  <!-- Load Leaflet from CDN -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
   <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet-src.js"></script>
 
   <!-- Load Mapbox -->
-  <script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>
+  <!--<script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>-->
   <!--<link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet'/>-->
 
   <!-- Load Esri Leaflet from CDN -->
@@ -29,6 +31,7 @@
       padding: 6px 8px;
       font-size: 14px;
     }
+
     .legend i {
         width: 18px;
         height: 18px;
@@ -37,8 +40,14 @@
         opacity: 0.7;
     }
 
-    .leaflet-popup-content {
+    .leaflet-popup-content h3 {
+      font-size: 18px;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .leaflet-popup-content p {
       font-size: 14px;
+      font-family: 'Lora', serif;
     }
 
   </style>
@@ -48,13 +57,45 @@
 <div id="map"></div>
 
 <script>
-  L.mapbox.accessToken = 'pk.eyJ1IjoiY2l0eW9mYm9zdG9uIiwiYSI6ImNqMTd1dDdqZTA1c2UyeHFzNGhrN2g0bHYifQ.SZ8J0aXwDHt4sCmZ9rQO2A';
+  /*L.mapbox.accessToken = 'pk.eyJ1IjoiY2l0eW9mYm9zdG9uIiwiYSI6ImNqMTd1dDdqZTA1c2UyeHFzNGhrN2g0bHYifQ.SZ8J0aXwDHt4sCmZ9rQO2A';
 
-  var map = L.mapbox.map('map', 'mapbox.streets').setView([42.332898, -71.079475], 13);
+  var map = L.mapbox.map('map', 'mapbox.streets').setView([42.332898, -71.079475], 13);*/
 
+  var map = L.map('map').setView([42.332898, -71.079475], 13);
+
+  L.tileLayer('https://api.mapbox.com/styles/v1/cityofboston/cj1hyqwt2001s2so0hjacals3/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l0eW9mYm9zdG9uIiwiYSI6ImNqMTd1dDdqZTA1c2UyeHFzNGhrN2g0bHYifQ.SZ8J0aXwDHt4sCmZ9rQO2A').addTo(map);
+
+// add COB layer
+  var cob_boundary_style = {
+    "color": "#184b71",
+    "weight": 0,
+    "fillOpacity": 0.1
+  };
+
+  var cob_boundary = L.esri.featureLayer({
+    url: 'http://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/BostonBoundary/FeatureServer/0',
+    style: cob_boundary_style
+  }).addTo(map);
+
+// add marathon route layer
+  var marathon_route_style = {
+    "color": "#1c83df",
+    "weight": 3
+  };
+
+  var marathon_route = L.esri.featureLayer({
+    url: 'http://services.arcgis.com/DO4gTjwJVIJ7O9Ca/arcgis/rest/services/Boston_Marathon_Route/FeatureServer/0',
+    style: marathon_route_style
+  }).addTo(map);
+
+  marathon_route.bindPopup(function (layer) {
+    return L.Util.template('<h3>MARATHON ROUTE</h3><p>Expect additional street closures in the towns along the route.</p>', layer.feature.properties);
+  });
+
+// add street closure layer
   var street_closure_style = {
-    "color": "#252525",
-    "weight": 4,
+    "color": "#FB4D42",
+    "weight": 3
   };
 
   var street_closures = L.esri.featureLayer({
@@ -63,12 +104,13 @@
   }).addTo(map);
 
   street_closures.bindPopup(function (layer) {
-    return L.Util.template('<h3>{FULL_NAME} Closure</h3><p>From: <i>{To_From}</i><br> Starting: <i>{S_Day} am</i></p>', layer.feature.properties);
+    return L.Util.template('<h3>{FULL_NAME} CLOSURE</h3><p>From: <i>{To_From}</i><br> Starting: <i>{S_Day} am</i></p>', layer.feature.properties);
   });
 
+// add parting restrictions layer
   var park_rest_style = {
-    "color": "#4286f4",
-    "weight": 2.5
+    "color": "#091F2F",
+    "weight": 3
   };
 
   var park_rest = L.esri.featureLayer({
@@ -77,21 +119,23 @@
   }).addTo(map);
 
   park_rest.bindPopup(function (layer) {
-    return L.Util.template('<h3><b>Parking Restriction</b></h3><p>On: <i>{FULL_NAME}</i><br>Occurring: <i>{RELATEST}</i><br>From: <i>{To_From}<i></p>', layer.feature.properties);
+    return L.Util.template('<h3><b>PARKING RESTRICTION</b></h3><p>On: <i>{FULL_NAME}</i><br>Occurring: <i>{RELATEST}</i><br>From: <i>{To_From}<i></p>', layer.feature.properties);
   });
 
+// add legend
   var legend = L.control({position: 'bottomright'});
 
 legend.onAdd = function (map) {
 
     var div = L.DomUtil.create('div', 'info legend'),
-        categories = ["Parking Restrictions", "Street Closures"],
-        colors = ["#4286f4", "#252525"]
+        categories = ["Boston Parking Restrictions", "Boston Street Closures", "Marathon Route", "City Boundary"],
+        colors = ["#091F2F", "#FB4D42", "#1c83df", "#184b71"]
+        styles = ["style1"]
 
     for (var i = 0; i < categories.length; i++) {
         div.innerHTML +=
         '<i style="background:' + colors[i] + '"></i> ' +
-         (categories[i] ? categories[i] + '<br>' : '+');
+         (categories[i] + '<br>');
     }
     return div;
 };
