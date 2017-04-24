@@ -1,0 +1,280 @@
+<html>
+<head>
+  <meta charset=utf-8 />
+  <title>Leaflet - Food Trucks</title>
+  <!-- This map uses esri-leaflet to display food truck data hosted on BostonMaps. The basemap is a leaflet tilelayer that calls a custom mapbox basemap.-->
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+  <!-- load Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,400i|Montserrat:500,700" rel="stylesheet"> 
+
+  <!-- Load Leaflet from CDN -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet-src.js"></script> 
+
+  <!-- Load Esri Leaflet from CDN -->
+  <script src="https://unpkg.com/esri-leaflet@2.0.8"></script>
+
+  <!-- Load Clustered Feature Layer from CDN -->
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.4/dist/MarkerCluster.Default.css">
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.4/dist/MarkerCluster.css">
+  <script src="https://unpkg.com/leaflet.markercluster@1.0.4/dist/leaflet.markercluster.js"></script>
+
+  <script src="https://unpkg.com/esri-leaflet-cluster@2.0.0"></script>
+
+  <style>
+    body { margin:0; padding:0; }
+    #map { position: absolute; top:0; bottom:0; right:0; left:0; }
+
+    .leaflet-popup {
+      width: 250px;
+      height: auto;
+    }
+
+    .leaflet-popup-content .title {
+      font-size: 22px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: bold;
+    }
+
+    .leaflet-popup-content .times {
+      font-size: 16px;
+      font-family: 'Lora', serif;
+      font-style: italic;
+    }
+
+    .leaflet-popup-content .content {
+      font-size: 14px;
+      font-family: 'Lora', serif;
+      font-style: italic;
+    }
+
+    .leaflet-popup-content p {
+      font-size: 14px;
+      font-family: 'Lora', serif;
+      margin: 0px;
+    }
+
+    a[href=""] { 
+      display: none 
+    }
+
+    .queries {
+      position: absolute;
+      top: 25px;
+      left: 25px;
+      background: white;
+      z-index: 1000;
+      padding: .5em;
+      border-radius: 10px;
+      box-shadow: 5px 5px 5px #888888;
+    }
+
+    .query {
+      padding: .5em;
+      box-shadow: none;
+    }
+
+    label {
+      font-size: 22px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: bold;
+    }
+
+    .query select {
+      font-family: 'Lora', serif;
+      font-size: 18px;
+      font-style: italic;
+    }
+
+    /* style leaflet marker clusters */
+    .marker-cluster-small {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+    .marker-cluster-small div {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+    .marker-cluster-medium {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+    .marker-cluster-medium div {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+    .marker-cluster-large {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+    .marker-cluster-large div {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+
+    .marker-cluster div {
+      width: 30px;
+      height: 30px;
+      margin-left: 5px;
+      margin-top: 5px;
+
+      text-align: center;
+      border-radius: 15px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: : 12px;
+      color: white;
+    }
+
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<div class="queries">
+<div id="query1" class="query leaflet-control-button leaflet-bar">
+<label>
+  Day of week:  
+  <select id="day">
+    <option value='1=1'>Any</option>
+    <option value="Day = 'Monday'">Monday</option>
+    <option value="Day = 'Tuesday'">Tuesday</option>
+    <option value="Day = 'Wednesday'" selected="selected">Wednesday</option>
+    <option value="Day = 'Thursday'">Thursday</option>
+    <option value="Day = 'Friday'">Friday</option>
+    <option value="Day = 'Saturday'">Saturday</option>
+    <option value="Day = 'Sunday'">Sunday</option>
+  </select>
+</label>
+</div>
+
+<div id="query2" class="query leaflet-bar">
+<label>
+  Time of day:  
+  <select id="time">
+    <option value='1=1'>Any</option>
+    <option value="Time = 'Breakfast'">Breakfast</option>
+    <option value="Time = 'Lunch'">Lunch</option>
+    <option value="Time = 'Dinner'">Dinner</option>
+  </select>
+</label>
+</div>
+
+<div id="query3" class="query leaflet-bar">
+<label>
+  Food truck:  
+  <select id="truck">
+  <option value='1=1' selected="selected">Any</option>
+  </select>
+</label>
+</div>
+
+</div>
+<script>
+  var map = L.map('map', {zoomControl: false}).setView([42.357004, -71.062309], 14);
+
+  //add zoom control to top right
+  L.control.zoom({
+       position:'topright'
+  }).addTo(map);
+  
+  // find user location
+  map.locate({setView: true, maxZoom: 18});
+
+  function onLocationFound(e) {
+    var radius = e.accuracy / 2;
+
+  /*var user_loc_icon = L.icon({
+    iconUrl: 'http://www.clker.com/cliparts/n/T/g/C/Z/k/google-maps-icon-red-md.png',
+    iconSize: [24, 38]
+  })*/
+
+  var user_loc = L.marker(e.latlng).addTo(map)
+    .bindPopup('<p class="title">You are here.</p>').openPopup();
+
+  var radius_circle = L.circle(e.latlng, radius, {color:'#091F2F',opacity:1,fillOpacity:.2}).addTo(map);
+  }
+
+  map.on('locationfound', onLocationFound);
+
+  // add mapbox basemap
+  L.tileLayer('https://api.mapbox.com/styles/v1/cityofboston/cj1hyqwt2001s2so0hjacals3/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l0eW9mYm9zdG9uIiwiYSI6ImNqMTd1dDdqZTA1c2UyeHFzNGhrN2g0bHYifQ.SZ8J0aXwDHt4sCmZ9rQO2A').addTo(map);
+
+  // add food trucks layer
+  var icon = L.icon({
+    iconUrl: 'http://www.portlandchronicle.com/wp-content/uploads/leaflet-maps-marker-icons/bluemapicon.png',
+    iconSize: [24, 38]
+  })
+
+  var food_trucks = L.esri.Cluster.featureLayer({
+    url: 'http://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/food_trucks_schedule/FeatureServer/0',
+     pointToLayer: function (geojson, latlng) {
+      return L.marker(latlng, {
+        icon: icon
+      });
+     },
+  }).addTo(map);
+
+  food_trucks.bindPopup(function (layer) {
+    return L.Util.template('<p class="title"><b>{Truck}</b></p><p class="times">{Time}: {Hours}<br>Day: {Day}<br><a href={Link}>Website</a><br><br>{Title}</p><p class="content">{Loc}<br><br>Managed by: {Management}</p>', layer.feature.properties);
+  });
+
+  // add day, time of day, and truck filters
+  // get day of week as a string
+  function DayOfWeekAsString(dayIndex) {
+    return ["Sunday", "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][dayIndex];
+  }
+
+  // get current day of week and make the default selection
+  var d = new Date();
+  var n = d.getDay(); 
+  var temp = DayOfWeekAsString(n);
+
+  var day = document.getElementById('day');
+
+  var days = ["Sunday", "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+
+  day.selectedIndex = days.indexOf(temp);
+
+  day.addEventListener('change', function(){
+    food_trucks.setWhere(day.value + " AND " + time.value + " AND " + truck.value);
+  });
+
+  // build time of day filter
+  var time = document.getElementById('time');
+
+  time.addEventListener('change', function(){
+    food_trucks.setWhere(day.value + " AND " + time.value + " AND " + truck.value);
+  });
+
+  // build trucks fitler
+  // query trucks layer to get unique names of trucks
+  var trucksQuery = L.esri.query({
+    url: "http://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/food_trucks_schedule/FeatureServer/0"
+  })
+    .where("1=1")
+    .returnGeometry(false)
+    .fields(['Truck'])
+
+  trucksQuery.params.returnDistinctValues = true;
+
+  // run query and build options list from it
+  trucksQuery.run(function (err, res, raw) {
+    for (i=1; i<res.features.length; i++) {
+      var option = document.createElement("option");
+      option.text = res.features[i].properties.Truck
+      option.value = "Truck = '" + res.features[i].properties.Truck + "'"
+      var select = document.getElementById("truck");
+      select.appendChild(option);
+    }
+  });
+
+  truck.addEventListener('change', function(){
+    food_trucks.setWhere(day.value + " AND " + time.value + " AND " + truck.value);
+  });
+
+  // once all food trucks have loaded adjust display to the default selection
+  food_trucks.once('load', function(){
+    food_trucks.setWhere(day.value + " AND " + time.value + " AND " + truck.value);
+  });
+</script>
+
+</body>
+</html>
+
