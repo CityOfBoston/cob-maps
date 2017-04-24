@@ -197,18 +197,18 @@
   L.tileLayer('https://api.mapbox.com/styles/v1/cityofboston/cj1hyqwt2001s2so0hjacals3/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l0eW9mYm9zdG9uIiwiYSI6ImNqMTd1dDdqZTA1c2UyeHFzNGhrN2g0bHYifQ.SZ8J0aXwDHt4sCmZ9rQO2A').addTo(map);
 
   // add food trucks layer
-  var icon = L.icon({
-    iconUrl: 'http://www.portlandchronicle.com/wp-content/uploads/leaflet-maps-marker-icons/bluemapicon.png',
+  /*var icon = L.icon({
+    iconUrl: 'https://www.portlandchronicle.com/wp-content/uploads/leaflet-maps-marker-icons/bluemapicon.png',
     iconSize: [24, 38]
-  })
+  })*/
 
   var food_trucks = L.esri.Cluster.featureLayer({
-    url: 'http://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/food_trucks_schedule/FeatureServer/0',
-     pointToLayer: function (geojson, latlng) {
+    url: 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/food_trucks_schedule/FeatureServer/0',
+     /*pointToLayer: function (geojson, latlng) {
       return L.marker(latlng, {
         icon: icon
       });
-     },
+     },*/
   }).addTo(map);
 
   food_trucks.bindPopup(function (layer) {
@@ -246,7 +246,7 @@
   // build trucks fitler
   // query trucks layer to get unique names of trucks
   var trucksQuery = L.esri.query({
-    url: "http://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/food_trucks_schedule/FeatureServer/0"
+    url: "https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/food_trucks_schedule/FeatureServer/0"
   })
     .where("1=1")
     .returnGeometry(false)
