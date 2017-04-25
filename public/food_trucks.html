@@ -237,7 +237,32 @@
   });
 
   // build time of day filter
+  // get current time of day as string value
+  function GetTimeIndex(hour) {
+  	if (hour >= 7 && hour <= 11) {
+  		return 1;
+  	} else if (hour > 11 && hour <= 15)  {
+  		return 2
+  	} else if (hour > 15 && hour <= 20) {
+  		return 3
+  	} else {
+  		return 0
+  	}}
+
+  function TimeAsString(timeIndex) {
+  	return ["Any", "Breakfast", "Lunch", "Dinner"][timeIndex]
+  }
+  // get current time of day
+  var h = GetTimeIndex(d.getHours());
+  console.log(h)
+  var temp_time = TimeAsString(h);
+  console.log(temp_time)
+
   var time = document.getElementById('time');
+
+  var times = ["Any", "Breakfast", "Lunch", "Dinner"]
+
+  time.selectedIndex = times.indexOf(temp_time);
 
   time.addEventListener('change', function(){
     food_trucks.setWhere(day.value + " AND " + time.value + " AND " + truck.value);
