@@ -238,25 +238,27 @@
 
   // build time of day filter
   // get current time of day as string value
-  function GetTimeIndex(hour) {
-  	if (hour >= 7 && hour <= 11) {
+  function GetTimeIndex(time) {
+  	if (time >= '07:00:00' && time <= '10:30:00') {
   		return "Breakfast"
-  	} else if (hour > 11 && hour <= 15)  {
+  	} else if (time <= '15:00:00')  {
   		return "Lunch"
-  	} else if (hour > 15 && hour <= 20) {
+  	} else if (time <= '20:00:00') {
   		return "Dinner"
   	} else {
   		return "Any"
   	}}
-  	
+
   // get current time of day
-  var h = GetTimeIndex(d.getHours());
+  var t = GetTimeIndex(d.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1"))
+  console.log(d.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1"))
+  console.log(t)
 
   var time = document.getElementById('time');
 
   var times = ["Any", "Breakfast", "Lunch", "Dinner"]
 
-  time.selectedIndex = times.indexOf(h);
+  time.selectedIndex = times.indexOf(t);
 
   time.addEventListener('change', function(){
     food_trucks.setWhere(day.value + " AND " + time.value + " AND " + truck.value);
