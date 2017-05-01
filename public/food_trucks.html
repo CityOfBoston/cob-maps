@@ -56,7 +56,9 @@
     }
 
     a[href=""] { 
-      display: none 
+    	color: #000000;
+    	text-decoration: none;
+    	cursor: default;
     }
 
     .queries {
@@ -212,7 +214,7 @@
   }).addTo(map);
 
   food_trucks.bindPopup(function (layer) {
-    return L.Util.template('<p class="title"><b>{Truck}</b></p><p class="times">{Time}: {Hours}<br>Day: {Day}<br><a href={Link}>Website</a><br><br>{Title}</p><p class="content">{Loc}<br><br>Managed by: {Management}</p>', layer.feature.properties);
+    return L.Util.template('<a class="title" href={Link}><b>{Truck}</b></a><p class="times">{Time}: {Hours}<br>Day: {Day}<br><br>{Title}</p><p class="content">{Loc}<br><br>Managed by: {Management}</p>', layer.feature.properties);
   });
 
   // add day, time of day, and truck filters
