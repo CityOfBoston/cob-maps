@@ -129,51 +129,59 @@
 
 <div id="map"></div>
 
-<div class="queries">
-<div id="query1" class="query leaflet-control-button leaflet-bar">
-<label>
-  Day of week:  
-  <select id="day">
-    <option value='1=1'>Any</option>
-    <option value="Day = 'Monday'">Monday</option>
-    <option value="Day = 'Tuesday'">Tuesday</option>
-    <option value="Day = 'Wednesday'" selected="selected">Wednesday</option>
-    <option value="Day = 'Thursday'">Thursday</option>
-    <option value="Day = 'Friday'">Friday</option>
-    <option value="Day = 'Saturday'">Saturday</option>
-    <option value="Day = 'Sunday'">Sunday</option>
-  </select>
-</label>
-</div>
 
-<div id="query2" class="query leaflet-bar">
-<label>
-  Time of day:  
-  <select id="time">
-    <option value='1=1'>Any</option>
-    <option value="Time = 'Breakfast'">Breakfast</option>
-    <option value="Time = 'Lunch'">Lunch</option>
-    <option value="Time = 'Dinner'">Dinner</option>
-  </select>
-</label>
-</div>
+<div class="co">
+    <input id="collapsible" type="checkbox" class="co-f d-n" aria-hidden=true>
+    <label for="collapsible" class="co-t">Filter Trucks</label>
+    <div class="co-b">
 
-<div id="query3" class="query leaflet-bar">
-<label>
-  Food truck:  
-  <select id="truck">
-  <option value='1=1' selected="selected">Any</option>
-  </select>
-</label>
-</div>
+        <div class="queries">
+			<div id="query1" class="query leaflet-control-button leaflet-bar">
+				<label>
+				  Day of week:  
+				  <select id="day">
+				    <option value='1=1'>Any</option>
+				    <option value="Day = 'Monday'">Monday</option>
+				    <option value="Day = 'Tuesday'">Tuesday</option>
+				    <option value="Day = 'Wednesday'" selected="selected">Wednesday</option>
+				    <option value="Day = 'Thursday'">Thursday</option>
+				    <option value="Day = 'Friday'">Friday</option>
+				    <option value="Day = 'Saturday'">Saturday</option>
+				    <option value="Day = 'Sunday'">Sunday</option>
+				  </select>
+				</label>
+			</div>
 
+			<div id="query2" class="query leaflet-bar">
+				<label>
+				  Time of day:  
+				  <select id="time">
+				    <option value='1=1'>Any</option>
+				    <option value="Time = 'Breakfast'">Breakfast</option>
+				    <option value="Time = 'Lunch'">Lunch</option>
+				    <option value="Time = 'Dinner'">Dinner</option>
+				  </select>
+				</label>
+			</div>
+
+			<div id="query3" class="query leaflet-bar">
+				<label>
+				  Food truck:  
+				  <select id="truck">
+				  <option value='1=1' selected="selected">Any</option>
+				  </select>
+				</label>
+			</div>
+		</div>
+
+    </div>
 </div>
 <script>
   var map = L.map('map', {zoomControl: false}).setView([42.357004, -71.062309], 14);
 
   //add zoom control to top right
   L.control.zoom({
-       position:'topright'
+       position:'bottomright'
   }).addTo(map);
   
   // find user location
@@ -230,7 +238,7 @@
 
   var day = document.getElementById('day');
 
-  var days = ["Sunday", "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"]
+  var days = ["Sunday", "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
 
   day.selectedIndex = days.indexOf(temp);
 
@@ -258,7 +266,7 @@
 
   var time = document.getElementById('time');
 
-  var times = ["Any", "Breakfast", "Lunch", "Dinner"]
+  var times = ["Any", "Breakfast", "Lunch", "Dinner"];
 
   time.selectedIndex = times.indexOf(t);
 
