@@ -6,7 +6,7 @@
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
   <!-- load Google Font -->
-    <link href="https://fonts.googleapis.com/css?family=Lora:400,400i|Montserrat:500,700" rel="stylesheet"> 
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,400i|Montserrat:500,700" rel="stylesheet"> 
 
   <!-- Load Leaflet from CDN -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
@@ -14,6 +14,8 @@
 
   <!-- Load Esri Leaflet from CDN -->
   <script src="https://unpkg.com/esri-leaflet@2.0.8"></script>
+
+  <link rel="stylesheet" type="text/css" href="https://www.boston.gov/crispus/css/public.css" />
 
   <!-- Load Clustered Feature Layer from CDN -->
   <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.4/dist/MarkerCluster.Default.css">
@@ -23,7 +25,10 @@
   <script src="https://unpkg.com/esri-leaflet-cluster@2.0.0"></script>
 
   <style>
+    .co {position: relative; z-index: 1000;}
+
     body { margin:0; padding:0; }
+
     #map { position: absolute; top:0; bottom:0; right:0; left:0; }
 
     .leaflet-popup {
@@ -60,16 +65,22 @@
     	text-decoration: none;
     	cursor: default;
     }
-
+    
     .queries {
-      position: absolute;
+      position: static;
       top: 25px;
       left: 25px;
       background: white;
       z-index: 1000;
-      padding: .5em;
-      border-radius: 10px;
-      box-shadow: 5px 5px 5px #888888;
+      /*border-radius: 10px;
+      box-shadow: 5px 5px 5px #888888;*/
+    }
+
+    @media screen and (min-width: 980px) {
+      .queries {
+        position: absolute;
+        padding: .5em;
+      }
     }
 
     .query {
@@ -79,7 +90,7 @@
 
     label {
       font-size: 22px;
-      font-family: 'Montserrat', sans-serif;
+      font-family: "Montserrat", Arial, sans-serif;
       font-weight: bold;
     }
 
@@ -114,7 +125,6 @@
       height: 30px;
       margin-left: 5px;
       margin-top: 5px;
-
       text-align: center;
       border-radius: 15px;
       font-family: 'Montserrat', sans-serif;
@@ -135,44 +145,44 @@
     <label for="collapsible" class="co-t">Filter Trucks</label>
     <div class="co-b">
 
-        <div class="queries">
-			<div id="query1" class="query leaflet-control-button leaflet-bar">
-				<label>
-				  Day of week:  
-				  <select id="day">
-				    <option value='1=1'>Any</option>
-				    <option value="Day = 'Monday'">Monday</option>
-				    <option value="Day = 'Tuesday'">Tuesday</option>
-				    <option value="Day = 'Wednesday'" selected="selected">Wednesday</option>
-				    <option value="Day = 'Thursday'">Thursday</option>
-				    <option value="Day = 'Friday'">Friday</option>
-				    <option value="Day = 'Saturday'">Saturday</option>
-				    <option value="Day = 'Sunday'">Sunday</option>
-				  </select>
-				</label>
-			</div>
+      <div class="queries">
+  			<div id="query1" class="query leaflet-control-button leaflet-bar">
+  				<label>
+  				  Day of week:  
+  				  <select id="day">
+  				    <option value='1=1'>Any</option>
+  				    <option value="Day = 'Monday'">Monday</option>
+  				    <option value="Day = 'Tuesday'">Tuesday</option>
+  				    <option value="Day = 'Wednesday'" selected="selected">Wednesday</option>
+  				    <option value="Day = 'Thursday'">Thursday</option>
+  				    <option value="Day = 'Friday'">Friday</option>
+  				    <option value="Day = 'Saturday'">Saturday</option>
+  				    <option value="Day = 'Sunday'">Sunday</option>
+  				  </select>
+  				</label>
+  			</div>
 
-			<div id="query2" class="query leaflet-bar">
-				<label>
-				  Time of day:  
-				  <select id="time">
-				    <option value='1=1'>Any</option>
-				    <option value="Time = 'Breakfast'">Breakfast</option>
-				    <option value="Time = 'Lunch'">Lunch</option>
-				    <option value="Time = 'Dinner'">Dinner</option>
-				  </select>
-				</label>
-			</div>
+  			<div id="query2" class="query leaflet-bar">
+  				<label>
+  				  Time of day:  
+  				  <select id="time">
+  				    <option value='1=1'>Any</option>
+  				    <option value="Time = 'Breakfast'">Breakfast</option>
+  				    <option value="Time = 'Lunch'">Lunch</option>
+  				    <option value="Time = 'Dinner'">Dinner</option>
+  				  </select>
+  				</label>
+  			</div>
 
-			<div id="query3" class="query leaflet-bar">
-				<label>
-				  Food truck:  
-				  <select id="truck">
-				  <option value='1=1' selected="selected">Any</option>
-				  </select>
-				</label>
-			</div>
-		</div>
+  			<div id="query3" class="query leaflet-bar">
+  				<label>
+  				  Food truck:  
+  				  <select id="truck">
+  				  <option value='1=1' selected="selected">Any</option>
+  				  </select>
+  				</label>
+  			</div>
+  		</div>
 
     </div>
 </div>
@@ -222,7 +232,7 @@
   }).addTo(map);
 
   food_trucks.bindPopup(function (layer) {
-    return L.Util.template('<a class="title" href={Link}><b>{Truck}</b></a><p class="times">{Time}: {Hours}<br>Day: {Day}<br><br>{Title}</p><p class="content">{Loc}<br><br>Managed by: {Management}</p>', layer.feature.properties);
+    return L.Util.template('<a class="title" href={Link} target="_blank"><b>{Truck}</b></a><p class="times">{Time}: {Hours}<br>Day: {Day}<br><br>{Title}</p><p class="content">{Loc}<br><br>Managed by: {Management}</p>', layer.feature.properties);
   });
 
   // add day, time of day, and truck filters
