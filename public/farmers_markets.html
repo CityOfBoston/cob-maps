@@ -223,10 +223,14 @@
   console.log(farmers_markets);
 
   farmers_markets.bindPopup(function (layer) {
-  	var open_date = new Date(layer.feature.properties.Opening).toDateString();
-  	console.log(open_date);
-  	var close_date = new Date(layer.feature.properties.Closing).toDateString();
-    return L.Util.template('<a class="title"><b>{Name}</b></a><p class="times">{Start}<br>Day: {Day}<br><br>{Address}</p><p class="content">{Location}<br><br>Open: ' + open_date + ' to ' + close_date + '</p>', layer.feature.properties);
+  	var open_date = new Date(layer.feature.properties.Opening);
+  	var close_date = new Date(layer.feature.properties.Closing);
+  	if (open_date.getFullYear() != 1969) {
+  		return L.Util.template('<a class="title"><b>{Name}</b></a><p class="times">{Start}<br>Day: {Day}<br><br>{Address}</p><p class="content">{Location}<br><br>Open: ' + open_date.toDateString() + ' to ' + close_date.toDateString() + '</p>', layer.feature.properties);
+  	} else {
+  		return L.Util.template('<a class="title"><b>{Name}</b></a><p class="times">{Start}<br>Day: {Day}<br><br>{Address}</p><p class="content">{Location}<br><br>Open: Year-round</p>', layer.feature.properties);
+  	}
+    
   });
 
   // add day, time of day, and truck filters
