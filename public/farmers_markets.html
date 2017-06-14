@@ -217,10 +217,16 @@
         icon: icon
       });
      },*/
+    timeField: 'Opening',
+    timeField: 'Closing'
   }).addTo(map);
+  console.log(farmers_markets);
 
   farmers_markets.bindPopup(function (layer) {
-    return L.Util.template('<a class="title"><b>{Name}</b></a><p class="times">{Start}<br>Day: {Day}<br><br>{Address}</p><p class="content">{Location}', layer.feature.properties);
+  	var open_date = new Date(layer.feature.properties.Opening).toDateString();
+  	console.log(open_date);
+  	var close_date = new Date(layer.feature.properties.Closing).toDateString();
+    return L.Util.template('<a class="title"><b>{Name}</b></a><p class="times">{Start}<br>Day: {Day}<br><br>{Address}</p><p class="content">{Location}<br><br>Open: ' + open_date + ' to ' + close_date + '</p>', layer.feature.properties);
   });
 
   // add day, time of day, and truck filters
