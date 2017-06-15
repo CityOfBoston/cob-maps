@@ -192,7 +192,7 @@
     </div>
 </div>
 <script>
-  var map = L.map('map', {zoomControl: false}).setView([42.357004, -71.062309], 14);
+  var map = L.map('map', {zoomControl: false}).setView([42.357004, -71.062309], 13);
 
   //add zoom control to top right
   L.control.zoom({
@@ -200,7 +200,7 @@
   }).addTo(map);
   
   // find user location
-  map.locate({setView: true, maxZoom: 18});
+  map.locate({setView: true, maxZoom: 14});
 
   function onLocationFound(e) {
     var radius = e.accuracy / 2;
