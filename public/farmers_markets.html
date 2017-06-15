@@ -1,7 +1,7 @@
 <html>
 <head>
   <meta charset=utf-8 />
-  <title>Leaflet - Farmer's Markets</title>
+  <title>Farmers Markets and Fresh Trucks</title>
   <!-- This map uses esri-leaflet to display food truck data hosted on BostonMaps. The basemap is a leaflet tilelayer that calls a custom mapbox basemap.-->
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
@@ -72,7 +72,6 @@
       left: 25px;
       background: white;
       z-index: 1000;
-      width: 510px;
       /*border-radius: 10px;
       box-shadow: 5px 5px 5px #888888;*/
     }
@@ -81,6 +80,12 @@
       .queries {
         position: absolute;
         padding: .5em;
+      }
+    }
+
+    @media screen and (max-width: 350px) {
+      td {
+        display: inline-block;
       }
     }
 
@@ -172,7 +177,7 @@
 
   			<div id="query3" class="query leaflet-bar">
   				<label>
-  				  Farmers Markets and Fresh Trucks:  
+  				  Location:  
             <br>
   				  <select id="market_name">
   				  <option value='1=1' selected="selected">Any</option>
@@ -180,12 +185,10 @@
   				</label>
   			</div>
         <table style="height:50px">
-          <tr>
-            <td><img src="./images/EXPERIENTIAL ICONS_food assistance-.svg" alt="Farmer's Market" style="width:100px"></td>
-            <td><h6>Farmer's Market</h6></td>
+            <td><img src="./images/EXPERIENTIAL ICONS_food assistance-.svg" alt="farmers Market" style="width:100px"></td>
+            <td><h6>Farmers Market</h6></td>
             <td><img src="./images/EXPERIENTIAL ICONS _food truck.svg" alt="Fresh Truck" style="width:100px"></td>
             <td><h6>Fresh Truck</h6></td>
-
         </table>
   		</div>
 
