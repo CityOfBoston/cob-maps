@@ -155,7 +155,7 @@
 
 <div class="co">
     <input id="collapsible" type="checkbox" class="co-f d-n" aria-hidden=true>
-    <label for="collapsible" class="co-t">Filter Markets</label>
+    <label for="collapsible" class="co-t">Filter Markets and Fresh Trucks</label>
     <div class="co-b">
 
       <div class="queries">
@@ -164,13 +164,13 @@
   				  Day of week:  
   				  <select id="day">
   				    <option value='1=1'>Any</option>
-  				    <option value="Day = 'Monday'">Monday</option>
-  				    <option value="Day = 'Tuesday'">Tuesday</option>
-  				    <option value="Day = 'Wednesday'">Wednesday</option>
-  				    <option value="Day = 'Thursday'">Thursday</option>
-  				    <option value="Day = 'Friday'">Friday</option>
-  				    <option value="Day = 'Saturday'">Saturday</option>
-  				    <option value="Day = 'Sunday'">Sunday</option>
+  				    <option value="Day_ = 'Monday'">Monday</option>
+  				    <option value="Day_ = 'Tuesday'">Tuesday</option>
+  				    <option value="Day_ = 'Wednesday'">Wednesday</option>
+  				    <option value="Day_ = 'Thursday'">Thursday</option>
+  				    <option value="Day_ = 'Friday'">Friday</option>
+  				    <option value="Day_ = 'Saturday'">Saturday</option>
+  				    <option value="Day_ = 'Sunday'">Sunday</option>
   				  </select>
   				</label>
   			</div>
@@ -246,7 +246,7 @@
   };
 
   var farmers_markets = L.esri.Cluster.featureLayer({
-    url: 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/Farmers_Markets_Fresh_Trucks/FeatureServer/0',
+    url: 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/Farmers_Markets_and_Fresh_Trucks/FeatureServer/0',
      pointToLayer: function (geojson, latlng) {
       return L.marker(latlng, {
         icon: icons[geojson.properties.F6.replace(/\s/g, '')]
@@ -265,9 +265,9 @@
 
     // bind pop-up based on year round vs. not
   	if (open_date.getFullYear() != 1969) {
-  		return L.Util.template('<p class="title"><b>{Name}</b></p><p class="times">{F6}<br>{Start}<br>Day: {Day}<br><br>{Address}</p><p class="content">{Location}<br><br>Open: ' + open_date.toLocaleDateString("en-US", options) + ' to ' + close_date.toLocaleDateString("en-US", options) + '</p>', layer.feature.properties);
+  		return L.Util.template('<p class="title"><b>{Name}</b></p><p class="times">{F6}<br>{Start}<br>Day: {Day_}<br><br>{Address}</p><p class="content">{Location}<br><br>Open: ' + open_date.toLocaleDateString("en-US", options) + ' to ' + close_date.toLocaleDateString("en-US", options) + '</p>', layer.feature.properties);
   	} else {
-  		return L.Util.template('<p class="title"><b>{Name}</b></p><p class="times">{F6}<br>{Start}<br>Day: {Day}<br><br>{Address}</p><p class="content">{Location}<br><br>Open: Year-round</p>', layer.feature.properties);
+  		return L.Util.template('<p class="title"><b>{Name}</b></p><p class="times">{F6}<br>{Start}<br>Day: {Day_}<br><br>{Address}</p><p class="content">{Location}<br><br>Open: Year-round</p>', layer.feature.properties);
   	}
   });
 
@@ -296,7 +296,7 @@
   // build trucks fitler
   // query trucks layer to get unique names of trucks
   var farmsQuery = L.esri.query({
-    url: "https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/Farmers_Markets_Fresh_Trucks/FeatureServer/0"
+    url: "https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/Farmers_Markets_and_Fresh_Trucks/FeatureServer/0"
   })
     .where("1=1")
     .returnGeometry(false)
