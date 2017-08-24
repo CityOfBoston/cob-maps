@@ -1,0 +1,185 @@
+<html>
+<head>
+  <meta charset=utf-8 />
+  <title>Student Move In Parking Restrictions</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+   <link href="https://fonts.googleapis.com/css?family=Lora|Montserrat:700" rel="stylesheet">
+
+ <!-- Load Leaflet from CDN -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet-src.js"></script>
+
+  <!-- Load Mapbox -->
+  <!--<script src='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.js'></script>-->
+  <!--<link href='https://api.mapbox.com/mapbox.js/v3.0.1/mapbox.css' rel='stylesheet'/>-->
+
+  <!-- Load Esri Leaflet from CDN -->
+  <script src="https://unpkg.com/esri-leaflet@2.0.8"></script>
+
+  <style>
+    body { margin:0; padding:0; }
+    #map { position: absolute; top:0; bottom:0; right:0; left:0; }
+
+    .legend {
+      line-height: 18px;
+      color: #555;
+      background-color: rgba(255, 250, 250, 1);
+      border: 3px;
+      outline-color: white;
+      border-radius: 5px;
+      padding: 6px 8px;
+      font-size: 14px;
+    }
+
+    .legend i {
+        width: 18px;
+        height: 18px;
+        float: left;
+        margin-right: 8px;
+        opacity: 0.7;
+    }
+
+    .leaflet-popup {
+      width: 250px;
+      height: auto;
+    }
+
+    .leaflet-popup-content .title {
+      font-size: 22px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: bold;
+    }
+
+    .leaflet-popup-content .content {
+      font-size: 16px;
+      font-family: 'Lora', serif;
+      font-style: italic;
+    }
+
+    .leaflet-popup-content .notes {
+      font-size: 14px;
+      font-family: 'Lora', serif;
+      font-style: italic;
+    }
+
+    .leaflet-popup-content p {
+      font-size: 14px;
+      font-family: 'Lora', serif;
+      margin: 0px;
+    }
+
+    .leaflet-control-layers-expanded {
+      font-size: 14px;
+      font-family: 'Lora', serif;
+      font-style: italic;
+    }
+
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+<script>
+  /*L.mapbox.accessToken = 'pk.eyJ1IjoiY2l0eW9mYm9zdG9uIiwiYSI6ImNqMTd1dDdqZTA1c2UyeHFzNGhrN2g0bHYifQ.SZ8J0aXwDHt4sCmZ9rQO2A';
+
+  var map = L.mapbox.map('map', 'mapbox.streets').setView([42.332898, -71.079475], 13);*/
+
+  var map = L.map('map').setView([42.341121, -71.073641], 13);
+
+  L.tileLayer('https://api.mapbox.com/styles/v1/cityofboston/cj1hyqwt2001s2so0hjacals3/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l0eW9mYm9zdG9uIiwiYSI6ImNqMTd1dDdqZTA1c2UyeHFzNGhrN2g0bHYifQ.SZ8J0aXwDHt4sCmZ9rQO2A').addTo(map);
+
+// add COB layer
+  var cob_boundary_style = {
+    "color": "#184b71",
+    "weight": 0.01,
+    "fillOpacity": 0.07
+  };
+
+  var cob_boundary = L.esri.featureLayer({
+    url: 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/BostonBoundary/FeatureServer/0',
+    style: cob_boundary_style
+  }).addTo(map);
+  
+
+  // add boston university layer
+  var bu_style = {
+    "color": "#d53e4f",
+    "weight": 3
+  };
+
+  var bu_parking = L.esri.featureLayer({
+    url: 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/boston_university_parking_restrictions_2017/FeatureServer/0',
+    style: bu_style
+  }).addTo(map);
+
+  bu_parking.bindPopup(function (layer) {
+    return L.Util.template('<p class="title">{street}</p><p class="content">{day}</p><p class="content">{fromto}</p><br><p class="notes">{notes}</p>', layer.feature.properties);
+  });
+
+// add mission hill layer
+  var mission_hill_style = {
+    "color": "#d53e4f",
+    "weight": 3
+  };
+
+  var mission_hill_parking = L.esri.featureLayer({
+    url: 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/mission_hill_parking_restrictions/FeatureServer/0',
+    style: mission_hill_style
+  }).addTo(map);
+
+  mission_hill_parking.bindPopup(function (layer) {
+    return L.Util.template('<p class="title">{street}</p><p class="content">{day}</p><p class="content">{fromto}</p><br><p class="notes">{notes}</p>', layer.feature.properties);
+  });
+
+  // add northeastern restrictions layer
+  var northeastern_restrictions_style = {
+    "color": "#d53e4f",
+    "weight": 3
+  };
+
+  var northeastern_restrictions = L.esri.featureLayer({
+    url: 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/northeastern_university_parking_restrictions_2017/FeatureServer/0',
+    style: northeastern_restrictions_style
+  }).addTo(map);
+
+  northeastern_restrictions.bindPopup(function (layer) {
+    return L.Util.template('<p class="title">{street}</p><p class="content">{day}</p><p class="content">{fromto}</p><br><p class="notes">{notes}</p>', layer.feature.properties);
+  });
+
+
+  // layer controls
+  var area_specific = {
+    "Boston University Parking Restrictions" : bu_parking,
+    "Northeastern Parking Restrictions" : northeastern_restrictions,
+    "Mission Hill Parking Restrictions" : mission_hill_parking
+  }
+
+  L.control.layers(null, area_specific).addTo(map)
+
+// add legend
+/*
+  var legend = L.control({position: 'bottomright'});
+
+legend.onAdd = function (map) {
+
+    var div = L.DomUtil.create('div', 'info legend'),
+        categories = ["Boston Parking Restrictions", "Boston Street Closures", "Marathon Route", "City Boundary"],
+        colors = ["#091F2F", "#FB4D42", "#1c83df", "#184b71"]
+        styles = ["style1"]
+
+    for (var i = 0; i < categories.length; i++) {
+        div.innerHTML +=
+        '<i style="background:' + colors[i] + '"></i> ' +
+         (categories[i] + '<br>');
+    }
+    return div;
+};
+
+legend.addTo(map);*/
+
+</script>
+
+</body>
+</html>
