@@ -1,0 +1,288 @@
+<html>
+<head>
+  <meta charset=utf-8 />
+  <title>Snow Emergency Parking 2017-2018</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <!-- Load Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,400i|Montserrat:500,700" rel="stylesheet">
+
+  <!-- Load Leaflet from CDN -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet-src.js"></script>
+
+  <!-- Load Esri Leaflet from CDN -->
+  <script src="https://unpkg.com/esri-leaflet@2.0.8"></script>
+
+  <!-- City of Boston stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://www.boston.gov/crispus/css/public.css" />
+
+  <!-- Load Clustered Feature Layer from CDN -->
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.4/dist/MarkerCluster.Default.css">
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.4/dist/MarkerCluster.css">
+  <script src="https://unpkg.com/leaflet.markercluster@1.0.4/dist/leaflet.markercluster.js"></script>
+  <script src="https://unpkg.com/esri-leaflet-cluster@2.0.0"></script>
+
+  <!-- Load Esri Leaflet Geocoder from CDN -->
+  <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.2.6/dist/esri-leaflet-geocoder.css">
+  <script src="https://unpkg.com/esri-leaflet-geocoder@2.2.6"></script>
+
+  <style>
+    body { margin:0; padding:0; }
+    #map { position: absolute; top:0; bottom:0; right:0; left:0; }
+
+    .co {
+      position: relative;
+      z-index: 1000;
+    }
+
+    p {
+      font-family: "Lora";
+      font-size: 16px;
+      font-style: italic;
+    }
+
+    table {
+      height:50px;
+      padding: 25px;
+      padding-top: 0px;
+    }
+
+    /* geocoder style */
+    .geocoder-control-input {
+      background-color: transparent;
+      position: relative;
+      height: auto;
+      border: none;
+      border-bottom: 7.11px solid #091f2f;
+      border-radius: 0;
+      box-shadow: none;
+      font-family: "Lora";
+      font-style: italic;
+      font-size: 20px;
+    }
+
+    .geocoder-control-input {
+      background-image: url(https://www.boston.gov/crispus/images/public/icons/search.svg);
+    }
+
+    .geocoder-control-expanded, .leaflet-touch .geocoder-control-expanded {
+      width: 100%;
+    }
+
+    .geocoder-control-suggestions {
+      position:relative;
+      top:0px;
+      margin-top:0px;
+      /*box-shadow: none;*/
+      border-radius: 0;
+    }
+
+    .geocoder-control-suggestion {
+      font-size: 18px !important;
+      font-family: "Lora";
+      font-style: italic;
+    }
+
+    .geocoder-control-suggestion:hover {
+      background:#D2D2D2 !important;
+      border-color: #D2D2D2 !important;
+    }
+
+    .leaflet-bar {
+      font-size: 20px;
+    }
+
+    /* style  for query div */
+    .queries {
+      position: static;
+      top: 25px;
+      left: 25px;
+      background: white;
+      z-index: 1000;
+    }
+
+    @media screen and (min-width: 980px) {
+      .queries {
+        position: absolute;
+        padding: .5em;
+      }
+    }
+
+    .query {
+      padding: 20px;
+      padding-bottom: 0px;
+      box-shadow: none;
+    }
+
+    .label {
+      font-size: 28px;
+      font-family: "Montserrat", Arial, sans-serif;
+      font-weight: bold;
+      font-style: normal;
+    }
+
+    .query select {
+      font-family: 'Lora', serif;
+      font-size: 18px;
+      font-style: italic;
+    }
+
+    /* style leaflet pop-ups*/
+    .leaflet-popup-content .title {
+      font-size: 22px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: bold;
+    }
+
+    .leaflet-popup-content .content {
+      font-size: 14px;
+      font-family: 'Lora', serif;
+      font-style: italic;
+    }
+
+    .leaflet-popup-content p {
+      margin: 0px;
+    }
+
+    .leaflet-popup-content-wrapper, .leaflet-popup-tip {
+      box-shadow: 0 3px 9px rgba(0,0,0,0.4);
+    }
+
+    .leaflet-popup-content-wrapper {
+      border-radius: 2px;
+    }
+
+    /* style leaflet marker clusters */
+    .marker-cluster-small {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+    .marker-cluster-small div {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+    .marker-cluster-medium {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+    .marker-cluster-medium div {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+    .marker-cluster-large {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+    .marker-cluster-large div {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+
+    .marker-cluster div {
+      width: 30px;
+      height: 30px;
+      margin-left: 5px;
+      margin-top: 5px;
+      text-align: center;
+      border-radius: 15px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: : 12px;
+      color: white;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div id="map"></div>
+  <div class="co">
+      <input id="collapsible" type="checkbox" class="co-f d-n" aria-hidden=true>
+      <label for="collapsible" class="co-t">Snow Emergency Parking Restrictions</label>
+      <div class="co-b">
+
+        <div class="queries">
+          <div id="query1" class="query">
+            <div class="label">SEARCH FOR AN ADDRESS:</div>
+            <br>
+            <div id="search_for_address"></div>
+          </div>
+          <br>
+          <br>
+          <table>
+              <td><img src="./images/small-circle-icons_Parking.svg" alt="farmers Market" style="width:50px"></td>
+              <td><p>Snow Emergency Parking Lots</p></td>
+          </table>
+      </div>
+  </div>
+
+<script>
+
+// feature styles
+var no_parking_streets_style  = {
+  "color": "#288BE4",
+  "weight": 3
+};
+
+var cob_boundary_style = {
+  "color": "#184b71",
+  "weight": 0,
+  "fillOpacity": 0.1
+};
+
+// Load map and basemap
+var map = L.map('map', {zoomControl: false}).setView([42.357621, -71.060779], 15);
+  L.tileLayer('https://api.mapbox.com/styles/v1/cityofboston/cj1hyqwt2001s2so0hjacals3/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l0eW9mYm9zdG9uIiwiYSI6ImNqMTd1dDdqZTA1c2UyeHFzNGhrN2g0bHYifQ.SZ8J0aXwDHt4sCmZ9rQO2A')
+    .addTo(map);
+
+// Add zoom control to top right
+L.control.zoom({
+     position:'bottomright'
+}).addTo(map);
+
+// Add Layers to map
+// city of boston boundary
+var cob_boundary = L.esri.featureLayer({
+  url: 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/BostonBoundary/FeatureServer/0',
+  style: cob_boundary_style
+}).addTo(map);
+
+// no parking streets layer
+var no_parking_streets = L.esri.featureLayer({
+  url: 'http://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/Ownership/FeatureServer/0',
+  style: no_parking_streets_style
+}).addTo(map);
+
+// parking lots layer
+var parking_lots = L.esri.featureLayer({
+  url: 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/SnowParking/FeatureServer/0',
+  pointToLayer: function (geojson, latlng) {
+    return L.marker(latlng, {
+      icon: L.icon({
+        iconUrl: './images/small-circle-icons_Parking.svg',
+        iconSize: [50, 50]
+      })
+    });
+  },
+}).addTo(map);
+
+parking_lots.bindPopup(function (layer) {
+  return L.Util.template('<h4 class="title">{Address}<h4><p class="content">Name: {Name}<br>Max Number of Spaces: {Maxspaces}</p>', layer.feature.properties);
+});
+
+// add address lookup control
+var searchControl = L.esri.Geocoding.geosearch({expanded: true, collapseAfterResult: false, zoomToResult: true})
+document.getElementById("search_for_address").appendChild(searchControl.onAdd(map));
+
+var results = L.layerGroup().addTo(map);
+searchControl.on('results', function(data){
+  results.clearLayers();
+  for (var i = data.results.length - 1; i >= 0; i--) {
+    results.addLayer(L.marker(data.results[i].latlng));
+  }
+});
+
+map.on('click', function (e) {
+    if (results) { // check
+        results.clearLayers(); // remove
+    }
+});
+
+</script>
+
+</body>
+</html>
