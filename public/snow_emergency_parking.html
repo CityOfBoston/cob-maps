@@ -41,6 +41,15 @@
       padding-top: 0px;
     }
 
+    td {
+      padding: 5px;
+    }
+    @media screen and (max-width: 350px) {
+      td {
+        display: inline-block;
+      }
+    }
+
     /* geocoder style */
     .geocoder-control-input {
       background-color: transparent;
@@ -113,7 +122,7 @@
         position: absolute;
         padding: .5em;
         margin-left: 20px;
-        width: 480px;
+        width: 500px;
       }
     }
 
@@ -215,6 +224,12 @@
           <table>
               <td><img src="./images/small-circle-icons_Parking.svg" alt="farmers Market" style="width:50px"></td>
               <td><p>Snow Emergency Parking Lots</p></td>
+              <td>
+                <svg width="50px" height="3px">
+                  <rect width="50px" height="3px" style="fill:rgb(225,69,59)" />
+                </svg>
+              </td>
+              <td><p>Snow Emergency Restricted Parking</p></td>
           </table>
       </div>
   </div>
@@ -254,13 +269,15 @@ L.control.zoom({
 // city of boston boundary
 var cob_boundary = L.esri.featureLayer({
   url: 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/BostonBoundary/FeatureServer/0',
-  style: cob_boundary_style
+  style: cob_boundary_style,
+  clickable: false
 }).addTo(map);
 
 // no parking streets layer
 var no_parking_streets = L.esri.featureLayer({
   url: 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/Ownership/FeatureServer/0',
-  style: no_parking_streets_style
+  style: no_parking_streets_style,
+  clickable: false
 }).addTo(map);
 
 // parking lots layer
@@ -284,6 +301,7 @@ parking_lots.bindPopup(function (layer) {
 var corner_1 = L.latLng(42.170274, -71.348648),
     corner_2 = L.latLng(42.456141, -70.818901)
     boston_bounds = L.latLngBounds(corner_1, corner_2)
+
 var searchControl = L.esri.Geocoding.geosearch({expanded: true,
                                                 placeholder: "See if you're close to a snow emergency route",
                                                 collapseAfterResult: false,
@@ -299,11 +317,11 @@ searchControl.on('results', function(data){
   }
 });
 
-map.on('click', function (e) {
-    if (results) { // check
-        results.clearLayers(); // remove
-    }
-});
+// map.on('click', function (e) {
+//     if (results) { // check
+//         results.clearLayers(); // remove
+//     }
+// });
 
 </script>
 
