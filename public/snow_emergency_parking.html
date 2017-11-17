@@ -25,6 +25,10 @@
       z-index: 1000;
     }
 
+    .co-b {
+      padding: 0px;
+    }
+
     p {
       font-family: "Lora";
       font-size: 16px;
@@ -48,7 +52,25 @@
       box-shadow: none;
       font-family: "Lora";
       font-style: italic;
-      font-size: 20px;
+      font-size: 18px;
+    }
+
+    @media screen and (max-width: 414px) {
+      .geocoder-control-input {
+        font-size: 16px;
+      }
+    }
+
+    @media screen and (max-width: 375px) {
+      .geocoder-control-input {
+        font-size: 14px;
+      }
+    }
+
+    @media screen and (max-width: 320px) {
+      .geocoder-control-input {
+        font-size: 12px;
+      }
     }
 
     .geocoder-control-input {
@@ -63,7 +85,6 @@
       position:relative;
       top:0px;
       margin-top:0px;
-      /*box-shadow: none;*/
       border-radius: 0;
     }
 
@@ -76,10 +97,6 @@
     .geocoder-control-suggestion:hover {
       background:#D2D2D2 !important;
       border-color: #D2D2D2 !important;
-    }
-
-    .leaflet-bar {
-      font-size: 20px;
     }
 
     /* style  for query div */
@@ -95,6 +112,8 @@
       .queries {
         position: absolute;
         padding: .5em;
+        margin-left: 20px;
+        width: 480px;
       }
     }
 
@@ -187,7 +206,7 @@
 
         <div class="queries">
           <div id="query1" class="query">
-            <div class="label">SEARCH FOR AN ADDRESS:</div>
+            <div class="label">ADDRESS SEARCH:</div>
             <br>
             <div id="search_for_address"></div>
           </div>
@@ -251,7 +270,7 @@ var parking_lots = L.esri.featureLayer({
     return L.marker(latlng, {
       icon: L.icon({
         iconUrl: './images/small-circle-icons_Parking.svg',
-        iconSize: [50, 50]
+        iconSize: [30, 30]
       })
     });
   },
@@ -262,7 +281,10 @@ parking_lots.bindPopup(function (layer) {
 });
 
 // add address lookup control
-var searchControl = L.esri.Geocoding.geosearch({expanded: true, collapseAfterResult: false, zoomToResult: true})
+var searchControl = L.esri.Geocoding.geosearch({expanded: true,
+                                                placeholder: "See if you're close to a snow emergency route",
+                                                collapseAfterResult: false,
+                                                zoomToResult: true})
 document.getElementById("search_for_address").appendChild(searchControl.onAdd(map));
 
 var results = L.layerGroup().addTo(map);
