@@ -230,7 +230,7 @@
 
 // feature styles
 var no_parking_streets_style  = {
-  "color": "#E1453B",
+  "color": "#e1453b",
   "weight": 3
 };
 
@@ -277,14 +277,18 @@ var parking_lots = L.esri.featureLayer({
 }).addTo(map);
 
 parking_lots.bindPopup(function (layer) {
-  return L.Util.template('<h4 class="title">{Address}<h4><p class="content">Name: {Name}<br>Max Number of Spaces: {Maxspaces}</p>', layer.feature.properties);
+  return L.Util.template('<h4 class="title">{Address}<h4><p class="content">Name: {Name}<br>Max Number of Spaces: {Spaces}</p>', layer.feature.properties);
 });
 
 // add address lookup control
+var corner_1 = L.latLng(42.170274, -71.348648),
+    corner_2 = L.latLng(42.456141, -70.818901)
+    boston_bounds = L.latLngBounds(corner_1, corner_2)
 var searchControl = L.esri.Geocoding.geosearch({expanded: true,
                                                 placeholder: "See if you're close to a snow emergency route",
                                                 collapseAfterResult: false,
-                                                zoomToResult: true})
+                                                zoomToResult: true,
+                                                searchBounds: boston_bounds})
 document.getElementById("search_for_address").appendChild(searchControl.onAdd(map));
 
 var results = L.layerGroup().addTo(map);
