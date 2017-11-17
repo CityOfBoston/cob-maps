@@ -3,28 +3,18 @@
   <meta charset=utf-8 />
   <title>Snow Emergency Parking 2017-2018</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
   <!-- Load Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Lora:400,400i|Montserrat:500,700" rel="stylesheet">
 
-  <!-- Load Leaflet from CDN -->
+  <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
-  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet-src.js"></script>
-
-  <!-- Load Esri Leaflet from CDN -->
-  <script src="https://unpkg.com/esri-leaflet@2.0.8"></script>
 
   <!-- City of Boston stylesheet -->
   <link rel="stylesheet" type="text/css" href="https://www.boston.gov/crispus/css/public.css" />
 
-  <!-- Load Clustered Feature Layer from CDN -->
-  <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.4/dist/MarkerCluster.Default.css">
-  <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.4/dist/MarkerCluster.css">
-  <script src="https://unpkg.com/leaflet.markercluster@1.0.4/dist/leaflet.markercluster.js"></script>
-  <script src="https://unpkg.com/esri-leaflet-cluster@2.0.0"></script>
-
-  <!-- Load Esri Leaflet Geocoder from CDN -->
+  <!-- Esri Leaflet Geocoder CSS -->
   <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.2.6/dist/esri-leaflet-geocoder.css">
-  <script src="https://unpkg.com/esri-leaflet-geocoder@2.2.6"></script>
 
   <style>
     body { margin:0; padding:0; }
@@ -189,7 +179,7 @@
 </head>
 <body>
 
-  <div id="map"></div>
+<div id="map"></div>
   <div class="co">
       <input id="collapsible" type="checkbox" class="co-f d-n" aria-hidden=true>
       <label for="collapsible" class="co-t">Snow Emergency Parking Restrictions</label>
@@ -210,11 +200,18 @@
       </div>
   </div>
 
+<!-- Leaflet Javascript -->
+<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet-src.js"></script>
+<!-- Esri Leaflet Javascript -->
+<script src="https://unpkg.com/esri-leaflet@2.0.8"></script>
+<!-- Esri Geocoder Javascript -->
+<script src="https://unpkg.com/esri-leaflet-geocoder@2.2.6"></script>
+
 <script>
 
 // feature styles
 var no_parking_streets_style  = {
-  "color": "#288BE4",
+  "color": "#E1453B",
   "weight": 3
 };
 
@@ -226,7 +223,7 @@ var cob_boundary_style = {
 
 // Load map and basemap
 var map = L.map('map', {zoomControl: false}).setView([42.357621, -71.060779], 15);
-  L.tileLayer('https://api.mapbox.com/styles/v1/cityofboston/cj1hyqwt2001s2so0hjacals3/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l0eW9mYm9zdG9uIiwiYSI6ImNqMTd1dDdqZTA1c2UyeHFzNGhrN2g0bHYifQ.SZ8J0aXwDHt4sCmZ9rQO2A')
+  L.tileLayer('https://api.mapbox.com/styles/v1/cityofboston/cj1p0mw1x000b2rmrocwwpyui/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l0eW9mYm9zdG9uIiwiYSI6ImNqMTd1dDdqZTA1c2UyeHFzNGhrN2g0bHYifQ.SZ8J0aXwDHt4sCmZ9rQO2A')
     .addTo(map);
 
 // Add zoom control to top right
