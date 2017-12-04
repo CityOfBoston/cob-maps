@@ -167,6 +167,13 @@
   			</div>
 
   			<div id="query2" class="query leaflet-bar">
+          <label>
+  				  Open or Closed Bathrooms
+  				  <select id="open_closed">
+  				    <option value='1=1'>All Bathrooms</option>
+  				    <option value="open = 'True'">Open Bathrooms</option>
+  				  </select>
+  				</label>
         </div>
         <table>
             <td><img src="./images/bathroom.svg" alt="Public Bathroom" style="width:50px"></td>
@@ -236,55 +243,68 @@
     }),
   };
 
-  var public_bathrooms = L.esri.Cluster.featureLayer({
-    url: 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/public_bathrooms/FeatureServer/0',
-     pointToLayer: function (geojson, latlng) {
-      return L.marker(latlng, {
-        icon: icons["Bathroom"]
-      });
-     },
-  }).addTo(map);
+  // var public_bathrooms = L.esri.Cluster.featureLayer({
+  //   url: 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/public_bathrooms/FeatureServer/0',
+  //    pointToLayer: function (geojson, latlng) {
+  //     return L.marker(latlng, {
+  //       icon: icons["Bathroom"]
+  //     });
+  //    },
+  // }).addTo(map);
 
-  public_bathrooms.bindPopup(function (layer) {
-    return  L.Util.template('<p class="title"><b>{name}</b></p><p class="times">{address}<br>{hours}<br>Day: {day}<br><br>{neighborhood}</p><p class="content">{schedule}', layer.feature.properties);
-  });
-
-  // var markers = L.markerClusterGroup();
-  //
-  // var public_bathrooms = L.esri.query({
-  //   url: 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/public_bathrooms/FeatureServer/0'
+  // public_bathrooms.bindPopup(function (layer) {
+  //   return  L.Util.template('<p class="title"><b>{name}</b></p><p class="times">{address}<br>{hours}<br>Day: {day}<br><br>{neighborhood}</p><p class="content">{schedule}', layer.feature.properties);
   // });
-  //
-  // public_bathrooms.where(day.value).run(function(error, current_bathrooms){
-  //     markers.addLayer(L.geoJSON(current_bathrooms,{ icon: icons["Bathroom"] }))
-  //   });
-  // map.addLayer(markers);
-  // console.log(public_bathrooms);
 
-  function OpenNow(current_time, field1, field2) {
-    if (current_time >= field1 && current_time <= field2) {
-      return True
-    } else {
-      return False
+  // function to get open bathrooms
+  function openFilter(feature) {
+    var t = d.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1")
+
+    var open_time_string = "12/30/1900 " + feature.properties.open_time
+    var close_time_string = "12/30/1900 " + feature.properties.close_time
+    var current_time_string = "12/30/1900 " + t
+
+    var open_time = new Date(open_time_string);
+    var close_time = new Date(close_time_string);
+    var current_time = new Date(current_time_string);
+
+    if (current_time >= open_time && current_time <= close_time) {
+      return true
     }
+
   }
 
-  public_bathrooms.eachFeature(function(layer){
-    console.log(
-      layer.feature.properties.ADDRESS);
+  var bathrooms = L.markerClusterGroup();
+
+  // query a feature service for a neighborhood
+  var loadQuery = L.esri.query({
+    url: 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/public_bathrooms/FeatureServer/0'
+  }).where(day.value).run(function(error, featureCollection, repsonse){
+
+    var open_bathrooms = L.geoJSON(featureCollection, {
+      filter: openFilter,
+      pointToLayer: function(feature, latlng) {
+        return L.marker(latlng, {icon: icons["Bathroom"]})
+      }
+    })
+    // add popup
+    bathrooms.bindPopup(function (layer) {
+      return  L.Util.template('<p class="title"><b>{name}</b></p><p class="times">{address}<br>{hours}<br>Day: {day}<br><br>{neighborhood}</p><p class="content">{schedule}', layer.feature.properties);
     });
+    // add layer to map
+    bathrooms.addLayer(open_bathrooms)
+
+    // fit map to boundry
+    map.fitBounds(bathrooms.getBounds());
+
+  });
+
+  map.addLayer(bathrooms);
 
   day.addEventListener('change', function(){
-    //public_bathrooms.setWhere(day.value + " AND " + market_name.value);
-    public_bathrooms.setWhere(day.value);
+    map.removeLayer(bathrooms);
   });
-  console.log(day.value)
-  // // once all data is loaded adjust display to the default selection
-  public_bathrooms.once('load', function(){
-    //public_bathrooms.setWhere(day.value + " AND " + market_name.value);
-    //public_bathrooms.setWhere(day.value + " AND " + OpenNow(t, open_time, close_time) == TRUE);
-    public_bathrooms.setWhere(day.value)
-  });
+
 
 </script>
 
