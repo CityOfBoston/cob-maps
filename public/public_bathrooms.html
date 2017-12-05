@@ -1,4 +1,5 @@
 <html>
+
 <head>
   <meta charset=utf-8 />
   <title>Public Bathrooms</title>
@@ -16,11 +17,23 @@
   <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.4/dist/MarkerCluster.css">
 
   <style>
-    .co {position: relative; z-index: 1000;}
+    .co {
+      position: relative;
+      z-index: 1000;
+    }
 
-    body { margin:0; padding:0; }
+    body {
+      margin: 0;
+      padding: 0;
+    }
 
-    #map { position: absolute; top:0; bottom:0; right:0; left:0; }
+    #map {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+    }
 
     .leaflet-popup {
       width: 300px;
@@ -52,9 +65,9 @@
     }
 
     a[href=""] {
-    	color: #000000;
-    	text-decoration: none;
-    	cursor: default;
+      color: #000000;
+      text-decoration: none;
+      cursor: default;
     }
 
     .queries {
@@ -91,28 +104,38 @@
       font-weight: bold;
     }
 
-    .query select {
+    form, .query select {
       font-family: 'Lora', serif;
       font-size: 18px;
       font-style: italic;
     }
 
+    form {
+      margin-bottom: 0px;
+    }
+
     /* style leaflet marker clusters */
+
     .marker-cluster-small {
       background-color: rgba(40, 139, 228, 0.6);
     }
+
     .marker-cluster-small div {
       background-color: rgba(40, 139, 228, 0.6);
     }
+
     .marker-cluster-medium {
       background-color: rgba(40, 139, 228, 0.6);
     }
+
     .marker-cluster-medium div {
       background-color: rgba(40, 139, 228, 0.6);
     }
+
     .marker-cluster-large {
       background-color: rgba(40, 139, 228, 0.6);
     }
+
     .marker-cluster-large div {
       background-color: rgba(40, 139, 228, 0.6);
     }
@@ -137,21 +160,27 @@
       padding: .5em;
     }
 
+    table {
+      margin: 10px;
+      height: 50px;
+    }
+
   </style>
 </head>
+
 <body>
 
-<div id="map"></div>
+  <div id="map"></div>
 
 
-<div class="co">
+  <div class="co">
     <input id="collapsible" type="checkbox" class="co-f d-n" aria-hidden=true>
     <label for="collapsible" class="co-t">Filter Public Bathrooms</label>
     <div class="co-b">
 
       <div class="queries">
-  			<div id="query1" class="query leaflet-control-button leaflet-bar">
-  				<label>
+        <div id="query1" class="query leaflet-control-button leaflet-bar">
+          <label>
   				  Day of week:
   				  <select id="day">
   				    <option value='1=1'>Any</option>
@@ -164,149 +193,203 @@
   				    <option value="day = 'Sunday'">Sunday</option>
   				  </select>
   				</label>
-  			</div>
+        </div>
 
-  			<div id="query2" class="query leaflet-bar">
+        <div id="query3" class="query leaflet-bar">
           <label>
-  				  Open or Closed Bathrooms
-  				  <select id="open_closed">
-  				    <option value='1=1'>All Bathrooms</option>
-  				    <option value="open = 'True'">Open Bathrooms</option>
-  				  </select>
-  				</label>
-        </div>
-        <table>
-            <td><img src="./images/bathroom.svg" alt="Public Bathroom" style="width:50px"></td>
-            <td><p>Public Bathroom</p></td>
-        </table>
+            Neighborhood:
+            <select id="neighborhood">
+            <option value='1=1' selected="selected">All</option>
+            </select>
+          </label>
         </div>
 
-  		</div>
+        <div id="query2" class="query leaflet-bar">
+          <form id="open_closed">
+            <input type='radio' name="open_closed" value="open" checked="checked">Open Bathrooms</input>
+            <input type='radio' name="open_closed" value="all">All Bathrooms</input>
+          </form>
+        </div>
+
+        <table>
+            <td><img src="./images/bathroom.svg" alt="farmers Market" style="width:50px"></td>
+            <td><h6>Public Bathroom</h6></td>
+        </table>
+      </div>
 
     </div>
-</div>
-<!-- Leaflet javascript -->
-<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet-src.js"></script>
-<!-- Esri Leaflet -->
-<script src="https://unpkg.com/esri-leaflet@2.0.8"></script>
-<!-- Marker Cluster -->
-<script src="https://unpkg.com/leaflet.markercluster@1.0.4/dist/leaflet.markercluster.js"></script>
-<script src="https://unpkg.com/esri-leaflet-cluster@2.0.0"></script>
 
-<script>
+  </div>
+  </div>
+  <!-- Leaflet javascript -->
+  <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet-src.js"></script>
+  <!-- Esri Leaflet -->
+  <script src="https://unpkg.com/esri-leaflet@2.0.8"></script>
+  <!-- Marker Cluster -->
+  <script src="https://unpkg.com/leaflet.markercluster@1.0.4/dist/leaflet.markercluster.js"></script>
+  <script src="https://unpkg.com/esri-leaflet-cluster@2.0.0"></script>
 
-  // ADD FILTERS //
+  <script>
 
-  // get day of week as a string
-  function DayOfWeekAsString(dayIndex) {
-    return ["Sunday", "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][dayIndex];
-  }
-
-  // get current day of week and make the default selection
-  var d = new Date();
-  var t = d.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1")
-  var n = d.getDay();
-  var temp = DayOfWeekAsString(n);
-  var day = document.getElementById('day');
-  var days = ["Sunday", "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-  day.selectedIndex = days.indexOf(temp);
-
-  // CREATE MAP //
-  var map = L.map('map', {zoomControl: false}).setView([42.318321, -71.084414], 12);
-
-  //add zoom control to top right
-  L.control.zoom({
-       position:'bottomright'
-  }).addTo(map);
-
-  // find user location
-  map.locate({setView: true, maxZoom: 15});
-
-  function onLocationFound(e) {
-    var radius = e.accuracy / 2;
-
-  var user_loc = L.marker(e.latlng).addTo(map)
-    .bindPopup('<p class="title">You are here.</p>').openPopup();
-
-  var radius_circle = L.circle(e.latlng, radius, {color:'#091F2F',opacity:1,fillOpacity:.2}).addTo(map);
-  }
-
-  map.on('locationfound', onLocationFound);
-
-  // add mapbox basemap
-  L.tileLayer('https://api.mapbox.com/styles/v1/cityofboston/cj1hyqwt2001s2so0hjacals3/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l0eW9mYm9zdG9uIiwiYSI6ImNqMTd1dDdqZTA1c2UyeHFzNGhrN2g0bHYifQ.SZ8J0aXwDHt4sCmZ9rQO2A').addTo(map);
-
-  var icons = {
-    Bathroom: L.icon({
-      iconUrl: './images/bathroom.svg',
-      iconSize: [30, 30],
-    }),
-  };
-
-  // var public_bathrooms = L.esri.Cluster.featureLayer({
-  //   url: 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/public_bathrooms/FeatureServer/0',
-  //    pointToLayer: function (geojson, latlng) {
-  //     return L.marker(latlng, {
-  //       icon: icons["Bathroom"]
-  //     });
-  //    },
-  // }).addTo(map);
-
-  // public_bathrooms.bindPopup(function (layer) {
-  //   return  L.Util.template('<p class="title"><b>{name}</b></p><p class="times">{address}<br>{hours}<br>Day: {day}<br><br>{neighborhood}</p><p class="content">{schedule}', layer.feature.properties);
-  // });
-
-  // function to get open bathrooms
-  function openFilter(feature) {
-    var t = d.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1")
-
-    var open_time_string = "12/30/1900 " + feature.properties.open_time
-    var close_time_string = "12/30/1900 " + feature.properties.close_time
-    var current_time_string = "12/30/1900 " + t
-
-    var open_time = new Date(open_time_string);
-    var close_time = new Date(close_time_string);
-    var current_time = new Date(current_time_string);
-
-    if (current_time >= open_time && current_time <= close_time) {
-      return true
+    // ADD FILTERS //
+    // get day of week as a string
+    function DayOfWeekAsString(dayIndex) {
+      return ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][dayIndex];
     }
 
-  }
+    // get current day of week and make the default selection
+    var d = new Date();
+    var t = d.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1")
+    var n = d.getDay();
+    var temp = DayOfWeekAsString(n);
+    var day = document.getElementById('day');
+    var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    day.selectedIndex = days.indexOf(temp);
 
-  var bathrooms = L.markerClusterGroup();
+    // CREATE MAP //
 
-  // query a feature service for a neighborhood
-  var loadQuery = L.esri.query({
-    url: 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/public_bathrooms/FeatureServer/0'
-  }).where(day.value).run(function(error, featureCollection, repsonse){
+    var map = L.map('map', {
+      zoomControl: false
+    }).setView([42.318321, -71.084414], 12);
 
-    var open_bathrooms = L.geoJSON(featureCollection, {
-      filter: openFilter,
-      pointToLayer: function(feature, latlng) {
-        return L.marker(latlng, {icon: icons["Bathroom"]})
-      }
-    })
-    // add popup
-    bathrooms.bindPopup(function (layer) {
-      return  L.Util.template('<p class="title"><b>{name}</b></p><p class="times">{address}<br>{hours}<br>Day: {day}<br><br>{neighborhood}</p><p class="content">{schedule}', layer.feature.properties);
+    //add zoom control to top right
+    L.control.zoom({
+      position: 'bottomright'
+    }).addTo(map);
+
+    // find user location
+    map.locate({
+      setView: true,
+      maxZoom: 15
     });
-    // add layer to map
-    bathrooms.addLayer(open_bathrooms)
 
-    // fit map to boundry
-    map.fitBounds(bathrooms.getBounds());
+    function onLocationFound(e) {
+      var radius = e.accuracy / 2;
 
-  });
+      var user_loc = L.marker(e.latlng).addTo(map)
+        .bindPopup('<p class="title">You are here.</p>').openPopup();
 
-  map.addLayer(bathrooms);
+      var radius_circle = L.circle(e.latlng, radius, {
+        color: '#091F2F',
+        opacity: 1,
+        fillOpacity: .2
+      }).addTo(map);
+    }
 
-  day.addEventListener('change', function(){
-    map.removeLayer(bathrooms);
-  });
+    map.on('locationfound', onLocationFound);
+
+    // add mapbox basemap
+    L.tileLayer('https://api.mapbox.com/styles/v1/cityofboston/cj1hyqwt2001s2so0hjacals3/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l0eW9mYm9zdG9uIiwiYSI6ImNqMTd1dDdqZTA1c2UyeHFzNGhrN2g0bHYifQ.SZ8J0aXwDHt4sCmZ9rQO2A').addTo(map);
+
+    // ADD DATA
+    var bathrooms_url = 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/public_bathrooms/FeatureServer/0'
+    var bathrooms = L.markerClusterGroup();
+
+    var icons = {
+      Bathroom: L.icon({
+        iconUrl: './images/bathroom.svg',
+        iconSize: [30, 30],
+      }),
+    };
+
+    // add neighborhood drop downs
+    var neighborhood_selection = L.esri.query({
+      url: "https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/public_bathrooms/FeatureServer/0"
+    })
+      .where("1=1")
+      .returnGeometry(false)
+      .fields(['neighborhood'])
+
+    neighborhood_selection.params.returnDistinctValues = true;
+
+    // run query and build options list from it
+    neighborhood_selection.run(function (err, res, raw) {
+      for (i=1; i<res.features.length; i++) {
+        var option = document.createElement("option");
+        option.text = res.features[i].properties.neighborhood
+        option.value = "neighborhood = '" + res.features[i].properties.neighborhood + "'"
+        var select = document.getElementById("neighborhood");
+        select.appendChild(option);
+      }
+    });
+
+    // function to get open bathrooms
+    function openFilter(feature) {
+      var t = d.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1")
+
+      var open_time_string = "12/30/1900 " + feature.properties.open_time
+      var close_time_string = "12/30/1900 " + feature.properties.close_time
+      var current_time_string = "12/30/1900 " + t
+
+      var open_time = new Date(open_time_string);
+      var close_time = new Date(close_time_string);
+      var current_time = new Date(current_time_string);
+
+      console.log(current_time >= open_time && current_time <= close_time);
+
+      if (current_time >= open_time && current_time <= close_time) {
+        return true
+      }
+    }
+
+    function loadData(markerClusterLayer) {
+
+      L.esri.query({
+        url: bathrooms_url
+      }).where(day.value + " AND " + neighborhood.value).run(function(error, featureCollection, repsonse) {
+
+          var open_bathrooms = L.geoJSON(featureCollection, {
+            filter: openFilter,
+            pointToLayer: function(feature, latlng) {
+              return L.marker(latlng, {
+                icon: icons["Bathroom"]
+              })
+            }
+          })
 
 
-</script>
+        // add popup
+        bathrooms.bindPopup(function(layer) {
+          return L.Util.template('<p class="title"><b>{name}</b></p><p class="times">{address}<br>{hours}<br>Day: {day}<br><br>{neighborhood}</p><p class="content">{schedule}', layer.feature.properties);
+        });
+        // add layer to map
+        bathrooms.addLayer(open_bathrooms)
+
+        // fit map to boundry
+        //map.fitBounds(bathrooms.getBounds());
+
+        map.addLayer(bathrooms);
+
+      });
+    };
+
+    function loadAllBathrooms(markerClusterLayer) {
+
+    }
+
+    map.on('load', loadData(bathrooms));
+
+    day.addEventListener('change', function(){
+      bathrooms.clearLayers();
+      loadData(bathrooms);
+    });
+
+    neighborhood.addEventListener('change', function(){
+      bathrooms.clearLayers();
+      loadData(bathrooms);
+    });
+
+
+    var open_closed = document.getElementById('open_closed');
+    console.log(open_closed.value)
+    open_closed.addEventListener('change', function() {
+      bathrooms.clearLayers();
+      console.log(open_closed.value);
+      loadData(bathrooms);
+    })
+
+  </script>
 
 </body>
+
 </html>
