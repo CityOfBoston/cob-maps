@@ -303,14 +303,14 @@ var parking_lots = L.esri.featureLayer({
 parking_lots.bindPopup(function (layer) {
   console.log(layer.feature.properties.Phone);
 	if (layer.feature.properties.Spaces == 0 && layer.feature.properties.Phone != ' ') {
-		return L.Util.template('<h4 class="title">{Address}<h4><p class="content">Name: {Name}<br>Fee: {Fee}<br><br>{Comments}<br><br>Phone: {Phone}<br>Call ahead to find out the number of spaces available.</p>', layer.feature.properties);
+		return L.Util.template('<h4 class="title">{Address}<h4><p class="content">Name: {Name}<br>Fee: {Fee}<br><br>{Comments}<br><br>Phone: <a href={Phone}>{Phone}</a><br>Call ahead to find out the number of spaces available.</p>', layer.feature.properties);
 	} else if (layer.feature.properties.Spaces == 0 && layer.feature.properties.Phone == ' ') {
     return L.Util.template('<h4 class="title">{Address}<h4><p class="content">Name: {Name}<br>Fee: {Fee}<br><br><br>{Comments}</p>', layer.feature.properties);
   } else if (layer.feature.properties.Spaces != 0 && layer.feature.properties.Phone == ' ') {
     return L.Util.template('<h4 class="title">{Address}<h4><p class="content">Name: {Name}<br>Fee: {Fee}<br>Lot size: {Spaces} spaces<br><br>{Comments}</p>', layer.feature.properties);
   }
   else {
-		return L.Util.template('<h4 class="title">{Address}<h4><p class="content">Name: {Name}<br>Fee: {Fee}<br>Lot size: {Spaces} spaces<br><br>{Comments}<br><br>Phone: {Phone}<br>Call ahead to find out the number of spaces available.</p>', layer.feature.properties);
+		return L.Util.template('<h4 class="title">{Address}<h4><p class="content">Name: {Name}<br>Fee: {Fee}<br>Lot size: {Spaces} spaces<br><br>{Comments}<br><br>Phone: <a href={Phone}>{Phone}</a><br>Call ahead to find out the number of spaces available.</p>', layer.feature.properties);
 	}
 });
 
