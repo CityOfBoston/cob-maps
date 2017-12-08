@@ -153,21 +153,13 @@
     }
 
     .leaflet-popup-content .content {
-      font-size: 14px;
+      font-size: 16px;
       font-family: 'Lora', serif;
       font-style: italic;
     }
 
     .leaflet-popup-content p {
       margin: 0px;
-    }
-
-    .leaflet-popup-content-wrapper, .leaflet-popup-tip {
-      box-shadow: 0 3px 9px rgba(0,0,0,0.4);
-    }
-
-    .leaflet-popup-content-wrapper {
-      border-radius: 2px;
     }
 
     /* style leaflet marker clusters */
@@ -294,7 +286,7 @@ var parking_lots = L.esri.featureLayer({
 }).addTo(map);
 
 parking_lots.bindPopup(function (layer) {
-  return L.Util.template('<h4 class="title">{Address}<h4><p class="content">Name: {Name}<br>Max Number of Spaces: {Spaces}</p>', layer.feature.properties);
+  return L.Util.template('<h4 class="title">{Address}<h4><p class="content">Name: {Name}<br>Fee: {Fee}<br>Lot size: {Spaces} spaces</p>', layer.feature.properties);
 });
 
 // add address lookup control
