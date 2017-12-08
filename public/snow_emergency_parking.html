@@ -257,6 +257,20 @@ L.control.zoom({
      position:'bottomright'
 }).addTo(map);
 
+// find user location
+map.locate({setView: true, maxZoom: 18});
+
+function onLocationFound(e) {
+  var radius = e.accuracy / 2;
+
+var user_loc = L.marker(e.latlng).addTo(map)
+  .bindPopup('<p class="title">You are here.</p>').openPopup();
+
+var radius_circle = L.circle(e.latlng, radius, {color:'#091F2F',opacity:1,fillOpacity:.2}).addTo(map);
+}
+
+map.on('locationfound', onLocationFound);
+
 // Add Layers to map
 // city of boston boundary
 var cob_boundary = L.esri.featureLayer({
@@ -285,8 +299,14 @@ var parking_lots = L.esri.featureLayer({
   },
 }).addTo(map);
 
+// popup
 parking_lots.bindPopup(function (layer) {
-  return L.Util.template('<h4 class="title">{Address}<h4><p class="content">Name: {Name}<br>Fee: {Fee}<br>Lot size: {Spaces} spaces</p>', layer.feature.properties);
+
+	if (layer.feature.properties.Spaces == 0) {
+		return L.Util.template('<h4 class="title">{Address}<h4><p class="content">Name: {Name}<br>Fee: {Fee}</p>', layer.feature.properties);
+	} else {
+		return L.Util.template('<h4 class="title">{Address}<h4><p class="content">Name: {Name}<br>Fee: {Fee}<br>Lot size: {Spaces} spaces</p>', layer.feature.properties);
+	}
 });
 
 // add address lookup control
