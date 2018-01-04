@@ -249,8 +249,10 @@ var cob_boundary_style = {
 
 // Load map and basemap
 var map = L.map('map', {zoomControl: false}).setView([42.357621, -71.060779], 15);
-  L.tileLayer('https://api.mapbox.com/styles/v1/cityofboston/cj1p0mw1x000b2rmrocwwpyui/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l0eW9mYm9zdG9uIiwiYSI6ImNqMTd1dDdqZTA1c2UyeHFzNGhrN2g0bHYifQ.SZ8J0aXwDHt4sCmZ9rQO2A')
-    .addTo(map);
+  // L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}')
+  //   .addTo(map);
+
+L.esri.basemapLayer('Topographic').addTo(map);
 
 // Add zoom control to top right
 L.control.zoom({
