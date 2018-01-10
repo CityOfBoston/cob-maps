@@ -258,13 +258,12 @@ var FEEDS = [
    'color' : '#0C2639',
    'icon' : null,
    'icon_size' : null,
-   //'popup': ['DISTRICT', 'Councillor'],
    'popup': null,
    'custom_popup' : '<p class="title"><b>{Councilor}</b></p><p class="content">District: {DISTRICT}<br><img src="{Image}"/><br><a href={Bio} target="_blank">Councilor Webpage</a>',
    'cluster': false }
 ];
 // Set zoom zoom level
-var ZOOM_LEVEL = 13;
+var ZOOM_LEVEL = 12;
 // Find user loc
 var FIND_USER_LOC = false;
 
@@ -288,6 +287,7 @@ function createPointLayer(feed) {
   var layerObj = baseObj.featureLayer({
     // add data url
     url: feed.url,
+    onEachFeature: onEachFeature,
     // add icon
     pointToLayer: function(feature, latlng) {
       return L.marker(latlng, {
@@ -298,25 +298,12 @@ function createPointLayer(feed) {
   return layerObj;
 }
 
-// get polygon color
-function getColor(field) {
-  return
-        field == 1  ? '#762A83' :
-        field == 2  ? '#af8dc3' :
-        field == 3  ? '#e7d4e8' :
-        field == 4  ? '#f7f7f7' :
-        field == 5  ? '#d9f0d3' :
-        field == 6  ? '#7fbf7b' :
-        field == 7  ? '#7fbf7b' :
-                      '#1B7837';
-
-}
-
-// Create line layer
+// Create line or polygon layer
 function createLineOrPolyLayer(feed) {
   var layerObj = L.esri.featureLayer({
     // add data url
     url: feed.url,
+    onEachFeature: onEachFeature,
     // add line style
     style: {
       "color": feed.color,
@@ -341,6 +328,32 @@ function createPopup(feed_popup_fields) {
 // Create custom popup
 function createCustomPopup(customPopup) {
   return function (layer) { return L.Util.template(customPopup, layer.feature.properties); };
+}
+
+// Highlight feature
+function highlightFeature(e) {
+    var layer = e.target;
+
+    layer.setStyle({
+        weight: 5,
+        color: '#FB4D42',
+        dashArray: ''
+    });
+
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        layer.bringToFront();
+    }
+}
+
+function resetHighlight(e) {
+    layerObj.resetStyle(e.target);
+}
+
+function onEachFeature(feature, layer) {
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight
+    });
 }
 
 // Find user location
