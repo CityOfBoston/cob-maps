@@ -160,6 +160,10 @@
     }
 
     /* style leaflet pop-ups*/
+    .leaflet-popup-content-wrapper {
+      min-width: 200px;
+    }
+
     .leaflet-popup-content .title {
       font-size: 22px;
       font-family: 'Montserrat', sans-serif;
@@ -250,18 +254,17 @@ var LONGITUDE = -71.065227;
 // Set data urls
 var FEEDS = [
   {'name' : 'City Councilor Districts',
-   'url' : 'http://gis.cityofboston.gov/arcgis/rest/services/Planning/OpenData/MapServer/4',
+   'url' : 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/City_Council_Districts/FeatureServer/0',
    'color' : '#0C2639',
    'icon' : null,
    'icon_size' : null,
    //'popup': ['DISTRICT', 'Councillor'],
    'popup': null,
-   'custom_popup' : '<p class="title"><b>{Councillor}</b></p><p class="times"><p class="content">District: {DISTRICT}',
+   'custom_popup' : '<p class="title"><b>{Councilor}</b></p><p class="content">District: {DISTRICT}<br><img src="{Image}"/><br><a href={Bio} target="_blank">Councilor Webpage</a>',
    'cluster': false }
 ];
 // Set zoom zoom level
 var ZOOM_LEVEL = 13;
-
 // Find user loc
 var FIND_USER_LOC = false;
 
@@ -293,6 +296,20 @@ function createPointLayer(feed) {
     }
   });
   return layerObj;
+}
+
+// get polygon color
+function getColor(field) {
+  return
+        field == 1  ? '#762A83' :
+        field == 2  ? '#af8dc3' :
+        field == 3  ? '#e7d4e8' :
+        field == 4  ? '#f7f7f7' :
+        field == 5  ? '#d9f0d3' :
+        field == 6  ? '#7fbf7b' :
+        field == 7  ? '#7fbf7b' :
+                      '#1B7837';
+
 }
 
 // Create line layer
