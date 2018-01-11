@@ -434,6 +434,8 @@ function createAddressLookupDiv() {
 }
 
 function bostonAddressLookUp(placeholder_text, layer) {
+  var co_b = L.DomUtil.get('co-b');
+  console.log(co_b);
 
   var corner_1 = L.latLng(42.170274, -71.348648),
       corner_2 = L.latLng(42.456141, -70.818901),
@@ -446,14 +448,6 @@ function bostonAddressLookUp(placeholder_text, layer) {
                                                   searchBounds: boston_bounds});
 
   document.getElementById("search_for_address").appendChild(searchControl.onAdd(map));
-
-  // var results = L.layerGroup().addTo(map);
-  // searchControl.on('results', function(data){
-  //   results.clearLayers();
-  //   for (var i = data.results.length - 1; i >= 0; i--) {
-  //     results.addLayer(L.marker(data.results[i].latlng));
-  //   }
-  // });
 
   // Results for when want pop-up to show automatically
   var results = L.layerGroup().addTo(map);
@@ -472,6 +466,7 @@ function bostonAddressLookUp(placeholder_text, layer) {
         marker.bindPopup(popup).openPopup()
       })
       results.addLayer(marker);
+      document.getElementById("collapsible").checked = false;
     }
   });
 }
