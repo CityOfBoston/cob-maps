@@ -140,6 +140,8 @@
       padding: 20px;
       padding-bottom: 0px;
       box-shadow: none;
+      font-family: 'Lora';
+      font-style: italic;
     }
 
     #search_for_address {
@@ -221,7 +223,7 @@
 <div id="map"></div>
   <div class="co">
       <input id="collapsible" type="checkbox" class="co-f d-n" aria-hidden=true>
-      <label for="collapsible" class="co-t" id="collapsible-label">Snow Emergency Parking Restrictions</label>
+      <label for="collapsible" class="co-t" id="collapsible-label"></label>
       <div class="co-b" id="co-b">
     </div>
   </div>
@@ -377,6 +379,8 @@ function createLegendDiv() {
   var co_b = L.DomUtil.get('co-b');
   var queries = L.DomUtil.create('div', 'queries', co_b);
   queries.id = 'queries';
+  var directions = L.DomUtil.create('div', 'query', queries);
+  directions.innerHTML = "Hover over and click on your district to find your Councilor, or search your home address."
 }
 
 function createLegend(feeds) {
@@ -438,7 +442,7 @@ function bostonAddressLookUp(placeholder_text, layer) {
   var searchControl = L.esri.Geocoding.geosearch({expanded: true,
                                                   placeholder: placeholder_text,
                                                   collapseAfterResult: false,
-                                                  zoomToResult: true,
+                                                  zoomToResult: false,
                                                   searchBounds: boston_bounds});
 
   document.getElementById("search_for_address").appendChild(searchControl.onAdd(map));
