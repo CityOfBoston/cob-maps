@@ -255,13 +255,13 @@ var LONGITUDE = -71.065227;
 
 // Set data urls
 var FEEDS = [
-  {'name' : 'City Councilor Districts',
+  {'name' : 'Boston City Council districts',
    'url' : 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/City_Council_Districts/FeatureServer/0',
    'color' : '#0C2639',
    'icon' : null,
    'icon_size' : null,
    'popup': null,
-   'custom_popup' : '<p class="title"><b>{Councilor}</b></p><p class="content">District: {DISTRICT}<br><img src="{Image}"/><br><a href={Bio} target="_blank">Councilor Webpage</a>',
+   'custom_popup' : '<p class="title"><b>{Councilor}</b></p><p class="content">District: {DISTRICT}<br><a href={Bio} target="_blank"><img src="{Image}"/><br>Councilor Webpage</a>',
    'cluster': false }
 ];
 // Set zoom zoom level
@@ -271,7 +271,7 @@ var FIND_USER_LOC = false;
 
 // Address look up - only for boston area
 var ADDRESS_LOOK_UP = true;
-var PLACEHOLDER_TEXT = "Type in your address to find your Councilor";
+var PLACEHOLDER_TEXT = "Type in your address to find your councilor";
 
 // Create point layer
 function createPointLayer(feed) {
@@ -380,7 +380,7 @@ function createLegendDiv() {
   var queries = L.DomUtil.create('div', 'queries', co_b);
   queries.id = 'queries';
   var directions = L.DomUtil.create('div', 'query', queries);
-  directions.innerHTML = "Hover over and click on your district to find your Councilor, or search your home address."
+  directions.innerHTML = "Hover over and click on your district to find your councilor, or search your home address."
 }
 
 function createLegend(feeds) {
@@ -434,6 +434,8 @@ function createAddressLookupDiv() {
 }
 
 function bostonAddressLookUp(placeholder_text, layer) {
+  var co_b = L.DomUtil.get('co-b');
+  console.log(co_b);
 
   var corner_1 = L.latLng(42.170274, -71.348648),
       corner_2 = L.latLng(42.456141, -70.818901),
@@ -446,14 +448,6 @@ function bostonAddressLookUp(placeholder_text, layer) {
                                                   searchBounds: boston_bounds});
 
   document.getElementById("search_for_address").appendChild(searchControl.onAdd(map));
-
-  // var results = L.layerGroup().addTo(map);
-  // searchControl.on('results', function(data){
-  //   results.clearLayers();
-  //   for (var i = data.results.length - 1; i >= 0; i--) {
-  //     results.addLayer(L.marker(data.results[i].latlng));
-  //   }
-  // });
 
   // Results for when want pop-up to show automatically
   var results = L.layerGroup().addTo(map);
@@ -472,6 +466,7 @@ function bostonAddressLookUp(placeholder_text, layer) {
         marker.bindPopup(popup).openPopup()
       })
       results.addLayer(marker);
+      document.getElementById("collapsible").checked = false;
     }
   });
 }
