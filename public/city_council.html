@@ -140,6 +140,8 @@
       padding: 20px;
       padding-bottom: 0px;
       box-shadow: none;
+      font-family: 'Lora';
+      font-style: italic;
     }
 
     #search_for_address {
@@ -221,7 +223,7 @@
 <div id="map"></div>
   <div class="co">
       <input id="collapsible" type="checkbox" class="co-f d-n" aria-hidden=true>
-      <label for="collapsible" class="co-t" id="collapsible-label">Snow Emergency Parking Restrictions</label>
+      <label for="collapsible" class="co-t" id="collapsible-label"></label>
       <div class="co-b" id="co-b">
     </div>
   </div>
@@ -377,6 +379,8 @@ function createLegendDiv() {
   var co_b = L.DomUtil.get('co-b');
   var queries = L.DomUtil.create('div', 'queries', co_b);
   queries.id = 'queries';
+  var directions = L.DomUtil.create('div', 'query', queries);
+  directions.innerHTML = "Hover over and click on your district to find your Councilor, or search your home address."
 }
 
 function createLegend(feeds) {
@@ -429,7 +433,7 @@ function createAddressLookupDiv() {
 
 }
 
-function bostonAddressLookUp(placeholder_text) {
+function bostonAddressLookUp(placeholder_text, layer) {
 
   var corner_1 = L.latLng(42.170274, -71.348648),
       corner_2 = L.latLng(42.456141, -70.818901),
@@ -438,19 +442,38 @@ function bostonAddressLookUp(placeholder_text) {
   var searchControl = L.esri.Geocoding.geosearch({expanded: true,
                                                   placeholder: placeholder_text,
                                                   collapseAfterResult: false,
-                                                  zoomToResult: true,
+                                                  zoomToResult: false,
                                                   searchBounds: boston_bounds});
 
   document.getElementById("search_for_address").appendChild(searchControl.onAdd(map));
 
+  // var results = L.layerGroup().addTo(map);
+  // searchControl.on('results', function(data){
+  //   results.clearLayers();
+  //   for (var i = data.results.length - 1; i >= 0; i--) {
+  //     results.addLayer(L.marker(data.results[i].latlng));
+  //   }
+  // });
+
+  // Results for when want pop-up to show automatically
   var results = L.layerGroup().addTo(map);
-  searchControl.on('results', function(data){
+
+  searchControl.on('results', function(data, query_layer){
+    var query = L.esri.query({
+      url: layer.url
+    });
+
     results.clearLayers();
+
     for (var i = data.results.length - 1; i >= 0; i--) {
-      results.addLayer(L.marker(data.results[i].latlng));
+      var marker = L.marker(data.results[i].latlng);
+      query.contains(marker).run(function(error, featureCollection, response){
+        var popup = L.Util.template(layer.custom_popup, featureCollection.features[0].properties);
+        marker.bindPopup(popup).openPopup()
+      })
+      results.addLayer(marker);
     }
   });
-
 }
 
 // Load map and basemap
@@ -488,7 +511,7 @@ if (FIND_USER_LOC == true) { findUserLoc() }
 
 if (ADDRESS_LOOK_UP === true) {
   createAddressLookupDiv();
-  bostonAddressLookUp(PLACEHOLDER_TEXT);
+  bostonAddressLookUp(PLACEHOLDER_TEXT, FEEDS[0]);
 }
 
 createLegend(FEEDS);
