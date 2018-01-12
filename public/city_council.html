@@ -378,7 +378,7 @@ function findUserLoc() {
 
 }
 
-// Create legend
+// Create legend div
 function createLegendDiv() {
   var co_b = L.DomUtil.get('co-b');
   var queries = L.DomUtil.create('div', 'queries', co_b);
@@ -387,11 +387,15 @@ function createLegendDiv() {
   directions.innerHTML = "Hover over and click on your district to find your councilor, or search your address." + '<br><br>' + "To see all City Council members, including at-large councilors, visit the " + '<a target="_blank" href="https://www.boston.gov/departments/city-council#city-council-members">City Council page.</a>';
 }
 
+// Create legend content
 function createLegend(feeds) {
   var queries = L.DomUtil.get('queries')
   var legend = L.DomUtil.create('table', '', queries);
   var tr = L.DomUtil.create('tr', '', legend);
+
   // loop through feeds to create legend
+
+  // create icon if exists or create svg line if no icon
   for (var k = 0; k < FEEDS.length; k++) {
     if (feeds[k].icon != null) {
       var icon = L.DomUtil.create('td', '', tr);
