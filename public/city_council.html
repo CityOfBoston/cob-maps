@@ -148,6 +148,10 @@
       padding: 20px;
     }
 
+    .directions {
+      font-size: 1.4em;
+    }
+
     .label {
       font-size: 28px;
       font-family: "Montserrat", Arial, sans-serif;
@@ -379,8 +383,8 @@ function createLegendDiv() {
   var co_b = L.DomUtil.get('co-b');
   var queries = L.DomUtil.create('div', 'queries', co_b);
   queries.id = 'queries';
-  var directions = L.DomUtil.create('div', 'query', queries);
-  directions.innerHTML = "Hover over and click on your district to find your councilor, or search your home address."
+  var directions = L.DomUtil.create('div', 'query directions', queries);
+  directions.innerHTML = "Hover over and click on your district to find your councilor, or search your address."
 }
 
 function createLegend(feeds) {
@@ -426,7 +430,7 @@ function createAddressLookupDiv() {
   var lookup = L.DomUtil.create('div', 'query', queries);
   lookup.id = 'query1';
   var label = L.DomUtil.create('div', 'label', lookup);
-  label.innerHTML = 'ADDRESS SEARCH:';
+  //label.innerHTML = 'ADDRESS SEARCH:';
   var search_for_address = L.DomUtil.create('div', '', queries)
   search_for_address.id = 'search_for_address';
   L.DomUtil.create('br', '', queries);
