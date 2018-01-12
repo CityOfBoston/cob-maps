@@ -149,7 +149,7 @@
     }
 
     .directions {
-      font-size: 1.4em;
+      font-size: 1.25em;
     }
 
     .label {
@@ -384,7 +384,7 @@ function createLegendDiv() {
   var queries = L.DomUtil.create('div', 'queries', co_b);
   queries.id = 'queries';
   var directions = L.DomUtil.create('div', 'query directions', queries);
-  directions.innerHTML = "Hover over and click on your district to find your councilor, or search your address."
+  directions.innerHTML = "Hover over and click on your district to find your councilor, or search your address." + '<br><br>' + "To see all City Council members, including at-large councilors, visit the " + '<a target="_blank" href="https://www.boston.gov/departments/city-council#city-council-members">City Council page.</a>';
 }
 
 function createLegend(feeds) {
