@@ -1,0 +1,525 @@
+<html>
+<head>
+  <meta charset=utf-8 />
+  <title>City Councilor Look-Up</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+  <!-- Load Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,400i|Montserrat:500,700" rel="stylesheet">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css"/>
+
+  <!-- City of Boston stylesheet -->
+  <link rel="stylesheet" type="text/css" href="https://www.boston.gov/crispus/css/public.css" />
+
+  <!-- Esri Leaflet Geocoder CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.2.6/dist/esri-leaflet-geocoder.css">
+
+  <!-- Leaflet Marker Cluster CSS -->
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.4/dist/MarkerCluster.Default.css">
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.4/dist/MarkerCluster.css">
+
+  <style>
+    body { margin:0; padding:0; }
+    #map { position: absolute; top:0; bottom:0; right:0; left:0; }
+
+    .co {
+      position: relative;
+      z-index: 1000;
+    }
+
+    .co-b {
+      padding: 0px;
+    }
+
+    p {
+      font-family: "Lora";
+      font-size: 16px;
+      font-style: italic;
+    }
+
+    table {
+      height:50px;
+      padding: 0px;
+      padding-top: 0px;
+    }
+
+    td {
+      padding: 5px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+    @media screen and (max-width: 350px) {
+      td {
+        display: inline-block;
+      }
+    }
+
+    img, svg {
+      padding: 0px;
+    }
+
+    /* geocoder style */
+    .geocoder-control-input {
+      background-color: transparent;
+      position: relative;
+      height: auto;
+      border: none;
+      border-bottom: 7.11px solid #091f2f;
+      border-radius: 0;
+      box-shadow: none;
+      font-family: "Lora";
+      font-style: italic;
+      font-size: 18px;
+    }
+
+    @media screen and (max-width: 414px) {
+      .geocoder-control-input {
+        font-size: 16px;
+      }
+    }
+
+    @media screen and (max-width: 375px) {
+      .geocoder-control-input {
+        font-size: 14px;
+      }
+    }
+
+    @media screen and (max-width: 320px) {
+      .geocoder-control-input {
+        font-size: 12px;
+      }
+    }
+
+    .geocoder-control-input {
+      background-image: url(https://www.boston.gov/crispus/images/public/icons/search.svg);
+    }
+
+    .geocoder-control-expanded, .leaflet-touch .geocoder-control-expanded {
+      width: 100%;
+    }
+
+    .geocoder-control-suggestions {
+      position:relative;
+      top:0px;
+      margin-top:0px;
+      border-radius: 0;
+    }
+
+    .geocoder-control-suggestion {
+      font-size: 18px !important;
+      font-family: "Lora";
+      font-style: italic;
+    }
+
+    .geocoder-control-suggestion:hover {
+      background:#D2D2D2 !important;
+      border-color: #D2D2D2 !important;
+    }
+
+    /* style  for query div */
+    .queries {
+      position: static;
+      top: 25px;
+      left: 25px;
+      background: white;
+      z-index: 1000;
+    }
+
+    @media screen and (min-width: 980px) {
+      .queries {
+        position: absolute;
+        padding: .5em;
+        margin-left: 20px;
+        width: 500px;
+      }
+    }
+
+    .query {
+      padding: 20px;
+      padding-bottom: 0px;
+      box-shadow: none;
+      font-family: 'Lora';
+      font-style: italic;
+    }
+
+    #search_for_address {
+      padding: 20px;
+    }
+
+    .directions {
+      font-size: 1.25em;
+    }
+
+    .label {
+      font-size: 28px;
+      font-family: "Montserrat", Arial, sans-serif;
+      font-weight: bold;
+      font-style: normal;
+    }
+
+    .query select {
+      font-family: 'Lora', serif;
+      font-size: 18px;
+      font-style: italic;
+    }
+
+    /* style leaflet pop-ups*/
+    .leaflet-popup-content-wrapper {
+      min-width: 200px;
+    }
+
+    .leaflet-popup-content .title {
+      font-size: 22px;
+      font-family: 'Montserrat', sans-serif;
+      font-style: normal;
+      font-weight: bold;
+    }
+
+    .leaflet-popup-content .content {
+      font-size: 16px;
+      font-family: 'Lora', serif;
+      font-style: italic;
+    }
+
+    .leaflet-popup-content p {
+      margin: 0px;
+    }
+
+    /* style leaflet marker clusters */
+    .marker-cluster-small {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+    .marker-cluster-small div {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+    .marker-cluster-medium {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+    .marker-cluster-medium div {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+    .marker-cluster-large {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+    .marker-cluster-large div {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+
+    .marker-cluster div {
+      width: 30px;
+      height: 30px;
+      margin-left: 5px;
+      margin-top: 5px;
+      text-align: center;
+      border-radius: 15px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: : 12px;
+      color: white;
+    }
+
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+  <div class="co">
+      <input id="collapsible" type="checkbox" class="co-f d-n" aria-hidden=true>
+      <label for="collapsible" class="co-t" id="collapsible-label"></label>
+      <div class="co-b" id="co-b">
+    </div>
+  </div>
+
+<!-- Leaflet Javascript -->
+<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet-src.js"></script>
+<!-- Esri Leaflet Javascript -->
+<script src="https://unpkg.com/esri-leaflet@2.0.8"></script>
+<!-- Esri Geocoder Javascript -->
+<script src="https://unpkg.com/esri-leaflet-geocoder@2.2.6"></script>
+<!-- Load Clustered Feature Layer from CDN -->
+<script src="https://unpkg.com/esri-leaflet-cluster@2.0.0"></script>
+
+<!-- Leaflet Marker Cluster Javascript -->
+<script src="https://unpkg.com/leaflet.markercluster@1.0.4/dist/leaflet.markercluster.js"></script>
+
+<script>
+
+// Set map title
+var TITLE = "City Councilor Look-Up"
+
+// Set basemap url
+var BASEMAP_URL = 'https://api.mapbox.com/styles/v1/cityofboston/cj1p0mw1x000b2rmrocwwpyui/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l0eW9mYm9zdG9uIiwiYSI6ImNqMTd1dDdqZTA1c2UyeHFzNGhrN2g0bHYifQ.SZ8J0aXwDHt4sCmZ9rQO2A';
+
+// Set Latitude
+var LATITUDE = 42.347316;
+// Set Longitude
+var LONGITUDE = -71.065227;
+
+// Set data urls
+var FEEDS = [
+  {'name' : 'Boston City Council districts',
+   'url' : 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/City_Council_Districts/FeatureServer/0',
+   'color' : '#0C2639',
+   'icon' : null,
+   'icon_size' : null,
+   'popup': null,
+   'custom_popup' : '<p class="title"><b>{Councilor}</b></p><p class="content">District: {DISTRICT}<br><a href={Bio} target="_blank"><img src="{Image}"/><br>Councilor Webpage</a>',
+   'cluster': false }
+];
+// Set zoom zoom level
+var ZOOM_LEVEL = 12;
+// Find user loc
+var FIND_USER_LOC = false;
+
+// Address look up - only for boston area
+var ADDRESS_LOOK_UP = true;
+var PLACEHOLDER_TEXT = "Type in your address to find your councilor";
+
+// Create point layer
+function createPointLayer(feed) {
+  console.log(feed.cluster);
+  // create icon
+  var icon = L.icon({
+      iconUrl: feed.icon,
+      iconSize: feed.icon_size,
+    });
+
+  // figure out is markers should be clustered or not
+  var baseObj = (feed.cluster === 1) ? L.esri.Cluster : L.esri;
+  console.log(baseObj)
+  // add layer
+  var layerObj = baseObj.featureLayer({
+    // add data url
+    url: feed.url,
+    onEachFeature: onEachFeature,
+    // add icon
+    pointToLayer: function(feature, latlng) {
+      return L.marker(latlng, {
+        icon: icon,
+      })
+    }
+  });
+  return layerObj;
+}
+
+// Create line or polygon layer
+function createLineOrPolyLayer(feed) {
+  var layerObj = L.esri.featureLayer({
+    // add data url
+    url: feed.url,
+    onEachFeature: onEachFeature,
+    // add line style
+    style: {
+      "color": feed.color,
+      "weight": 3
+    }
+  });
+  return layerObj;
+}
+
+// Create popup
+function createPopup(feed_popup_fields) {
+  // get popup text
+  popup_text = "";
+  for (var k = 0; k < feed_popup_fields.length; k++) {
+    popup_text += '<p>{' + feed_popup_fields[k] + '}</p>'
+  }
+  // return popup
+  return function (layer) { return L.Util.template(
+    popup_text, layer.feature.properties); };
+}
+
+// Create custom popup
+function createCustomPopup(customPopup) {
+  return function (layer) { return L.Util.template(customPopup, layer.feature.properties); };
+}
+
+// Highlight feature
+function highlightFeature(e) {
+    var layer = e.target;
+
+    layer.setStyle({
+        weight: 5,
+        color: '#FB4D42',
+        dashArray: ''
+    });
+
+    if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+        layer.bringToFront();
+    }
+}
+
+function resetHighlight(e) {
+    layerObj.resetStyle(e.target);
+}
+
+function onEachFeature(feature, layer) {
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight
+    });
+}
+
+// Find user location
+function findUserLoc() {
+  // find user location
+  map.locate({setView: true, maxZoom: 18});
+
+  function onLocationFound(e) {
+    var radius = e.accuracy / 2;
+    var user_loc = L.marker(e.latlng).addTo(map)
+      .bindPopup('<p class="title">You are here.</p>').openPopup();
+    var radius_circle = L.circle(e.latlng, radius, {color:'#091F2F',opacity:1,fillOpacity:.2}).addTo(map);
+  }
+
+  map.on('locationfound', onLocationFound);
+
+}
+
+// Create legend div
+function createLegendDiv() {
+  var co_b = L.DomUtil.get('co-b');
+  var queries = L.DomUtil.create('div', 'queries', co_b);
+  queries.id = 'queries';
+  var directions = L.DomUtil.create('div', 'query directions', queries);
+  directions.innerHTML = "Hover over and click on your district to find your councilor, or search your address." + '<br><br>' + "To see all City Council members, including at-large councilors, visit the " + '<a target="_blank" href="https://www.boston.gov/departments/city-council#city-council-members">City Council page.</a>';
+}
+
+// Create legend content
+function createLegend(feeds) {
+  var queries = L.DomUtil.get('queries')
+  var legend = L.DomUtil.create('table', '', queries);
+  var tr = L.DomUtil.create('tr', '', legend);
+
+  // loop through feeds to create legend
+
+  // create icon if exists or create svg line if no icon
+  for (var k = 0; k < FEEDS.length; k++) {
+    if (feeds[k].icon != null) {
+      var icon = L.DomUtil.create('td', '', tr);
+      var image = L.DomUtil.create('img', '', icon);
+      image.src = feeds[k].icon;
+      image.width = '50';
+    } else {
+      var svg_icon = L.DomUtil.create('td', '', tr);
+
+      var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("width", "50");
+      svg.setAttribute("height", "3");
+
+      var rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+      rect.setAttribute("fill", feeds[k].color);
+      rect.setAttribute("x", "0");
+      rect.setAttribute("y", "0");
+      rect.setAttribute("width", "50");
+      rect.setAttribute("height", "3");
+      svg.appendChild(rect);
+
+      svg_icon.appendChild(svg);
+
+    }
+
+    var name = L.DomUtil.create('td', '', tr);
+    var text = L.DomUtil.create('p', '', name);
+    text.innerHTML = feeds[k].name
+  }
+}
+
+// create address lookup div
+function createAddressLookupDiv() {
+
+  var queries = L.DomUtil.get('queries');
+  var lookup = L.DomUtil.create('div', 'query', queries);
+  lookup.id = 'query1';
+  var label = L.DomUtil.create('div', 'label', lookup);
+  //label.innerHTML = 'ADDRESS SEARCH:';
+  var search_for_address = L.DomUtil.create('div', '', queries)
+  search_for_address.id = 'search_for_address';
+  L.DomUtil.create('br', '', queries);
+
+}
+
+function bostonAddressLookUp(placeholder_text, layer) {
+  var co_b = L.DomUtil.get('co-b');
+  console.log(co_b);
+
+  var corner_1 = L.latLng(42.170274, -71.348648),
+      corner_2 = L.latLng(42.456141, -70.818901),
+      boston_bounds = L.latLngBounds(corner_1, corner_2);
+
+  var searchControl = L.esri.Geocoding.geosearch({expanded: true,
+                                                  placeholder: placeholder_text,
+                                                  collapseAfterResult: false,
+                                                  zoomToResult: false,
+                                                  searchBounds: boston_bounds});
+
+  document.getElementById("search_for_address").appendChild(searchControl.onAdd(map));
+
+  // Results for when want pop-up to show automatically
+  var results = L.layerGroup().addTo(map);
+
+  searchControl.on('results', function(data, query_layer){
+    var query = L.esri.query({
+      url: layer.url
+    });
+
+    results.clearLayers();
+
+    for (var i = data.results.length - 1; i >= 0; i--) {
+      var marker = L.marker(data.results[i].latlng);
+      query.contains(marker).run(function(error, featureCollection, response){
+        var popup = L.Util.template(layer.custom_popup, featureCollection.features[0].properties);
+        marker.bindPopup(popup).openPopup()
+      })
+      results.addLayer(marker);
+      document.getElementById("collapsible").checked = false;
+    }
+  });
+}
+
+// Load map and basemap
+var map = L.map('map', {zoomControl: false}).setView([LATITUDE, LONGITUDE], ZOOM_LEVEL);
+  L.tileLayer(BASEMAP_URL)
+    .addTo(map);
+
+// Add zoom control to top right
+L.control.zoom({
+     position:'bottomright'
+}).addTo(map);
+
+// Add data to map
+for (var k = 0; k < FEEDS.length; k++) {
+  // if icon field is null create line layer, if not null create point layer
+  var layerObj = (FEEDS[k].icon === null) ? createLineOrPolyLayer(FEEDS[k]) : createPointLayer(FEEDS[k])
+  // add layer object to map
+  layerObj.addTo(map);
+
+  // bind popup to layer
+  if (FEEDS[k].popup != null) {
+    layerObj.bindPopup(createPopup(FEEDS[k].popup))
+  } else if (FEEDS[k].custom_popup != null) {
+    layerObj.bindPopup(createCustomPopup(FEEDS[k].custom_popup))
+  }
+}
+
+// create UI on map
+var title = L.DomUtil.get('collapsible-label');
+title.innerHTML = TITLE;
+
+createLegendDiv();
+
+if (FIND_USER_LOC == true) { findUserLoc() }
+
+if (ADDRESS_LOOK_UP === true) {
+  createAddressLookupDiv();
+  bostonAddressLookUp(PLACEHOLDER_TEXT, FEEDS[0]);
+}
+
+createLegend(FEEDS);
+
+</script>
+
+</body>
+</html>
