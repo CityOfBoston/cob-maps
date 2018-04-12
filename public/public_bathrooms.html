@@ -149,7 +149,7 @@
       border-radius: 15px;
       font-family: 'Montserrat', sans-serif;
       font-weight: 500;
-      font-size: : 12px;
+      font-size: 12px;
       color: white;
     }
 
@@ -247,42 +247,35 @@
     day.selectedIndex = days.indexOf(temp);
 
     // CREATE MAP //
-
-    var map = L.map('map', {
-      zoomControl: false
-    }).setView([42.318321, -71.084414], 12);
+    var map = L.map('map', {zoomControl: false}).setView([42.3200, -71.1284], 12);
+    
+    // add basemap
+    L.esri.basemapLayer("Gray").addTo(map);
+    L.esri.tiledMapLayer({ url: "https://awsgeo.boston.gov/arcgis/rest/services/Basemaps/BostonCityBasemap_WM/MapServer" }).addTo(map);
 
     //add zoom control to top right
-    L.control.zoom({
-      position: 'bottomright'
-    }).addTo(map);
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
 
     // find user location
-    map.locate({
-      setView: true,
-      maxZoom: 15
-    });
+    map.locate({ setView: true, maxZoom: 15 });
 
     function onLocationFound(e) {
-      var radius = e.accuracy / 2;
+    	var radius = e.accuracy / 2;
 
-      var user_loc = L.marker(e.latlng).addTo(map)
-        .bindPopup('<p class="title">You are here.</p>').openPopup();
+      	var user_loc = L.marker(e.latlng).addTo(map)
+        	.bindPopup('<p class="title">You are here.</p>').openPopup();
 
-      var radius_circle = L.circle(e.latlng, radius, {
-        color: '#091F2F',
-        opacity: 1,
-        fillOpacity: .2
-      }).addTo(map);
+      	var radius_circle = L.circle(e.latlng, radius, {
+        	color: '#091F2F',
+        	opacity: 1,
+        	fillOpacity: .2
+      	}).addTo(map);
     }
 
     map.on('locationfound', onLocationFound);
 
-    // add mapbox basemap
-    L.tileLayer('https://api.mapbox.com/styles/v1/cityofboston/cj1p0mw1x000b2rmrocwwpyui/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l0eW9mYm9zdG9uIiwiYSI6ImNqMTd1dDdqZTA1c2UyeHFzNGhrN2g0bHYifQ.SZ8J0aXwDHt4sCmZ9rQO2A').addTo(map);
-
     // ADD DATA
-    var bathrooms_url = 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/public_bathrooms/FeatureServer/0'
+    var bathrooms_url = 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/public_bathrooms_new_format/FeatureServer/0'
     var bathrooms = L.markerClusterGroup();
 
     var icons = {
@@ -294,138 +287,142 @@
 
     // add neighborhood drop downs
     var neighborhood_selection = L.esri.query({
-      url: "https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/public_bathrooms/FeatureServer/0"
+		url: "https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/public_bathrooms_new_format/FeatureServer/0"
     })
-      .where("1=1")
-      .returnGeometry(false)
-      .fields(['neighborhood'])
+      	.where("1=1")
+      	.returnGeometry(false)
+      	.fields(['Neighborhood'])
 
     neighborhood_selection.params.returnDistinctValues = true;
 
     // run query and build options list from it
     neighborhood_selection.run(function (err, res, raw) {
-      for (i=1; i<res.features.length; i++) {
-        var option = document.createElement("option");
-        option.text = res.features[i].properties.neighborhood
-        option.value = "neighborhood = '" + res.features[i].properties.neighborhood + "'"
-        var select = document.getElementById("neighborhood");
-        select.appendChild(option);
-      }
+		for (i=1; i<res.features.length; i++) {
+			var option = document.createElement("option");
+			option.text = res.features[i].properties["Neighborhood"]
+			option.value = "Neighborhood = '" + res.features[i].properties["Neighborhood"] + "'"
+			var select = document.getElementById("neighborhood");
+			select.appendChild(option);
+		}
     });
 
     // function to get open bathrooms
     function openFilter(feature) {
-      var today = new Date();
-      var dd = today.getDate();
-      var mm = today.getMonth()+1;
-      var yyyy = today.getFullYear();
+		var today = new Date();
+		var dd = today.getDate();
+		var mm = today.getMonth()+1;
+		var yyyy = today.getFullYear();
 
-      if(dd<10) { dd='0'+dd; }
+		if(dd<10) { dd='0'+dd; }
 
-      if(mm<10) { mm='0'+mm; }
-      today = mm+'/'+dd+'/'+yyyy;
+		if(mm<10) { mm='0'+mm; }
+		today = mm+'/'+dd+'/'+yyyy;
 
-      var t = d.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1")
+		var t = d.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1")
 
-      var open_time_string = today + " " + feature.properties.open_time
-      var close_time_string =  today + " " + feature.properties.close_time
-      var current_time_string = today + " " + t
+		var open_time_string = today + " " + feature.properties.Open_Time
+		var close_time_string =  today + " " + feature.properties.Close_Time
+		var current_time_string = today + " " + t
 
-      var open_time = new Date(open_time_string);
-      var close_time = new Date(close_time_string);
-      var current_time = new Date(current_time_string);
+		var open_time = new Date(open_time_string);
+		var close_time = new Date(close_time_string);
+		var current_time = new Date(current_time_string);
 
-      if (current_time >= open_time && current_time <= close_time) {
-        return true
-      }
+		if (current_time >= open_time && current_time <= close_time) {
+			return true
+		}
     }
 
+	// function to load only open bathrooms
     function loadData(markerClusterLayer) {
 
-      L.esri.query({
-        url: bathrooms_url
-      }).where(day.value + " AND " + neighborhood.value + " AND hours != 'closed'").run(function(error, featureCollection, repsonse) {
+		L.esri.query({
+			url: bathrooms_url
+		}).where(day.value + " AND " + neighborhood.value + " AND hours != 'closed'").run(function(error, featureCollection, repsonse) {
 
-          var open_bathrooms = L.geoJSON(featureCollection, {
-            filter: openFilter,
-            pointToLayer: function(feature, latlng) {
-              return L.marker(latlng, {
-                icon: icons["Bathroom"]
-              })
-            }
-          })
+			var open_bathrooms = L.geoJSON(featureCollection, {
+				filter: openFilter,
+				pointToLayer: function(feature, latlng) {
+				return L.marker(latlng, {
+					icon: icons["Bathroom"]
+				})
+				}
+			})
 
+			// add popup
+			
+			bathrooms.bindPopup(function(layer) {
+				return L.Util.template('<p class="title"><b>{Name}</b></p><p class="times">{Address}<br>Hours: {Hours}<br>Day: {Day}<br>Seasonal schedule: {Schedule}<br><br></p><p class="times"><u>Features:</u> <br>{wheelchair_accessible_stall}<br>{family_bathroom}<br>{are_stairs_required}<br>{gender_specific_bathrooms}<br>{Notes}</p>', layer.feature.properties);
+			});
+			// add layer to map
+			bathrooms.addLayer(open_bathrooms)
 
-        // add popup
-        bathrooms.bindPopup(function(layer) {
-          return L.Util.template('<p class="title"><b>{name}</b></p><p class="times">{address}<br>{hours}<br>Day: {day}<br><br>{neighborhood}</p><p class="content">{schedule}', layer.feature.properties);
-        });
-        // add layer to map
-        bathrooms.addLayer(open_bathrooms)
+			// fit map to boundry
+			map.fitBounds(bathrooms.getBounds());
 
-        // fit map to boundry
-        map.fitBounds(bathrooms.getBounds());
+			map.addLayer(bathrooms);
 
-        map.addLayer(bathrooms);
-
-      });
+		});
     };
 
+	// function to load all bathrooms
     function loadAllBathrooms(markerClusterLayer) {
-      L.esri.query({
-        url: bathrooms_url
-      }).where(day.value + " AND " + neighborhood.value + " AND hours != 'closed'").run(function(error, featureCollection, repsonse) {
+		L.esri.query({
+			url: bathrooms_url
+		}).where(day.value + " AND " + neighborhood.value + " AND hours != 'closed'").run(function(error, featureCollection, repsonse) {
 
-          var open_bathrooms = L.geoJSON(featureCollection, {
-            pointToLayer: function(feature, latlng) {
-              return L.marker(latlng, {
-                icon: icons["Bathroom"]
-              })
-            }
-          })
+			var open_bathrooms = L.geoJSON(featureCollection, {
+				pointToLayer: function(feature, latlng) {
+				return L.marker(latlng, {
+					icon: icons["Bathroom"]
+				})
+				}
+			})
 
+			// add popup
+			bathrooms.bindPopup(function(layer) {
+				return L.Util.template('<p class="title"><b>{Name}</b></p><p class="times">{Address}<br>Hours: {Hours}<br>Day: {Day}<br>Seasonal schedule: {Schedule}<br><br></p><p class="times"><u>Features:</u> <br>{wheelchair_accessible_stall}<br>{family_bathroom}<br>{are_stairs_required}<br>{gender_specific_bathrooms}<br>{Notes}</p>', layer.feature.properties);
+			});
 
-        // add popup
-        bathrooms.bindPopup(function(layer) {
-          return L.Util.template('<p class="title"><b>{name}</b></p><p class="times">{address}<br>{hours}<br>Day: {day}<br><br>{neighborhood}</p><p class="content">{schedule}', layer.feature.properties);
-        });
-        // add layer to map
-        bathrooms.addLayer(open_bathrooms)
+			// add layer to map
+			bathrooms.addLayer(open_bathrooms)
 
-        // fit map to boundry
-        map.fitBounds(bathrooms.getBounds());
+			// fit map to boundry
+			map.fitBounds(bathrooms.getBounds());
 
-        map.addLayer(bathrooms);
+			map.addLayer(bathrooms);
 
-      });
+		});
     }
 
     map.on('load', loadData(bathrooms));
 
+	// add event listeners for day, neighborhood, and open/closed filters
     day.addEventListener('change', function(){
       bathrooms.clearLayers();
       loadData(bathrooms);
+	  document.getElementById("collapsible").checked = false;
     });
 
     neighborhood.addEventListener('change', function(){
       bathrooms.clearLayers();
       loadData(bathrooms);
+	  document.getElementById("collapsible").checked = false;
     });
 
     var open_closed = document.getElementById('open_closed');
-    console.log(open_closed.value)
 
     open_closed.addEventListener('change', function() {
-      bathrooms.clearLayers();
-      if (document.getElementById('open_bathrooms').checked) {
-        loadData(bathrooms);
-      } else if (document.getElementById('all_bathrooms').checked) {
-        loadAllBathrooms(bathrooms);
-      }
+		bathrooms.clearLayers();
+		if (document.getElementById('open_bathrooms').checked) {
+			loadData(bathrooms);
+			document.getElementById("collapsible").checked = false;
+		} else if (document.getElementById('all_bathrooms').checked) {
+			loadAllBathrooms(bathrooms);
+			document.getElementById("collapsible").checked = false;
+		}
     })
 
   </script>
-
 </body>
-
 </html>
