@@ -126,7 +126,7 @@
       border-radius: 15px;
       font-family: 'Montserrat', sans-serif;
       font-weight: 500;
-      font-size: : 12px;
+      font-size: 12px;
       color: white;
     }
 
@@ -217,28 +217,27 @@
   L.tileLayer('https://api.mapbox.com/styles/v1/cityofboston/cj1hyqwt2001s2so0hjacals3/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l0eW9mYm9zdG9uIiwiYSI6ImNqMTd1dDdqZTA1c2UyeHFzNGhrN2g0bHYifQ.SZ8J0aXwDHt4sCmZ9rQO2A').addTo(map);
 
   var icons = {
-    FarmersMarket: L.icon({
+    Standingmarket: L.icon({
       iconUrl: './images/farmers_market.svg',
       iconSize: [100, 164],
     }),
-    FreshTruck: L.icon({
+    Mobilemarket: L.icon({
       iconUrl: './images/fresh_truck.svg',
       iconSize: [100, 164],
     }),
   };
 
   var farmers_markets = L.esri.Cluster.featureLayer({
-    url: 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/FarmersMarkets_FreshTrucks_Winter2017/FeatureServer/1',
+    url: 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/Farmers_Markets_Fresh_Trucks_View/FeatureServer/0',
      pointToLayer: function (geojson, latlng) {
       return L.marker(latlng, {
-        icon: icons[geojson.properties.Farmers_Fresh.replace(/\s/g, '')]
+        icon: icons[geojson.properties.Type_of_Market.replace(/\s/g, '')]
       });
      },
   }).addTo(map);
-  console.log(farmers_markets);
 
   farmers_markets.bindPopup(function (layer) {
-    return  L.Util.template('<p class="title"><b>{Name}</b></p><p class="times">{Farmers_Fresh}<br>{Hours}<br>Day: {Day_of_Week}<br><br>{Address}</p><p class="content">{Addt_l_Location}', layer.feature.properties);
+    return  L.Util.template('<p class="title"><b>{Name}</b></p><p class="times">{Type_of_Market}<br>{Hours}<br>Day: {Day_of_Week}<br><br>{Address}</p><p class="content">{Landmark}', layer.feature.properties);
   });
 
   // popup for when have closing dates
@@ -283,7 +282,7 @@
   // build trucks fitler
   // query trucks layer to get unique names of trucks
   var farmsQuery = L.esri.query({
-    url: "https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/FarmersMarkets_FreshTrucks_Winter2017/FeatureServer/1"
+   url: "https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/Farmers_Markets_Fresh_Trucks_View/FeatureServer/0"
   })
     .where("1=1")
     .returnGeometry(false)
