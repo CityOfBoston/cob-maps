@@ -275,7 +275,7 @@
     map.on('locationfound', onLocationFound);
 
     // ADD DATA
-    var bathrooms_url = 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/public_bathrooms_new_format/FeatureServer/0'
+    var bathrooms_url = 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/public_bathrooms/FeatureServer/0'
     var bathrooms = L.markerClusterGroup();
 
     var icons = {
@@ -287,11 +287,11 @@
 
     // add neighborhood drop downs
     var neighborhood_selection = L.esri.query({
-		url: "https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/public_bathrooms_new_format/FeatureServer/0"
+		url: "https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/public_bathrooms/FeatureServer/0"
     })
       	.where("1=1")
       	.returnGeometry(false)
-      	.fields(['Neighborhood'])
+      	.fields(['neighborhood'])
 
     neighborhood_selection.params.returnDistinctValues = true;
 
@@ -299,8 +299,8 @@
     neighborhood_selection.run(function (err, res, raw) {
 		for (i=1; i<res.features.length; i++) {
 			var option = document.createElement("option");
-			option.text = res.features[i].properties["Neighborhood"]
-			option.value = "Neighborhood = '" + res.features[i].properties["Neighborhood"] + "'"
+			option.text = res.features[i].properties["neighborhood"]
+			option.value = "Neighborhood = '" + res.features[i].properties["neighborhood"] + "'"
 			var select = document.getElementById("neighborhood");
 			select.appendChild(option);
 		}
@@ -320,8 +320,8 @@
 
 		var t = d.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1")
 
-		var open_time_string = today + " " + feature.properties.Open_Time
-		var close_time_string =  today + " " + feature.properties.Close_Time
+		var open_time_string = today + " " + feature.properties.open_time
+		var close_time_string =  today + " " + feature.properties.close_time
 		var current_time_string = today + " " + t
 
 		var open_time = new Date(open_time_string);
@@ -352,7 +352,7 @@
 			// add popup
 			
 			bathrooms.bindPopup(function(layer) {
-				return L.Util.template('<p class="title"><b>{Name}</b></p><p class="times">{Address}<br>Hours: {Hours}<br>Day: {Day}<br>Seasonal schedule: {Schedule}<br><br></p><p class="times"><u>Features:</u> <br>{wheelchair_accessible_stall}<br>{family_bathroom}<br>{are_stairs_required}<br>{gender_specific_bathrooms}<br>{Notes}</p>', layer.feature.properties);
+				return L.Util.template('<p class="title"><b>{name}</b></p><p class="times">{address}<br>Hours: {hours}<br>Day: {day}<br>Seasonal schedule: {schedule}<br><br></p><p class="times"><u>Features:</u> <br>{wheelchair_accessible_stall}<br>{family_bathroom}<br>{are_stairs_required}<br>{gender_specific_bathrooms}<br>{notes}</p>', layer.feature.properties);
 			});
 			// add layer to map
 			bathrooms.addLayer(open_bathrooms)
@@ -381,7 +381,7 @@
 
 			// add popup
 			bathrooms.bindPopup(function(layer) {
-				return L.Util.template('<p class="title"><b>{Name}</b></p><p class="times">{Address}<br>Hours: {Hours}<br>Day: {Day}<br>Seasonal schedule: {Schedule}<br><br></p><p class="times"><u>Features:</u> <br>{wheelchair_accessible_stall}<br>{family_bathroom}<br>{are_stairs_required}<br>{gender_specific_bathrooms}<br>{Notes}</p>', layer.feature.properties);
+				return L.Util.template('<p class="title"><b>{name}</b></p><p class="times">{address}<br>Hours: {hours}<br>Day: {day}<br>Seasonal schedule: {schedule}<br><br></p><p class="times"><u>Features:</u> <br>{wheelchair_accessible_stall}<br>{family_bathroom}<br>{are_stairs_required}<br>{gender_specific_bathrooms}<br>{notes}</p>', layer.feature.properties);
 			});
 
 			// add layer to map
