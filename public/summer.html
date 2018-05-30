@@ -146,7 +146,7 @@
 
 <div class="co">
     <input id="collapsible" type="checkbox" class="co-f d-n" aria-hidden=true>
-    <label for="collapsible" class="co-t">Filter Markets and Fresh Trucks</label>
+    <label for="collapsible" class="co-t">Legend</label>
     <div class="co-b">
 
       <div class="queries">
@@ -229,60 +229,6 @@
     totsprays.bindPopup(function (layer) {
         return  L.Util.template('<p class="title"><b>{Park_Name}</b></p><p class="times">{Address_Te}, {Neighborho}', layer.feature.properties);
     });
-
-  // add day, time of day, and truck filters
-  // get day of week as a string
-//   function DayOfWeekAsString(dayIndex) {
-//     return ["Sunday", "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][dayIndex];
-//   }
-
-  // get current day of week and make the default selection
-//   var d = new Date();
-//   var n = d.getDay();
-//   var temp = DayOfWeekAsString(n);
-
-//   var day = document.getElementById('day');
-
-//   var days = ["Sunday", "Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-
-//   day.selectedIndex = days.indexOf(temp);
-
-//   day.addEventListener('change', function(){
-//     farmers_markets.setWhere(day.value + " AND " + market_name.value);
-//     //farmers_markets.setWhere(day.value);
-//   });
-
-  // build trucks fitler
-  // query trucks layer to get unique names of trucks
-//   var farmsQuery = L.esri.query({
-//    url: "https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/Farmers_Markets_Fresh_Trucks_View/FeatureServer/0"
-//   })
-//     .where("1=1")
-//     .returnGeometry(false)
-//     .fields(['Name'])
-
-//   farmsQuery.params.returnDistinctValues = true;
-
-//   // run query and build options list from it
-//   farmsQuery.run(function (err, res, raw) {
-//     for (i=1; i<res.features.length; i++) {
-//       var option = document.createElement("option");
-//       option.text = res.features[i].properties.Name
-//       option.value = "Name = '" + res.features[i].properties.Name + "'"
-//       var select = document.getElementById("market_name");
-//       select.appendChild(option);
-//     }
-//   });
-
-//   market_name.addEventListener('change', function(){
-//     farmers_markets.setWhere(day.value + " AND " + market_name.value);
-//   });
-
-//   // once all food trucks have loaded adjust display to the default selection
-//   farmers_markets.once('load', function(){
-//     farmers_markets.setWhere(day.value + " AND " + market_name.value);
-//   });
-
 </script>
 
 </body>
