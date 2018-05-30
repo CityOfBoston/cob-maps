@@ -1,0 +1,189 @@
+<html>
+<head>
+  <meta charset=utf-8 />
+  <title>Project Oscar</title>
+
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,400i|Montserrat:500,700" rel="stylesheet">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+  <!-- City of Boston CSS -->
+  <link rel="stylesheet" type="text/css" href="https://www.boston.gov/crispus/css/public.css" />
+  <!-- Marker Cluster CSS-->
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.4/dist/MarkerCluster.Default.css">
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.4/dist/MarkerCluster.css">
+
+  <style>
+    .co {position: relative; z-index: 1000;}
+    body { margin:0; padding:0; }
+    #map { position: absolute; top:0; bottom:0; right:0; left:0; }
+    .leaflet-popup {
+      width: 300px;
+      height: auto;
+    }
+    .leaflet-popup-content .title {
+      font-size: 22px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: bold;
+    }
+    .leaflet-popup-content .times {
+      font-size: 16px;
+      font-family: 'Lora', serif;
+      font-style: italic;
+    }
+    .leaflet-popup-content .content {
+      font-size: 14px;
+      font-family: 'Lora', serif;
+      font-style: italic;
+    }
+    .leaflet-popup-content p {
+      font-size: 14px;
+      font-family: 'Lora', serif;
+      margin: 0px;
+    }
+    a[href=""] {
+    	color: #000000;
+    	text-decoration: none;
+    	cursor: default;
+    }
+    .queries {
+      position: static;
+      top: 25px;
+      left: 25px;
+      background: white;
+      z-index: 1000;
+    }
+    @media screen and (min-width: 980px) {
+      .queries {
+        position: absolute;
+        padding: .5em;
+        margin-left: 20px;
+        width: 400px;
+      }
+    }
+    @media screen and (max-width: 350px) {
+      td {
+        display: inline-block;
+      }
+    }
+    .query {
+      padding: .5em;
+      box-shadow: none;
+    }
+    label {
+      font-size: 22px;
+      font-family: "Montserrat", Arial, sans-serif;
+      font-weight: bold;
+    }
+    .query select {
+      font-family: 'Lora', serif;
+      font-size: 18px;
+      font-style: italic;
+    }
+    /* style leaflet marker clusters */
+    .marker-cluster-small {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+    .marker-cluster-small div {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+    .marker-cluster-medium {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+    .marker-cluster-medium div {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+    .marker-cluster-large {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+    .marker-cluster-large div {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+    .marker-cluster div {
+      width: 30px;
+      height: 30px;
+      margin-left: 5px;
+      margin-top: 5px;
+      text-align: center;
+      border-radius: 15px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: 12px;
+      color: white;
+    }
+    h6 {
+      font-size: 14px;
+      font-family: 'Lora', serif;
+      font-style: italic;
+      padding: .5em;
+    }
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+
+<div class="co">
+    <input id="collapsible" type="checkbox" class="co-f d-n" aria-hidden=true>
+    <label for="collapsible" class="co-t">Legend</label>
+    <div class="co-b">
+
+      <div class="queries">
+        <table style="height:50px">
+            <td><img src="./images/TrashRecycling.svg" alt="farmers Market" style="width:50px"></td>
+            <td><h6>Project Oscar Compost Location</h6></td>
+        </table>
+  		</div>
+
+    </div>
+</div>
+<!-- Leaflet javascript -->
+<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet-src.js"></script>
+<!-- Esri Leaflet -->
+<script src="https://unpkg.com/esri-leaflet@2.0.8"></script>
+<!-- Marker Cluster -->
+<script src="https://unpkg.com/leaflet.markercluster@1.0.4/dist/leaflet.markercluster.js"></script>
+<script src="https://unpkg.com/esri-leaflet-cluster@2.0.0"></script>
+
+<script>
+    var map = L.map('map', {zoomControl: false}).setView([42.327596, -71.090109], 12);
+    //add zoom control to top right
+    L.control.zoom({
+        position:'bottomright'
+    }).addTo(map);
+    // find user location
+    map.locate({setView: true, maxZoom: 15});
+    function onLocationFound(e) {
+        var radius = e.accuracy / 2;
+    var user_loc = L.marker(e.latlng).addTo(map)
+        .bindPopup('<p class="title">You are here.</p>').openPopup();
+    var radius_circle = L.circle(e.latlng, radius, {color:'#091F2F',opacity:1,fillOpacity:.2}).addTo(map);
+    }
+    map.on('locationfound', onLocationFound);
+    // add mapbox basemap
+    L.tileLayer('https://api.mapbox.com/styles/v1/cityofboston/cj1p0mw1x000b2rmrocwwpyui/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l0eW9mYm9zdG9uIiwiYSI6ImNqMTd1dDdqZTA1c2UyeHFzNGhrN2g0bHYifQ.SZ8J0aXwDHt4sCmZ9rQO2A').addTo(map);
+    var icons = {
+        compost: L.icon({
+            iconUrl: './images/TrashRecycling.svg',
+            iconSize: [30, 30],
+        }),
+    };
+    var projectOscar = L.esri.featureLayer({
+        url: 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/ProjectOscarLocationsVIEW/FeatureServer/0',
+        pointToLayer: function (geojson, latlng) {
+        return L.marker(latlng, {
+            icon: icons['compost']
+        });
+        },
+    }).addTo(map);
+
+    projectOscar.bindPopup(function (layer) {
+        return  L.Util.template('<p class="title"><b>{Location}</b></p><p class="times">{LocationNotes}</p>', layer.feature.properties);
+    });
+</script>
+
+</body>
+</html>
