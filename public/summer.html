@@ -169,7 +169,7 @@
 <script src="https://unpkg.com/esri-leaflet-cluster@2.0.0"></script>
 
 <script>
-    var map = L.map('map', {zoomControl: false}).setView([42.318321, -71.084414], 13);
+    var map = L.map('map', {zoomControl: false}).setView([42.350942, -71.066427], 13);
 
     //add zoom control to top right
     L.control.zoom({
@@ -190,8 +190,10 @@
 
     map.on('locationfound', onLocationFound);
 
-    // add mapbox basemap
-    L.tileLayer('https://api.mapbox.com/styles/v1/cityofboston/cj1p0mw1x000b2rmrocwwpyui/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l0eW9mYm9zdG9uIiwiYSI6ImNqMTd1dDdqZTA1c2UyeHFzNGhrN2g0bHYifQ.SZ8J0aXwDHt4sCmZ9rQO2A').addTo(map);
+    // add basemap
+    L.esri.basemapLayer("Gray").addTo(map);
+    L.esri.tiledMapLayer({ url: "https://awsgeo.boston.gov/arcgis/rest/services/Basemaps/BostonCityBasemap_WM/MapServer" }).addTo(map);
+
 
     var icons = {
         pool: L.icon({
