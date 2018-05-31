@@ -177,7 +177,7 @@
             <td><img src="./images/farmers_market.svg" alt="farmers Market" style="width:100px"></td>
             <td><h6>Farmers Market</h6></td>
             <td><img src="./images/fresh_truck.svg" alt="Fresh Truck" style="width:100px"></td>
-            <td><h6>Fresh Truck</h6></td>
+            <td><h6>Mobile Market</h6></td>
         </table>
   		</div>
 
@@ -213,8 +213,10 @@
 
   map.on('locationfound', onLocationFound);
 
-  // add mapbox basemap
-  L.tileLayer('https://api.mapbox.com/styles/v1/cityofboston/cj1hyqwt2001s2so0hjacals3/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l0eW9mYm9zdG9uIiwiYSI6ImNqMTd1dDdqZTA1c2UyeHFzNGhrN2g0bHYifQ.SZ8J0aXwDHt4sCmZ9rQO2A').addTo(map);
+  // add basemap
+  L.esri.basemapLayer("Gray").addTo(map);
+  L.esri.tiledMapLayer({ url: "https://awsgeo.boston.gov/arcgis/rest/services/Basemaps/BostonCityBasemap_WM/MapServer" }).addTo(map);
+
 
   var icons = {
     Standingmarket: L.icon({
@@ -237,25 +239,13 @@
   }).addTo(map);
 
   farmers_markets.bindPopup(function (layer) {
-    return  L.Util.template('<p class="title"><b>{Name}</b></p><p class="times">{Type_of_Market}<br>{Hours}<br>Day: {Day_of_Week}<br><br>{Address}</p><p class="content">{Landmark}', layer.feature.properties);
+    //set opening and closing dates as date fields
+    var options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+  	// var first_day = new Date(layer.feature.properties.First_Day_of_Market);
+    // var last_day = new Date(layer.feature.properties.Last_Day_of_Market);
+    // return L.Util.template('<p class="title"><b>{Name}</b></p><p class="times">{Type_of_Market}<br>{Hours}<br>Day: {Day_of_Week}<br><br>First Day of Market: ' + first_day.toLocaleDateString("en-US", options) + '<br>Last Day of Market: ' + last_day.toLocaleDateString("en-US", options) +'<br><br>{SNAP}<br>{Vouchers}<br>{Handicap_Accessible}</p><p class="content"><br>{Address}<br>{Landmark}', layer.feature.properties);
+    return L.Util.template('<p class="title"><b>{Name}</b></p><p class="times">{Type_of_Market}<br>{Hours}<br>Day: {Day_of_Week}<br><br>{SNAP}<br>{Vouchers}<br>{Handicap_Accessible}</p><p class="content"><br>{Address}<br>{Landmark}', layer.feature.properties);
   });
-
-  // popup for when have closing dates
-  // farmers_markets.bindPopup(function (layer) {
-  //   //set date options
-  // 	var options = { year: 'numeric', month: 'long', day: 'numeric' };
-  //
-  //   //set opening and closing dates as date fields
-  // 	var open_date = new Date(layer.feature.properties.Opening);
-  // 	var close_date = new Date(layer.feature.properties.Closing);
-  //
-  //   // bind pop-up based on year round vs. not
-  // 	if (open_date.getFullYear() != 1969) {
-  // 		return L.Util.template('<p class="title"><b>{Name}</b></p><p class="times">{F6}<br>{Start}<br>Day: {Day_}<br><br>{Address}</p><p class="content">{Location}<br><br>Open: ' + open_date.toLocaleDateString("en-US", options) + ' to ' + close_date.toLocaleDateString("en-US", options) + '</p>', layer.feature.properties);
-  // 	} else {
-  // 		return L.Util.template('<p class="title"><b>{Name}</b></p><p class="times">{F6}<br>{Start}<br>Day: {Day_}<br><br>{Address}</p><p class="content">{Location}<br><br>Open: Year-round</p>', layer.feature.properties);
-  // 	}
-  // });
 
   // add day, time of day, and truck filters
   // get day of week as a string
