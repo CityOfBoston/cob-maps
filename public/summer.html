@@ -229,7 +229,7 @@
     }).addTo(map);
 
     totsprays.bindPopup(function (layer) {
-        return  L.Util.template('<p class="title"><b>{Park_Name}</b></p><p class="times">{Address_Te}, {Neighborho}', layer.feature.properties);
+        return  L.Util.template('<p class="title"><b>{Park_Name}</b></p><p class="times">{Address_Te}, {Neighborho}<br><br>Hours: mid-June to mid-September, typically from 9 a.m. - 8 p.m.<br><br>Find issues at a spray park? Contact the Park Line at 617-635-7275, or dial 3-1-1.</p>', layer.feature.properties);
     });
 </script>
 
