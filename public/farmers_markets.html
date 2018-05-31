@@ -241,12 +241,10 @@
   farmers_markets.bindPopup(function (layer) {
     //set opening and closing dates as date fields
     var options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-  	var first_day = new Date(layer.feature.properties.First_Day_of_Market);
-    // if (first_day.getFullYear() = 1969) {
-    //   first_day = "None"
-    // }
-    var last_day = new Date(layer.feature.properties.Last_Day_of_Market);
-    return L.Util.template('<p class="title"><b>{Name}</b></p><p class="times">{Type_of_Market}<br>{Hours}<br>Day: {Day_of_Week}<br><br>First Day of Market: ' + first_day.toLocaleDateString("en-US", options) + '<br>Last Day of Market: ' + last_day.toLocaleDateString("en-US", options) +'<br><br>{SNAP}<br>{Vouchers}<br>{Handicap_Accessible}</p><p class="content"><br>{Address}<br>{Landmark}', layer.feature.properties);
+  	// var first_day = new Date(layer.feature.properties.First_Day_of_Market);
+    // var last_day = new Date(layer.feature.properties.Last_Day_of_Market);
+    // return L.Util.template('<p class="title"><b>{Name}</b></p><p class="times">{Type_of_Market}<br>{Hours}<br>Day: {Day_of_Week}<br><br>First Day of Market: ' + first_day.toLocaleDateString("en-US", options) + '<br>Last Day of Market: ' + last_day.toLocaleDateString("en-US", options) +'<br><br>{SNAP}<br>{Vouchers}<br>{Handicap_Accessible}</p><p class="content"><br>{Address}<br>{Landmark}', layer.feature.properties);
+    return L.Util.template('<p class="title"><b>{Name}</b></p><p class="times">{Type_of_Market}<br>{Hours}<br>Day: {Day_of_Week}<br><br>{SNAP}<br>{Vouchers}<br>{Handicap_Accessible}</p><p class="content"><br>{Address}<br>{Landmark}', layer.feature.properties);
   });
 
   // add day, time of day, and truck filters
