@@ -163,8 +163,12 @@
     var radius_circle = L.circle(e.latlng, radius, {color:'#091F2F',opacity:1,fillOpacity:.2}).addTo(map);
     }
     map.on('locationfound', onLocationFound);
-    // add mapbox basemap
-    L.tileLayer('https://api.mapbox.com/styles/v1/cityofboston/cj1p0mw1x000b2rmrocwwpyui/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoiY2l0eW9mYm9zdG9uIiwiYSI6ImNqMTd1dDdqZTA1c2UyeHFzNGhrN2g0bHYifQ.SZ8J0aXwDHt4sCmZ9rQO2A').addTo(map);
+
+    // add basemap
+    L.esri.basemapLayer("Gray").addTo(map);
+    L.esri.tiledMapLayer({ url: "https://awsgeo.boston.gov/arcgis/rest/services/Basemaps/BostonCityBasemap_WM/MapServer" }).addTo(map);
+
+    
     var icons = {
         compost: L.icon({
             iconUrl: './images/TrashRecycling.svg',
@@ -181,7 +185,8 @@
     }).addTo(map);
 
     projectOscar.bindPopup(function (layer) {
-        return  L.Util.template('<p class="title"><b>{Location}</b></p><p class="times">{LocationNotes}</p>', layer.feature.properties);
+        layer.feature.properties.LocationNotes == null ? Notes = "" : Notes =  layer.feature.properties.LocationNotes
+        return  L.Util.template('<p class="title"><b>{Location}</b></p><p class="times">'+ Notes +'</p>', layer.feature.properties);
     });
 </script>
 
