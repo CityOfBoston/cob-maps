@@ -481,12 +481,14 @@
     day.addEventListener('change', function(){
       bathrooms.clearLayers();
       loadData(bathrooms);
+      document.getElementById("collapsible").checked = false;
     });
 
     // add event listeners for features
     features.addEventListener('change', function(){
       bathrooms.clearLayers();
       loadData(bathrooms);
+      document.getElementById("collapsible").checked = false;
     });
 
     // open_closed.addEventListener('change', function() {
