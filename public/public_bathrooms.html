@@ -12,64 +12,112 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
   <!-- City of Boston CSS -->
   <link rel="stylesheet" type="text/css" href="https://www.boston.gov/crispus/css/public.css" />
+  <!-- Esri Leaflet Geocoder CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.2.6/dist/esri-leaflet-geocoder.css">
   <!-- Marker Cluster CSS-->
   <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.4/dist/MarkerCluster.Default.css">
   <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.4/dist/MarkerCluster.css">
 
   <style>
+        body { margin:0; padding:0; }
+    #map { position: absolute; top:0; bottom:0; right:0; left:0; }
+
     .co {
       position: relative;
       z-index: 1000;
     }
 
-    body {
-      margin: 0;
-      padding: 0;
+    .co-b {
+      padding: 0px;
     }
 
-    #map {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      right: 0;
-      left: 0;
-    }
-
-    .leaflet-popup {
-      width: 300px;
-      height: auto;
-    }
-
-    .leaflet-popup-content .title {
-      font-size: 22px;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: bold;
-    }
-
-    .leaflet-popup-content .times {
+    p {
+      font-family: "Lora";
       font-size: 16px;
-      font-family: 'Lora', serif;
       font-style: italic;
     }
 
-    .leaflet-popup-content .content {
-      font-size: 14px;
-      font-family: 'Lora', serif;
+    table {
+      height:50px;
+      padding: 0px;
+      padding-top: 0px;
+    }
+
+    td {
+      padding: 5px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+    }
+    @media screen and (max-width: 350px) {
+      td {
+        display: inline-block;
+      }
+    }
+
+    img, svg {
+      padding: 0px;
+    }
+
+    /* geocoder style */
+    .geocoder-control-input {
+      width: 100%;
+      background-color: transparent;
+      position: relative;
+      height: auto;
+      border: none;
+      border-bottom: 7.11px solid #091f2f;
+      border-radius: 0;
+      box-shadow: none;
+      font-family: "Lora";
+      font-style: italic;
+      font-size: 18px; 
+    }
+
+    @media screen and (max-width: 414px) {
+      .geocoder-control-input {
+        font-size: 16px;
+      }
+    }
+
+    @media screen and (max-width: 375px) {
+      .geocoder-control-input {
+        font-size: 14px;
+      }
+    }
+
+    @media screen and (max-width: 320px) {
+      .geocoder-control-input {
+        font-size: 12px;
+      }
+    }
+
+    .geocoder-control-input {
+      background-image: url(https://www.boston.gov/crispus/images/public/icons/search.svg);
+    }
+
+    .geocoder-control-expanded, .leaflet-touch .geocoder-control-expanded {
+      width: 100%;
+    }
+
+    .geocoder-control-suggestions {
+      position:relative;
+      top:0px;
+      margin-top:0px;
+      border-radius: 0;
+    }
+
+    .geocoder-control-suggestion {
+      font-size: 18px !important;
+      font-family: "Lora";
       font-style: italic;
     }
 
-    .leaflet-popup-content p {
-      font-size: 14px;
-      font-family: 'Lora', serif;
-      margin: 0px;
+    .geocoder-control-suggestion:hover {
+      background:#D2D2D2 !important;
+      border-color: #D2D2D2 !important;
     }
 
-    a[href=""] {
-      color: #000000;
-      text-decoration: none;
-      cursor: default;
-    }
-
+    /* style  for query div */
     .queries {
       position: static;
       top: 25px;
@@ -87,55 +135,73 @@
       }
     }
 
-    @media screen and (max-width: 350px) {
-      td {
-        display: inline-block;
-      }
-    }
-
     .query {
-      padding: .5em;
+      padding: 20px;
+      padding-bottom: 0px;
       box-shadow: none;
+      font-family: 'Lora';
+      font-style: italic;
     }
 
-    label {
-      font-size: 22px;
+    #search_for_address {
+      padding: 20px;
+    }
+
+    .directions {
+      font-size: 1.25em;
+    }
+
+    .label {
+      font-size: 28px;
       font-family: "Montserrat", Arial, sans-serif;
       font-weight: bold;
+      font-style: normal;
     }
 
-    form, .query select {
+    .query select {
       font-family: 'Lora', serif;
       font-size: 18px;
       font-style: italic;
     }
 
-    form {
-      margin-bottom: 0px;
+    /* style leaflet pop-ups*/
+    .leaflet-popup-content-wrapper {
+      min-width: 200px;
+    }
+
+    .leaflet-popup-content .title {
+      font-size: 22px;
+      font-family: 'Montserrat', sans-serif;
+      font-style: normal;
+      font-weight: bold;
+    }
+
+    .leaflet-popup-content .content {
+      font-size: 16px;
+      font-family: 'Lora', serif;
+      font-style: italic;
+    }
+
+    .leaflet-popup-content p {
+      margin: 0px;
     }
 
     /* style leaflet marker clusters */
-
     .marker-cluster-small {
       background-color: rgba(40, 139, 228, 0.6);
     }
-
     .marker-cluster-small div {
       background-color: rgba(40, 139, 228, 0.6);
     }
-
     .marker-cluster-medium {
       background-color: rgba(40, 139, 228, 0.6);
     }
-
     .marker-cluster-medium div {
       background-color: rgba(40, 139, 228, 0.6);
     }
-
     .marker-cluster-large {
       background-color: rgba(40, 139, 228, 0.6);
     }
-
     .marker-cluster-large div {
       background-color: rgba(40, 139, 228, 0.6);
     }
@@ -153,18 +219,6 @@
       color: white;
     }
 
-    h6 {
-      font-size: 14px;
-      font-family: 'Lora', serif;
-      font-style: italic;
-      padding: .5em;
-    }
-
-    table {
-      margin: 10px;
-      height: 50px;
-    }
-
   </style>
 </head>
 
@@ -176,11 +230,10 @@
   <div class="co">
     <input id="collapsible" type="checkbox" class="co-f d-n" aria-hidden=true>
     <label for="collapsible" class="co-t">Filter Public Bathrooms</label>
-    <div class="co-b">
-
-      <div class="queries">
+    <div class="co-b" id="co-b">
+      <div class="queries" id="queries">
         <div id="query1" class="query leaflet-control-button leaflet-bar">
-          <label>
+          <!-- <label>
   				  Day of week:
   				  <select id="day">
   				    <option value='1=1'>Any</option>
@@ -192,16 +245,18 @@
   				    <option value="day = 'Saturday'">Saturday</option>
   				    <option value="day = 'Sunday'">Sunday</option>
   				  </select>
-  				</label>
+          </label> -->
         </div>
 
         <div id="query3" class="query leaflet-bar">
-          <label>
-            Neighborhood:
-            <select id="neighborhood">
-            <option value='1=1' selected="selected">All</option>
-            </select>
-          </label>
+            <label>
+                Bathrooms Features:
+                <select id="features">
+                  <option value='1=1'>All</option>
+                  <option value="wheelchair_accessible_stall = 'A wheelchair-accessible stall.'">Handicap Accessible Stall</option>
+                  <option value="family_bathroom= 'A family bathroom.'">Family Bathroom</option>
+                </select>
+              </label>
         </div>
 
         <div id="query2" class="query leaflet-bar">
@@ -225,26 +280,13 @@
   <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet-src.js"></script>
   <!-- Esri Leaflet -->
   <script src="https://unpkg.com/esri-leaflet@2.0.8"></script>
+  <!-- Esri Geocoder Javascript -->
+  <script src="https://unpkg.com/esri-leaflet-geocoder@2.2.6"></script>
   <!-- Marker Cluster -->
   <script src="https://unpkg.com/leaflet.markercluster@1.0.4/dist/leaflet.markercluster.js"></script>
   <script src="https://unpkg.com/esri-leaflet-cluster@2.0.0"></script>
 
   <script>
-
-    // ADD FILTERS //
-    // get day of week as a string
-    function DayOfWeekAsString(dayIndex) {
-      return ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][dayIndex];
-    }
-
-    // get current day of week and make the default selection
-    var d = new Date();
-    var t = d.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1")
-    var n = d.getDay();
-    var temp = DayOfWeekAsString(n);
-    var day = document.getElementById('day');
-    var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    day.selectedIndex = days.indexOf(temp);
 
     // CREATE MAP //
     var map = L.map('map', {zoomControl: false}).setView([42.3200, -71.1284], 12);
@@ -285,72 +327,63 @@
       }),
     };
 
-    // add neighborhood drop downs
-    var neighborhood_selection = L.esri.query({
-		url: "https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/public_bathrooms/FeatureServer/0"
-    })
-      	.where("1=1")
-      	.returnGeometry(false)
-      	.fields(['neighborhood'])
-
-    neighborhood_selection.params.returnDistinctValues = true;
-
-    // run query and build options list from it
-    neighborhood_selection.run(function (err, res, raw) {
-		for (i=1; i<res.features.length; i++) {
-			var option = document.createElement("option");
-			option.text = res.features[i].properties["neighborhood"]
-			option.value = "Neighborhood = '" + res.features[i].properties["neighborhood"] + "'"
-			var select = document.getElementById("neighborhood");
-			select.appendChild(option);
-		}
-    });
+    // get day of week as a string
+    function DayOfWeekAsString(dayIndex) {
+      return ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][dayIndex];
+    }
 
     // function to get open bathrooms
     function openFilter(feature) {
-		var today = new Date();
-		var dd = today.getDate();
-		var mm = today.getMonth()+1;
-		var yyyy = today.getFullYear();
+      var today = new Date();
+      var t = today.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1")
+      var day_index = today.getDay();
+      var day = DayOfWeekAsString(day_index);
+      var dd = today.getDate();
+      var mm = today.getMonth()+1;
+      var yyyy = today.getFullYear();
 
-		if(dd<10) { dd='0'+dd; }
+      if(dd<10) { dd='0'+dd; }
 
-		if(mm<10) { mm='0'+mm; }
-		today = mm+'/'+dd+'/'+yyyy;
+      if(mm<10) { mm='0'+mm; }
+      today = mm+'/'+dd+'/'+yyyy;
 
-		var t = d.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1")
+      var open_time_string = today + " " + feature.properties.open_time
+      var close_time_string =  today + " " + feature.properties.close_time
+      var current_time_string = today + " " + t
 
-		var open_time_string = today + " " + feature.properties.open_time
-		var close_time_string =  today + " " + feature.properties.close_time
-		var current_time_string = today + " " + t
+      var open_time = new Date(open_time_string);
+      var close_time = new Date(close_time_string);
+      var current_time = new Date(current_time_string);
 
-		var open_time = new Date(open_time_string);
-		var close_time = new Date(close_time_string);
-		var current_time = new Date(current_time_string);
-
-		if (current_time >= open_time && current_time <= close_time) {
-			return true
-		}
+      if (current_time >= open_time && current_time <= close_time) {
+        return true
+      }
     }
 
-	// function to load only open bathrooms
+	  // function to load only open bathrooms
     function loadData(markerClusterLayer) {
 
-		L.esri.query({
-			url: bathrooms_url
-		}).where(day.value + " AND " + neighborhood.value + " AND hours != 'closed'").run(function(error, featureCollection, repsonse) {
+      // get current day of week
+      var today = new Date();
+      var day_index = today.getDay();
+      var day = DayOfWeekAsString(day_index);
 
-			var open_bathrooms = L.geoJSON(featureCollection, {
-				filter: openFilter,
-				pointToLayer: function(feature, latlng) {
-				return L.marker(latlng, {
-					icon: icons["Bathroom"]
-				})
-				}
-			})
+      L.esri.query({
+        url: bathrooms_url
+      }).where(features.value + " AND day='" + day + "'").run(function(error, featureCollection, repsonse) {
+        
+        console.log(day)
+        // day.value + " AND " + handicap.value + " AND hours != 'closed'"
+        var open_bathrooms = L.geoJSON(featureCollection, {
+          filter: openFilter,
+          pointToLayer: function(feature, latlng) {
+          return L.marker(latlng, {
+            icon: icons["Bathroom"]
+          })
+          }
+        })
 
 			// add popup
-			
 			bathrooms.bindPopup(function(layer) {
 				return L.Util.template('<p class="title"><b>{name}</b></p><p class="times">{address}<br>Hours: {hours}<br>Day: {day}<br>Seasonal schedule: {schedule}<br><br></p><p class="times"><u>Features:</u> <br>{wheelchair_accessible_stall}<br>{family_bathroom}<br>{are_stairs_required}<br>{gender_specific_bathrooms}<br>{notes}</p>', layer.feature.properties);
 			});
@@ -369,8 +402,8 @@
     function loadAllBathrooms(markerClusterLayer) {
 		L.esri.query({
 			url: bathrooms_url
-		}).where(day.value + " AND " + neighborhood.value + " AND hours != 'closed'").run(function(error, featureCollection, repsonse) {
-
+		}).where(features.value).run(function(error, featureCollection, repsonse) {
+      // day.value + " AND " + handicap.value + " AND hours != 'closed'"
 			var open_bathrooms = L.geoJSON(featureCollection, {
 				pointToLayer: function(feature, latlng) {
 				return L.marker(latlng, {
@@ -397,30 +430,81 @@
 
     map.on('load', loadData(bathrooms));
 
-	// add event listeners for day, neighborhood, and open/closed filters
-    day.addEventListener('change', function(){
-      bathrooms.clearLayers();
-      loadData(bathrooms);
-	  document.getElementById("collapsible").checked = false;
-    });
+    // create address lookup div
+    function createAddressLookupDiv() {
+      var queries = L.DomUtil.get('queries');
+      var lookup = L.DomUtil.create('div', 'query', queries);
+      var label = L.DomUtil.create('div', 'label', lookup);
+      //label.innerHTML = 'ADDRESS SEARCH:';
+      var search_for_address = L.DomUtil.create('div', '', queries)
+      search_for_address.id = 'search_for_address';
+      L.DomUtil.create('br', '', queries);
+    }
 
-    neighborhood.addEventListener('change', function(){
+    function bostonAddressLookUp(placeholder_text, layer) {
+      var co_b = L.DomUtil.get('co-b');
+
+      var corner_1 = L.latLng(42.170274, -71.348648),
+          corner_2 = L.latLng(42.456141, -70.818901),
+          boston_bounds = L.latLngBounds(corner_1, corner_2);
+
+      var searchControl = L.esri.Geocoding.geosearch({expanded: true,
+                                                      placeholder: placeholder_text,
+                                                      collapseAfterResult: false,
+                                                      zoomToResult: false,
+                                                      searchBounds: boston_bounds});
+
+      document.getElementById("search_for_address").appendChild(searchControl.onAdd(map));
+
+      // Results for when want pop-up to show automatically
+      var results = L.layerGroup().addTo(map);
+
+      searchControl.on('results', function(data, query_layer){
+        var query = L.esri.query({
+          url: layer.url
+        });
+
+        results.clearLayers();
+
+        for (var i = data.results.length - 1; i >= 0; i--) {
+          var marker = L.marker(data.results[i].latlng);
+          query.contains(marker).run(function(error, featureCollection, response){
+            var popup = L.Util.template(layer.custom_popup, featureCollection.features[0].properties);
+            marker.bindPopup(popup).openPopup()
+          })
+          results.addLayer(marker);
+          document.getElementById("collapsible").checked = false;
+        }
+      });
+    }
+
+    createAddressLookupDiv();
+    bostonAddressLookUp("Type in an address, neighborhood, or landmark", bathrooms);
+
+	// add event listeners for features
+    features.addEventListener('change', function(){
       bathrooms.clearLayers();
-      loadData(bathrooms);
+      if (document.getElementById('open_bathrooms').checked) {
+        loadData(bathrooms);
+        document.getElementById("collapsible").checked = false;
+      } else if (document.getElementById('all_bathrooms').checked) {
+        loadAllBathrooms(bathrooms);
+        document.getElementById("collapsible").checked = false;
+      }
 	  document.getElementById("collapsible").checked = false;
     });
 
     var open_closed = document.getElementById('open_closed');
 
     open_closed.addEventListener('change', function() {
-		bathrooms.clearLayers();
-		if (document.getElementById('open_bathrooms').checked) {
-			loadData(bathrooms);
-			document.getElementById("collapsible").checked = false;
-		} else if (document.getElementById('all_bathrooms').checked) {
-			loadAllBathrooms(bathrooms);
-			document.getElementById("collapsible").checked = false;
-		}
+      bathrooms.clearLayers();
+      if (document.getElementById('open_bathrooms').checked) {
+        loadData(bathrooms);
+        document.getElementById("collapsible").checked = false;
+      } else if (document.getElementById('all_bathrooms').checked) {
+        loadAllBathrooms(bathrooms);
+        document.getElementById("collapsible").checked = false;
+      }
     })
 
   </script>
