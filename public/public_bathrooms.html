@@ -54,6 +54,11 @@
       }
     }
 
+    h6 {
+      font-family: 'Lora';
+      font-style: italic;
+    }
+
     img, svg {
       padding: 0px;
     }
@@ -225,8 +230,6 @@
 <body>
 
   <div id="map"></div>
-
-
   <div class="co">
     <input id="collapsible" type="checkbox" class="co-f d-n" aria-hidden=true>
     <label for="collapsible" class="co-t">Filter Public Bathrooms</label>
@@ -235,6 +238,23 @@
         <div id="query1" class="query leaflet-control-button leaflet-bar">
           <div id="search_for_address"></div>
         </div>
+        <div class="query leaflet-control-button leaflet-bar">
+        <label>
+  				  Day of week:
+  				  <select id="day">
+  				    <option value='1=1'>Any</option>
+  				    <option value="day = 'Monday'">Monday</option>
+  				    <option value="day = 'Tuesday'">Tuesday</option>
+  				    <option value="day = 'Wednesday'">Wednesday</option>
+  				    <option value="day = 'Thursday'">Thursday</option>
+  				    <option value="day = 'Friday'">Friday</option>
+  				    <option value="day = 'Saturday'">Saturday</option>
+  				    <option value="day = 'Sunday'">Sunday</option>
+  				  </select>
+          </label>
+          <br>
+        <div>To find open hours, click on the icon on the map.</div>
+      </div>
 
         <div id="query3" class="query leaflet-bar">
             <label>
@@ -247,12 +267,12 @@
               </label>
         </div>
 
-        <div id="query2" class="query leaflet-bar">
+        <!-- <div id="query2" class="query leaflet-bar">
           <form id="open_closed">
             <input type='radio' id="open_bathrooms" name="open_closed" value="open" checked="checked">Open Bathrooms</input>
             <input type='radio' id="all_bathrooms" name="open_closed" value="all">All Bathrooms</input>
           </form>
-        </div>
+        </div> -->
 
         <table>
             <td><img src="./images/bathroom_white_background.svg" alt="farmers Market" style="width:50px"></td>
@@ -275,6 +295,20 @@
   <script src="https://unpkg.com/esri-leaflet-cluster@2.0.0"></script>
 
   <script>
+
+    // ADD FILTERS //
+    // get day of week as a string
+    function DayOfWeekAsString(dayIndex) {
+      return ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"][dayIndex];
+    }
+    // get current day of week and make the default selection
+    var d = new Date();
+    var t = d.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1")
+    var n = d.getDay();
+    var temp = DayOfWeekAsString(n);
+    var day = document.getElementById('day');
+    var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    day.selectedIndex = days.indexOf(temp);
 
     // CREATE MAP //
     var map = L.map('map', {zoomControl: false}).setView([42.3200, -71.1284], 12);
@@ -342,23 +376,18 @@
       var open_time = new Date(open_time_string);
       var close_time = new Date(close_time_string);
       var current_time = new Date(current_time_string);
-
-      if (current_time >= open_time && current_time <= close_time) {
-        return true
-      }
+      
+      return true
+      // if (current_time >= open_time && current_time <= close_time) {
+      //   return true
+      // }
     }
 
 	  // function to load only open bathrooms
     function loadData(markerClusterLayer) {
-
-      // get current day of week
-      var today = new Date();
-      var day_index = today.getDay();
-      var day = DayOfWeekAsString(day_index);
-
       L.esri.query({
         url: bathrooms_url
-      }).where(features.value + " AND day='" + day + "'").run(function(error, featureCollection, repsonse) {
+      }).where(day.value + " AND " + features.value).run(function(error, featureCollection, repsonse) {
         var open_bathrooms = L.geoJSON(featureCollection, {
           filter: openFilter,
           pointToLayer: function(feature, latlng) {
@@ -435,28 +464,40 @@
     });
 
 	// add event listeners for features
-    features.addEventListener('change', function(){
+    // features.addEventListener('change', function(){
+    //   bathrooms.clearLayers();
+    //   if (document.getElementById('open_bathrooms').checked) {
+    //     loadData(bathrooms);
+    //     document.getElementById("collapsible").checked = false;
+    //   } else if (document.getElementById('all_bathrooms').checked) {
+    //     loadAllBathrooms(bathrooms);
+    //     document.getElementById("collapsible").checked = false;
+    //   }
+	  // document.getElementById("collapsible").checked = false;
+    // });
+
+    // add event listeners for features
+    day.addEventListener('change', function(){
       bathrooms.clearLayers();
-      if (document.getElementById('open_bathrooms').checked) {
-        loadData(bathrooms);
-        document.getElementById("collapsible").checked = false;
-      } else if (document.getElementById('all_bathrooms').checked) {
-        loadAllBathrooms(bathrooms);
-        document.getElementById("collapsible").checked = false;
-      }
-	  document.getElementById("collapsible").checked = false;
+      loadData(bathrooms);
     });
 
-    open_closed.addEventListener('change', function() {
+    // add event listeners for features
+    features.addEventListener('change', function(){
       bathrooms.clearLayers();
-      if (document.getElementById('open_bathrooms').checked) {
-        loadData(bathrooms);
-        document.getElementById("collapsible").checked = false;
-      } else if (document.getElementById('all_bathrooms').checked) {
-        loadAllBathrooms(bathrooms);
-        document.getElementById("collapsible").checked = false;
-      }
-    })
+      loadData(bathrooms);
+    });
+
+    // open_closed.addEventListener('change', function() {
+    //   bathrooms.clearLayers();
+    //   if (document.getElementById('open_bathrooms').checked) {
+    //     loadData(bathrooms);
+    //     document.getElementById("collapsible").checked = false;
+    //   } else if (document.getElementById('all_bathrooms').checked) {
+    //     loadAllBathrooms(bathrooms);
+    //     document.getElementById("collapsible").checked = false;
+    //   }
+    // })
 
   </script>
 </body>
