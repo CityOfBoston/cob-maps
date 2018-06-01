@@ -253,16 +253,16 @@
   				  </select>
           </label>
           <br>
-        <div>To find open hours, click on the icon on the map.</div>
+        <div style="font-size: 14px; padding-top: 10px;">To find open hours, click on the icon on the map.</div>
       </div>
 
         <div id="query3" class="query leaflet-bar">
             <label>
-                Bathroom Features:
+                Bathroom features:
                 <select id="features">
                   <option value='1=1'>All</option>
-                  <option value="wheelchair_accessible_stall = 'A wheelchair-accessible stall.'">Handicap Accessible Stall</option>
-                  <option value="family_bathroom= 'A family bathroom.'">Family Bathroom</option>
+                  <option value="wheelchair_accessible_stall = 'A wheelchair-accessible stall.'">Handicap accessible stall</option>
+                  <option value="family_bathroom= 'A family bathroom.'">Family bathroom</option>
                 </select>
               </label>
         </div>
@@ -276,7 +276,7 @@
 
         <table>
             <td><img src="./images/bathroom_white_background.svg" alt="farmers Market" style="width:50px"></td>
-            <td><h6>Public Bathroom</h6></td>
+            <td><h6>Public bathroom</h6></td>
         </table>
       </div>
 
@@ -460,6 +460,7 @@
       results.clearLayers();
       for (var i = data.results.length - 1; i >= 0; i--) {
         results.addLayer(L.marker(data.results[i].latlng));
+        document.getElementById("collapsible").checked = false;
       }
     });
 
