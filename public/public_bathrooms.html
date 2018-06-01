@@ -144,7 +144,7 @@
     }
 
     #search_for_address {
-      padding: 20px;
+      padding-bottom: 15px;
     }
 
     .directions {
@@ -233,24 +233,12 @@
     <div class="co-b" id="co-b">
       <div class="queries" id="queries">
         <div id="query1" class="query leaflet-control-button leaflet-bar">
-          <!-- <label>
-  				  Day of week:
-  				  <select id="day">
-  				    <option value='1=1'>Any</option>
-  				    <option value="day = 'Monday'">Monday</option>
-  				    <option value="day = 'Tuesday'">Tuesday</option>
-  				    <option value="day = 'Wednesday'">Wednesday</option>
-  				    <option value="day = 'Thursday'">Thursday</option>
-  				    <option value="day = 'Friday'">Friday</option>
-  				    <option value="day = 'Saturday'">Saturday</option>
-  				    <option value="day = 'Sunday'">Sunday</option>
-  				  </select>
-          </label> -->
+          <div id="search_for_address"></div>
         </div>
 
         <div id="query3" class="query leaflet-bar">
             <label>
-                Bathrooms Features:
+                Bathroom Features:
                 <select id="features">
                   <option value='1=1'>All</option>
                   <option value="wheelchair_accessible_stall = 'A wheelchair-accessible stall.'">Handicap Accessible Stall</option>
@@ -371,9 +359,6 @@
       L.esri.query({
         url: bathrooms_url
       }).where(features.value + " AND day='" + day + "'").run(function(error, featureCollection, repsonse) {
-        
-        console.log(day)
-        // day.value + " AND " + handicap.value + " AND hours != 'closed'"
         var open_bathrooms = L.geoJSON(featureCollection, {
           filter: openFilter,
           pointToLayer: function(feature, latlng) {
@@ -403,7 +388,6 @@
 		L.esri.query({
 			url: bathrooms_url
 		}).where(features.value).run(function(error, featureCollection, repsonse) {
-      // day.value + " AND " + handicap.value + " AND hours != 'closed'"
 			var open_bathrooms = L.geoJSON(featureCollection, {
 				pointToLayer: function(feature, latlng) {
 				return L.marker(latlng, {
@@ -430,56 +414,25 @@
 
     map.on('load', loadData(bathrooms));
 
-    // create address lookup div
-    function createAddressLookupDiv() {
-      var queries = L.DomUtil.get('queries');
-      var lookup = L.DomUtil.create('div', 'query', queries);
-      var label = L.DomUtil.create('div', 'label', lookup);
-      //label.innerHTML = 'ADDRESS SEARCH:';
-      var search_for_address = L.DomUtil.create('div', '', queries)
-      search_for_address.id = 'search_for_address';
-      L.DomUtil.create('br', '', queries);
-    }
+    // add address lookup control
+    var corner_1 = L.latLng(42.170274, -71.348648),
+        corner_2 = L.latLng(42.456141, -70.818901)
+        boston_bounds = L.latLngBounds(corner_1, corner_2)
 
-    function bostonAddressLookUp(placeholder_text, layer) {
-      var co_b = L.DomUtil.get('co-b');
+    var searchControl = L.esri.Geocoding.geosearch({expanded: true,
+                                                    placeholder: "Type your address, neighborhood, or a landmark",
+                                                    collapseAfterResult: false,
+                                                    zoomToResult: true,
+                                                    searchBounds: boston_bounds})
+    document.getElementById("search_for_address").appendChild(searchControl.onAdd(map));
 
-      var corner_1 = L.latLng(42.170274, -71.348648),
-          corner_2 = L.latLng(42.456141, -70.818901),
-          boston_bounds = L.latLngBounds(corner_1, corner_2);
-
-      var searchControl = L.esri.Geocoding.geosearch({expanded: true,
-                                                      placeholder: placeholder_text,
-                                                      collapseAfterResult: false,
-                                                      zoomToResult: false,
-                                                      searchBounds: boston_bounds});
-
-      document.getElementById("search_for_address").appendChild(searchControl.onAdd(map));
-
-      // Results for when want pop-up to show automatically
-      var results = L.layerGroup().addTo(map);
-
-      searchControl.on('results', function(data, query_layer){
-        var query = L.esri.query({
-          url: layer.url
-        });
-
-        results.clearLayers();
-
-        for (var i = data.results.length - 1; i >= 0; i--) {
-          var marker = L.marker(data.results[i].latlng);
-          query.contains(marker).run(function(error, featureCollection, response){
-            var popup = L.Util.template(layer.custom_popup, featureCollection.features[0].properties);
-            marker.bindPopup(popup).openPopup()
-          })
-          results.addLayer(marker);
-          document.getElementById("collapsible").checked = false;
-        }
-      });
-    }
-
-    createAddressLookupDiv();
-    bostonAddressLookUp("Type in an address, neighborhood, or landmark", bathrooms);
+    var results = L.layerGroup().addTo(map);
+    searchControl.on('results', function(data){
+      results.clearLayers();
+      for (var i = data.results.length - 1; i >= 0; i--) {
+        results.addLayer(L.marker(data.results[i].latlng));
+      }
+    });
 
 	// add event listeners for features
     features.addEventListener('change', function(){
@@ -493,8 +446,6 @@
       }
 	  document.getElementById("collapsible").checked = false;
     });
-
-    var open_closed = document.getElementById('open_closed');
 
     open_closed.addEventListener('change', function() {
       bathrooms.clearLayers();
