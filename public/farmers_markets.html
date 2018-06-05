@@ -14,7 +14,8 @@
   <!-- Marker Cluster CSS-->
   <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.4/dist/MarkerCluster.Default.css">
   <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.4/dist/MarkerCluster.css">
-
+  <!-- Esri Leaflet Geocoder CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.2.6/dist/esri-leaflet-geocoder.css">
   <style>
     .co {position: relative; z-index: 1000;}
 
@@ -57,12 +58,15 @@
     	cursor: default;
     }
 
+    /* style  for query div */
     .queries {
       position: static;
       top: 25px;
       left: 25px;
       background: white;
       z-index: 1000;
+      font-family: "Lora";
+      font-style: italic;
     }
 
     @media screen and (min-width: 980px) {
@@ -74,21 +78,17 @@
       }
     }
 
-    @media screen and (max-width: 350px) {
-      td {
-        display: inline-block;
-      }
-    }
-
     .query {
-      padding: .5em;
+      padding: 20px;
+      padding-bottom: 0px;
       box-shadow: none;
     }
 
-    label {
-      font-size: 22px;
+    .label {
+      font-size: 28px;
       font-family: "Montserrat", Arial, sans-serif;
       font-weight: bold;
+      font-style: normal;
     }
 
     .query select {
@@ -137,6 +137,64 @@
       padding: .5em;
     }
 
+    /* geocoder style */
+    .geocoder-control-input {
+      background-color: transparent;
+      position: relative;
+      height: auto;
+      border: none;
+      border-bottom: 7.11px solid #091f2f;
+      border-radius: 0;
+      box-shadow: none;
+      font-family: "Lora";
+      font-style: italic;
+      font-size: 18px;
+    }
+
+    @media screen and (max-width: 414px) {
+      .geocoder-control-input {
+        font-size: 16px;
+      }
+    }
+
+    @media screen and (max-width: 375px) {
+      .geocoder-control-input {
+        font-size: 14px;
+      }
+    }
+
+    @media screen and (max-width: 320px) {
+      .geocoder-control-input {
+        font-size: 12px;
+      }
+    }
+
+    .geocoder-control-input {
+      background-image: url(https://www.boston.gov/crispus/images/public/icons/search.svg);
+    }
+
+    .geocoder-control-expanded, .leaflet-touch .geocoder-control-expanded {
+      width: 100%;
+    }
+
+    .geocoder-control-suggestions {
+      position:relative;
+      top:0px;
+      margin-top:0px;
+      border-radius: 0;
+    }
+
+    .geocoder-control-suggestion {
+      font-size: 18px !important;
+      font-family: "Lora";
+      font-style: italic;
+    }
+
+    .geocoder-control-suggestion:hover {
+      background:#D2D2D2 !important;
+      border-color: #D2D2D2 !important;
+    }
+
   </style>
 </head>
 <body>
@@ -150,6 +208,10 @@
     <div class="co-b">
 
       <div class="queries">
+        <div class="query">
+          <div id="search_for_address"></div>
+        </div>
+        <br>
   			<div id="query1" class="query leaflet-control-button leaflet-bar">
   				<label>
   				  Day of week:
@@ -163,8 +225,10 @@
   				    <option value="Day_of_Week = 'Saturday'">Saturday</option>
   				    <option value="Day_of_Week = 'Sunday'">Sunday</option>
   				  </select>
-  				</label>
-  			</div>
+          </label>
+          <br>
+          <div style="font-size: 14px; padding-top: 10px;">To find open hours, click on the icon on the map.</div>
+        </div>
 
   			<div id="query2" class="query leaflet-bar">
   				<label> Location:
@@ -190,6 +254,8 @@
 <!-- Marker Cluster -->
 <script src="https://unpkg.com/leaflet.markercluster@1.0.4/dist/leaflet.markercluster.js"></script>
 <script src="https://unpkg.com/esri-leaflet-cluster@2.0.0"></script>
+<!-- Esri Geocoder Javascript -->
+<script src="https://unpkg.com/esri-leaflet-geocoder@2.2.6"></script>
 
 <script>
   var map = L.map('map', {zoomControl: false}).setView([42.318321, -71.084414], 12);
@@ -298,6 +364,26 @@
   // once all food trucks have loaded adjust display to the default selection
   farmers_markets.once('load', function(){
     farmers_markets.setWhere(day.value + " AND " + market_name.value);
+  });
+
+  // add address lookup control
+  var corner_1 = L.latLng(42.170274, -71.348648),
+      corner_2 = L.latLng(42.456141, -70.818901)
+      boston_bounds = L.latLngBounds(corner_1, corner_2)
+
+  var searchControl = L.esri.Geocoding.geosearch({expanded: true,
+                                                  placeholder: "Type in your address or a neighborhood",
+                                                  collapseAfterResult: false,
+                                                  zoomToResult: true,
+                                                  searchBounds: boston_bounds})
+  document.getElementById("search_for_address").appendChild(searchControl.onAdd(map));
+
+  var results = L.layerGroup().addTo(map);
+  searchControl.on('results', function(data){
+    results.clearLayers();
+    for (var i = data.results.length - 1; i >= 0; i--) {
+      results.addLayer(L.marker(data.results[i].latlng));
+    }
   });
 
 </script>
