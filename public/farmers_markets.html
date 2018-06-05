@@ -333,6 +333,7 @@
   day.addEventListener('change', function(){
     farmers_markets.setWhere(day.value + " AND " + market_name.value);
     //farmers_markets.setWhere(day.value);
+    document.getElementById("collapsible").checked = false;
   });
 
   // build trucks fitler
@@ -359,6 +360,7 @@
 
   market_name.addEventListener('change', function(){
     farmers_markets.setWhere(day.value + " AND " + market_name.value);
+    document.getElementById("collapsible").checked = false;
   });
 
   // once all food trucks have loaded adjust display to the default selection
@@ -383,6 +385,7 @@
     results.clearLayers();
     for (var i = data.results.length - 1; i >= 0; i--) {
       results.addLayer(L.marker(data.results[i].latlng));
+      document.getElementById("collapsible").checked = false;
     }
   });
 
