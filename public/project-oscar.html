@@ -14,7 +14,8 @@
   <!-- Marker Cluster CSS-->
   <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.4/dist/MarkerCluster.Default.css">
   <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.4/dist/MarkerCluster.css">
-
+  <!-- Esri Leaflet Geocoder CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.2.6/dist/esri-leaflet-geocoder.css">
   <style>
     .co {position: relative; z-index: 1000;}
     body { margin:0; padding:0; }
@@ -48,6 +49,7 @@
     	text-decoration: none;
     	cursor: default;
     }
+    /* style  for query div */
     .queries {
       position: static;
       top: 25px;
@@ -55,33 +57,35 @@
       background: white;
       z-index: 1000;
     }
+
     @media screen and (min-width: 980px) {
       .queries {
         position: absolute;
         padding: .5em;
         margin-left: 20px;
-        width: 400px;
+        width: 500px;
       }
     }
-    @media screen and (max-width: 350px) {
-      td {
-        display: inline-block;
-      }
-    }
+
     .query {
-      padding: .5em;
+      padding: 20px;
+      padding-bottom: 0px;
       box-shadow: none;
     }
-    label {
-      font-size: 22px;
+
+    .label {
+      font-size: 28px;
       font-family: "Montserrat", Arial, sans-serif;
       font-weight: bold;
+      font-style: normal;
     }
+
     .query select {
       font-family: 'Lora', serif;
       font-size: 18px;
       font-style: italic;
     }
+
     /* style leaflet marker clusters */
     .marker-cluster-small {
       background-color: rgba(40, 139, 228, 0.6);
@@ -119,6 +123,64 @@
       font-style: italic;
       padding: .5em;
     }
+
+    /* geocoder style */
+    .geocoder-control-input {
+      background-color: transparent;
+      position: relative;
+      height: auto;
+      border: none;
+      border-bottom: 7.11px solid #091f2f;
+      border-radius: 0;
+      box-shadow: none;
+      font-family: "Lora";
+      font-style: italic;
+      font-size: 18px;
+    }
+
+    @media screen and (max-width: 414px) {
+      .geocoder-control-input {
+        font-size: 16px;
+      }
+    }
+
+    @media screen and (max-width: 375px) {
+      .geocoder-control-input {
+        font-size: 14px;
+      }
+    }
+
+    @media screen and (max-width: 320px) {
+      .geocoder-control-input {
+        font-size: 12px;
+      }
+    }
+
+    .geocoder-control-input {
+      background-image: url(https://www.boston.gov/crispus/images/public/icons/search.svg);
+    }
+
+    .geocoder-control-expanded, .leaflet-touch .geocoder-control-expanded {
+      width: 100%;
+    }
+
+    .geocoder-control-suggestions {
+      position:relative;
+      top:0px;
+      margin-top:0px;
+      border-radius: 0;
+    }
+
+    .geocoder-control-suggestion {
+      font-size: 18px !important;
+      font-family: "Lora";
+      font-style: italic;
+    }
+
+    .geocoder-control-suggestion:hover {
+      background:#D2D2D2 !important;
+      border-color: #D2D2D2 !important;
+    }
   </style>
 </head>
 <body>
@@ -128,11 +190,14 @@
 
 <div class="co">
     <input id="collapsible" type="checkbox" class="co-f d-n" aria-hidden=true>
-    <label for="collapsible" class="co-t">Legend</label>
+    <label for="collapsible" class="co-t">Project Oscar Locations</label>
     <div class="co-b">
 
       <div class="queries">
-        <table style="height:50px">
+          <div id="query1" class="query">
+            <div id="search_for_address"></div>
+          </div>
+        <table style="height:50px" class="query">
             <td><img src="./images/TrashRecycling.svg" alt="farmers Market" style="width:50px"></td>
             <td><h6>Project Oscar Compost Location</h6></td>
         </table>
@@ -147,7 +212,8 @@
 <!-- Marker Cluster -->
 <script src="https://unpkg.com/leaflet.markercluster@1.0.4/dist/leaflet.markercluster.js"></script>
 <script src="https://unpkg.com/esri-leaflet-cluster@2.0.0"></script>
-
+<!-- Esri Geocoder Javascript -->
+<script src="https://unpkg.com/esri-leaflet-geocoder@2.2.6"></script>
 <script>
     var map = L.map('map', {zoomControl: false}).setView([42.327596, -71.090109], 12);
     //add zoom control to top right
@@ -187,6 +253,27 @@
     projectOscar.bindPopup(function (layer) {
         layer.feature.properties.LocationNotes == null ? Notes = "" : Notes =  layer.feature.properties.LocationNotes
         return  L.Util.template('<p class="title"><b>{Location}</b></p><p class="times">'+ Notes +'</p>', layer.feature.properties);
+    });
+
+    // add address lookup control
+    var corner_1 = L.latLng(42.170274, -71.348648),
+        corner_2 = L.latLng(42.456141, -70.818901)
+        boston_bounds = L.latLngBounds(corner_1, corner_2)
+
+    var searchControl = L.esri.Geocoding.geosearch({expanded: true,
+                                                    placeholder: "Type in your address or neighborhood",
+                                                    collapseAfterResult: false,
+                                                    zoomToResult: true,
+                                                    searchBounds: boston_bounds})
+    document.getElementById("search_for_address").appendChild(searchControl.onAdd(map));
+
+    var results = L.layerGroup().addTo(map);
+    searchControl.on('results', function(data){
+      results.clearLayers();
+      for (var i = data.results.length - 1; i >= 0; i--) {
+        results.addLayer(L.marker(data.results[i].latlng));
+        document.getElementById("collapsible").checked = false;
+      }
     });
 </script>
 
