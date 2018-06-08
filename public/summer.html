@@ -58,23 +58,6 @@
     	cursor: default;
     }
 
-    .queries {
-      position: static;
-      top: 25px;
-      left: 25px;
-      background: white;
-      z-index: 1000;
-    }
-
-    @media screen and (min-width: 980px) {
-      .queries {
-        position: absolute;
-        padding: .5em;
-        margin-left: 20px;
-        width: 400px;
-      }
-    }
-
     @media screen and (max-width: 350px) {
       td {
         display: inline-block;
@@ -88,6 +71,7 @@
       left: 25px;
       background: white;
       z-index: 1000;
+      opacity: 0.9;
     }
 
     @media screen and (min-width: 980px) {
@@ -95,7 +79,7 @@
         position: absolute;
         padding: .5em;
         margin-left: 20px;
-        width: 500px;
+        width: 420px;
       }
     }
 
@@ -237,6 +221,7 @@
       <div class="queries">
         <div id="query1" class="query">
           <div id="search_for_address"></div>
+          <br/>
         </div>
         <table style="height:50px" class="query">
             <td><img src="./images/OutdoorPool.svg" alt="farmers Market" style="width:50px"></td>
