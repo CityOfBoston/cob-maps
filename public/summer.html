@@ -281,7 +281,7 @@
     };
 
     var pools = L.esri.Cluster.featureLayer({
-        url: 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/Community_Centers_with_Pools_View/FeatureServer/0',
+        url: 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/Pools_at_Community_Centers/FeatureServer/0',
         pointToLayer: function (geojson, latlng) {
         return L.marker(latlng, {
             icon: icons['pool']
@@ -290,7 +290,7 @@
     }).addTo(map);
 
     pools.bindPopup(function (layer) {
-        return  L.Util.template('<p class="title"><b><a href={Link} target="_blank">{SITE}</a></b></p><p class="times">{STREET}, {NEIGH}<br></p>', layer.feature.properties);
+        return  L.Util.template('<p class="title"><b><a href={Link} target="_blank">{SITE}</a></b></p><p class="times">{STREET}, {NEIGHBORHOOD}<br></p>', layer.feature.properties);
     });
 
     var totsprays = L.esri.Cluster.featureLayer({
