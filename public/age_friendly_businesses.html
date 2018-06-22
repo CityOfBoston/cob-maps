@@ -1,0 +1,317 @@
+<html>
+<head>
+  <meta charset=utf-8 />
+  <title>Age Friendly Businesses</title>
+
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Lora:400,400i|Montserrat:500,700" rel="stylesheet">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+  <!-- City of Boston CSS -->
+  <link rel="stylesheet" type="text/css" href="https://www.boston.gov/crispus/css/public.css" />
+  <!-- Marker Cluster CSS-->
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.4/dist/MarkerCluster.Default.css">
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/leaflet.markercluster@1.0.4/dist/MarkerCluster.css">
+  <!-- Esri Leaflet Geocoder CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.2.6/dist/esri-leaflet-geocoder.css">
+  <style>
+    .co {position: relative; z-index: 1000;}
+
+    body { margin:0; padding:0; }
+
+    #map { position: absolute; top:0; bottom:0; right:0; left:0; }
+
+    .leaflet-popup {
+      width: 300px;
+      height: auto;
+    }
+
+    .leaflet-popup-content .title {
+      font-size: 22px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: bold;
+    }
+
+    .leaflet-popup-content .times {
+      font-size: 16px;
+      font-family: 'Lora', serif;
+      font-style: italic;
+    }
+
+    .leaflet-popup-content .content {
+      font-size: 14px;
+      font-family: 'Lora', serif;
+      font-style: italic;
+    }
+
+    .leaflet-popup-content p {
+      font-size: 14px;
+      font-family: 'Lora', serif;
+      margin: 0px;
+    }
+
+    a[href=""] {
+    	color: #000000;
+    	text-decoration: none;
+    	cursor: default;
+    }
+
+    @media screen and (max-width: 350px) {
+      td {
+        display: inline-block;
+      }
+    }
+
+    /* style  for query div */
+    .queries {
+      position: static;
+      top: 25px;
+      left: 25px;
+      background: white;
+      z-index: 1000;
+      opacity: 0.9;
+    }
+
+    @media screen and (min-width: 980px) {
+      .queries {
+        position: absolute;
+        padding: .5em;
+        margin-left: 20px;
+        width: 420px;
+      }
+    }
+
+    .query {
+      padding: 15px;
+      box-shadow: none;
+    }
+
+    .label {
+      font-size: 28px;
+      font-family: "Montserrat", Arial, sans-serif;
+      font-weight: bold;
+      font-style: normal;
+    }
+
+    .query select {
+      font-family: 'Lora', serif;
+      font-size: 18px;
+      font-style: italic;
+    }
+
+    label {
+      font-size: 22px;
+      font-family: "Montserrat", Arial, sans-serif;
+      font-weight: bold;
+    }
+
+    /* style leaflet marker clusters */
+    .marker-cluster-small {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+    .marker-cluster-small div {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+    .marker-cluster-medium {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+    .marker-cluster-medium div {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+    .marker-cluster-large {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+    .marker-cluster-large div {
+      background-color: rgba(40, 139, 228, 0.6);
+    }
+
+    .marker-cluster div {
+      width: 30px;
+      height: 30px;
+      margin-left: 5px;
+      margin-top: 5px;
+      text-align: center;
+      border-radius: 15px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: 12px;
+      color: white;
+    }
+
+    h6 {
+      font-size: 14px;
+      font-family: 'Lora', serif;
+      font-style: italic;
+      padding: .5em;
+    }
+
+        /* geocoder style */
+        .geocoder-control-input {
+      background-color: transparent;
+      position: relative;
+      height: auto;
+      border: none;
+      border-bottom: 7.11px solid #091f2f;
+      border-radius: 0;
+      box-shadow: none;
+      font-family: "Lora";
+      font-style: italic;
+      font-size: 18px;
+    }
+
+    @media screen and (max-width: 414px) {
+      .geocoder-control-input {
+        font-size: 16px;
+      }
+    }
+
+    @media screen and (max-width: 375px) {
+      .geocoder-control-input {
+        font-size: 14px;
+      }
+    }
+
+    @media screen and (max-width: 320px) {
+      .geocoder-control-input {
+        font-size: 12px;
+      }
+    }
+
+    .geocoder-control-input {
+      background-image: url(https://www.boston.gov/crispus/images/public/icons/search.svg);
+    }
+
+    .geocoder-control-expanded, .leaflet-touch .geocoder-control-expanded {
+      width: 100%;
+    }
+
+    .geocoder-control-suggestions {
+      position:relative;
+      top:0px;
+      margin-top:0px;
+      border-radius: 0;
+    }
+
+    .geocoder-control-suggestion {
+      font-size: 18px !important;
+      font-family: "Lora";
+      font-style: italic;
+    }
+
+    .geocoder-control-suggestion:hover {
+      background:#D2D2D2 !important;
+      border-color: #D2D2D2 !important;
+    }
+
+  </style>
+</head>
+<body>
+
+<div id="map"></div>
+
+
+<div class="co">
+    <input id="collapsible" type="checkbox" class="co-f d-n" aria-hidden=true>
+    <label for="collapsible" class="co-t">Pool and Tot Spray Locations</label>
+    <div class="co-b">
+        
+      <div class="queries">
+        <div id="query1" class="query">
+          <div id="search_for_address"></div>
+          <br>
+        </div>
+        <!-- <table style="height:50px" class="query">
+            <td><img src="./images/OutdoorPool.svg" alt="farmers Market" style="width:50px"></td>
+            <td><h6>Outdoor Pool</h6></td>
+            <td><img src="./images/TotSpray.svg" alt="Fresh Truck" style="width:50px"></td>
+            <td><h6>Tot Spray</h6></td>
+        </table> -->
+  		</div>
+
+    </div>
+</div>
+<!-- Leaflet javascript -->
+<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet-src.js"></script>
+<!-- Esri Leaflet -->
+<script src="https://unpkg.com/esri-leaflet@2.1.4/dist/esri-leaflet.js"></script>
+<!-- Marker Cluster -->
+<script src="https://unpkg.com/leaflet.markercluster@1.0.4/dist/leaflet.markercluster.js"></script>
+<script src="https://unpkg.com/esri-leaflet-cluster@2.0.0"></script>
+<!-- Esri Geocoder Javascript -->
+<script src="https://unpkg.com/esri-leaflet-geocoder@2.2.6"></script>
+
+<script>
+    var map = L.map('map', {zoomControl: false}).setView([42.313634, -71.083172], 12);
+
+    //add zoom control to top right
+    L.control.zoom({
+        position:'bottomright'
+    }).addTo(map);
+
+    // find user location
+    // map.locate({setView: true, maxZoom: 15});
+
+    // function onLocationFound(e) {
+    //     var radius = e.accuracy / 2;
+
+    // var user_loc = L.marker(e.latlng).addTo(map)
+    //     .bindPopup('<p class="title">You are here.</p>').openPopup();
+
+    // var radius_circle = L.circle(e.latlng, radius, {color:'#091F2F',opacity:1,fillOpacity:.2}).addTo(map);
+    // }
+
+    // map.on('locationfound', onLocationFound);
+
+    // add basemap
+    L.esri.basemapLayer("Gray").addTo(map);
+    L.esri.tiledMapLayer({ url: "https://awsgeo.boston.gov/arcgis/rest/services/Basemaps/BostonCityBasemap_WM/MapServer" }).addTo(map);
+
+
+    var icons = {
+        business: L.icon({
+        iconUrl: 'https://patterns.boston.gov/images/global/icons/mapping/waypoint-charles-blue.svg',
+        iconSize: [30, 30],
+        }),
+    };
+
+    var businesses = L.esri.featureLayer({
+        url: 'https://services.arcgis.com/sFnw0xNflSi8J0uh/arcgis/rest/services/age_friendly_businesses/FeatureServer/0',
+        pointToLayer: function (geojson, latlng) {
+        return L.marker(latlng, {
+            icon: icons['business']
+        });
+        },
+    }).addTo(map);
+
+    businesses.bindPopup(function (layer) {
+        layer.feature.properties.notes == null ? BusinessNotes = "" : BusinessNotes =  layer.feature.properties.notes
+        return  L.Util.template('<p class="title"><b><a href={website} target="_blank">{business_name}</a></b></p><p class="times">{street_address}, {neighborhood}<br>{phone_number}<br><br>'+ BusinessNotes +'</p>', layer.feature.properties);
+    });
+
+    // add address lookup control
+    var corner_1 = L.latLng(42.170274, -71.348648),
+        corner_2 = L.latLng(42.456141, -70.818901)
+        boston_bounds = L.latLngBounds(corner_1, corner_2)
+
+    var searchControl = L.esri.Geocoding.geosearch({expanded: true,
+                                                    placeholder: "Type in your address or neighborhood",
+                                                    collapseAfterResult: false,
+                                                    zoomToResult: true,
+                                                    searchBounds: boston_bounds})
+    document.getElementById("search_for_address").appendChild(searchControl.onAdd(map));
+
+    var results = L.layerGroup().addTo(map);
+    searchControl.on('results', function(data){
+      results.clearLayers();
+      for (var i = data.results.length - 1; i >= 0; i--) {
+        results.addLayer(L.marker(data.results[i].latlng));
+        document.getElementById("collapsible").checked = false;
+      }
+    });
+
+</script>
+
+</body>
+</html>
